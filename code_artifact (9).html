@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>پروژه شکوفایی | دانشنامه و پروفایل جامع شناختی، فلسفی و روان‌سنجی ۱۴۰۵</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'Inter', 'sans-serif'],
+            mono: ['Inter', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#070a10',
+              900: '#0b0f17',
+              800: '#111827',
+              700: '#1a2333',
+              600: '#263248',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Vazirmatn', 'Inter', sans-serif;
+      background-color: #070a10;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    .tabular-nums { font-variant-numeric: tabular-nums; font-family: 'Inter', 'Vazirmatn', sans-serif; }
+    .glass-card {
+      background: linear-gradient(145deg, rgba(17, 24, 39, 0.93), rgba(11, 15, 23, 0.97));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.65);
+    }
+    .glass-accent {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.09), rgba(17, 24, 39, 0.96));
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .glass-gold {
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.09), rgba(17, 24, 39, 0.96));
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #070a10; }
+    ::-webkit-scrollbar-thumb { background: #263248; border-radius: 999px; }
+  </style>
+</head>
+<body class="min-h-screen pb-24 md:pb-12">
+
+  <!-- Toast -->
+  <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl bg-emerald-500/95 text-slate-950 font-semibold text-sm shadow-2xl backdrop-blur-md"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 backdrop-blur-xl bg-obsidian-950/90 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-sky-500/20 text-slate-950">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-base sm:text-lg font-extrabold text-white">مانیفست هویت، فلسفه و آزمایشگاه شناختی ۱۴۰۵</h1>
+            <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-sky-500/15 text-sky-400 border border-sky-500/30">معماری 2E</span>
+            <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">۶ آرکی‌تایپ + ۵ ارزش هسته‌ای</span>
+          </div>
+          <p class="text-xs text-slate-400">کالبدشکافی فلسفی، روان‌سنجی (نئو/استرانگ/گالوپ)، عصب‌روان‌کاوی شرم و آزمایشگاه رفتاری</p>
+        </div>
+      </div>
+
+      <!-- Desktop Nav (6 Tabs) -->
+      <nav class="hidden lg:flex items-center gap-1 bg-obsidian-800/80 p-1 rounded-xl border border-white/5">
+        <button data-tab="profile" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-sky-500 text-slate-950">پروفایل یکپارچه</button>
+        <button data-tab="archetypes" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white">۶ آرکی‌تایپ و فلسفه</button>
+        <button data-tab="psychometrics" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white">کالبدشکافی ۳ تست</button>
+        <button data-tab="lab" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white">آزمایشگاه CBT/ACT</button>
+        <button data-tab="bars" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white">ردیاب ۱۴ روزه BARS</button>
+        <button data-tab="export" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white">خروجی ابسیدین</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 pt-5 space-y-5">
+
+    <!-- ==================== TAB 1: CALIBRATED 2E PROFILE ==================== -->
+    <section id="tab-profile" class="tab-panel space-y-5">
+
+      <!-- Manifesto Banner -->
+      <div class="glass-gold rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">قانون بقای مانیفست هویت (Cognitive Operating Manual)</div>
+          <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+            «تو یک سرباز در حال جنگ با فیزیولوژی نیستی؛ تو <strong class="text-white">معمار سیستمی</strong> هستی که موتوری استثنایی (۸۳.۸٪ تفکر راهبردی + سنتز چندرشته‌ای) اما با سیستم تعلیق حساس به دوپامین و قضاوت دارد و باید محیط را طوری مهندسی کند که اصطکاک اراده به حداقل برسد.»
+          </p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button data-goto="archetypes" class="quick-tab-jump px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold">مشاهده ۶ آرکی‌تایپ ⬅️</button>
+          <button data-goto="psychometrics" class="quick-tab-jump px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 text-xs font-bold">گراف‌های ۳ تست ⬅️</button>
+        </div>
+      </div>
+
+      <!-- Core Identity Summary + Radar Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-semibold text-sky-400">ساختار شناختی استثنایی دوگانه (Twice-Exceptional / 2E)</span>
+              <h2 class="text-xl font-bold text-white mt-0.5">معمار راهبردی، فیلسوف ساختارشکن و پژوهشگر کارآفرین (I-C-E)</h2>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-semibold">نئوی ۱۴۰۳: کالیبره‌شده</span>
+          </div>
+
+          <!-- 3 Core Pillars of 2E Architecture -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="bg-obsidian-800/70 rounded-xl p-3.5 border border-emerald-500/20">
+              <div class="font-bold text-emerald-400 mb-1">🚀 موتور پرشتاب انتزاعی</div>
+              <p class="text-slate-300 leading-relaxed">گالوپ: ایده‌پرداز (#1 - 80%)، آینده‌نگر (#2 - 72.7%)، یادگیرنده (#3 - 71.4%)، گردآورنده (#5 - 66.7%). استرانگ: پژوهش (۸۵) و کارآفرینی (۸۵). گشودگی به تجربه بسیار بالا (T=76).</p>
+            </div>
+            <div class="bg-obsidian-800/70 rounded-xl p-3.5 border border-amber-500/20">
+              <div class="font-bold text-amber-400 mb-1">⚙️ شاسی اجرایی حساس (پارادوکس 2E)</div>
+              <p class="text-slate-300 leading-relaxed">تضاد میان «تلاشگر بالا (Achiever #4 - 70.8%)» و «ثبات روتین پایین (Consistency #32 - 16.7%)». مغز با کشف و پیچیدگی روشن می‌شود و در تکرار مکانیکی خاموش (Freeze) می‌گردد.</p>
+            </div>
+            <div class="bg-obsidian-800/70 rounded-xl p-3.5 border border-sky-500/20">
+              <div class="font-bold text-sky-400 mb-1">🧬 واقع‌بینی زیستی (۲۰ تا ۲۲ سالگی)</div>
+              <p class="text-slate-300 leading-relaxed">قشر پیش‌پیشانی (PFC) هنوز در حال میلین‌سازی است. ظرفیت کار عمیق باید به‌صورت **لگاریتمی** از ۲ تا ۳ ساعت فعلی (بلوک صبح) به افق ۱۰ ساعته ۵ ساله برسد.</p>
+            </div>
+          </div>
+
+          <!-- Loop Diagram -->
+          <div class="bg-obsidian-950/80 rounded-xl p-4 border border-white/5 space-y-2">
+            <div class="text-xs font-bold text-slate-300">معماری حلقه قفل‌شدگی (Vision-Execution Gap) و نقطه قطع سیناپسی:</div>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-300 border border-rose-500/30">بار شناختی سنگین + ترس از قضاوت (ACC/ERN)</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">شرم («من مشکلم») + فلج تحلیلی</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30">۳ تله فرار: اینستاگرام / ابزاربازی AI / بحث کلامی</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">پادزهر: پیش‌نویس ۸د (۷۰٪) + وقفه ۵د LTD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart 1: Radar Chart -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <div class="mb-2">
+            <h3 class="text-base font-bold text-white">نیمرخ ۶ بُعدی توانمندی و کارکرد اجرایی</h3>
+            <p class="text-xs text-slate-400">مقایسه «موتور شناختی/راهبردی» با «شاسی اجرایی بدون داربست»</p>
+          </div>
+          <div class="relative h-64">
+            <canvas id="profileRadarChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Dopamine Failure Modes (From Identity_and_Cognitive_Profile.md + Turn 7/8) -->
+      <div class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold text-rose-400">کالبدشکافی تله‌های رفتاری در زمان افت دوپامین و خستگی لیمبیک</span>
+            <h3 class="text-base font-bold text-white mt-0.5">سه مسیر فرار مغز تو هنگام مواجهه با ابهام یا روتین</h3>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 border border-white/10">تلفیق فایل هویت + مستر ۰۱ تا ۰۳</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-obsidian-800/70 rounded-xl p-4 border border-purple-500/25 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-400 text-sm">تله ۱: ربایش اینستاگرام و بلعیدن دیتا</span>
+              <span class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 text-[10px]">Input #5 + Salience</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              ترکیب ترس از دست دادن اطلاعات (FOMO ناشی از استعداد Input/Learner) و فرار از دردِ ابهام باعث می‌شود شبکه برجستگی (Salience Network) به سمت فید و ریلز اینستاگرام کشیده شود تا اضطرابِ کمال‌گرایی را بی‌حس کند.
+            </p>
+            <div class="p-2.5 rounded-lg bg-obsidian-950 text-emerald-300 border border-emerald-500/20">
+              <strong>پروتکل مهار:</strong> صفحه Grayscale + وقفه ۵ دقیقه‌ای LTD (آب سرد به صورت) + قرنطینه لینک‌ها در `Cold_Archive.md` تا ۸ بهمن.
+            </div>
+          </div>
+
+          <div class="bg-obsidian-800/70 rounded-xl p-4 border border-sky-500/25 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sky-400 text-sm">تله ۲: اهمال‌کاری فعال در پوشش سیستم‌سازی</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 text-[10px]">Ideation #1 + وورمسر</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              دفاع «عقلانی‌سازی (Rationalization)» لئون وورمسر: نشستن پای بک‌تست خاکستر یا جزوه مالیاتی اصطکاک دارد؛ پس مغز با طراحی یک قالب جدید در ابسیدین یا چت با هوش مصنوعی، دوپامینِ کاذبِ «در حال پیشرفت بودن» را بدون ریسکِ خطا دریافت می‌کند.
+            </p>
+            <div class="p-2.5 rounded-lg bg-obsidian-950 text-emerald-300 border border-emerald-500/20">
+              <strong>پروتکل مهار:</strong> ممنوعیت مطلق بازطراحی سیستم در بلوک ۰۶:۳۰ تا ۰۸:۳۰ صبح + قانون هضم ۱:۱ (۱ ساعت بک‌تست به ازای ۱ ساعت آموزش).
+            </div>
+          </div>
+
+          <div class="bg-obsidian-800/70 rounded-xl p-4 border border-rose-500/25 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-rose-400 text-sm">تله ۳: تخلیه کلامی و قفل‌نشدن در بحث</span>
+              <span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 text-[10px]">Command #8 + N2=60%</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              وقتی انرژی شناختی می‌افتد یا در بحث حس می‌کنی منطق تو نادیده گرفته شده، بازداری کلامی (Inhibition) سقوط می‌کند. مغز برای دریافت دوپامین سریع یا دفاع از عزت‌نفس (قطب حمله متقابل ناتانسون)، وارد بحث و کل‌کل بی‌پایان می‌شود.
+            </p>
+            <div class="p-2.5 rounded-lg bg-obsidian-950 text-emerald-300 border border-emerald-500/20">
+              <strong>پروتکل مهار:</strong> تشخیص پرحرفی به‌عنوان «آلارم بیولوژیک خستگی» + مکث ۱۰ ثانیه‌ای وسط بحث + بازدم طولانی ۸ ثانیه‌ای.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nathanson's Compass of Shame + Procrastinator/Imposter Matrix -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Nathanson's Compass of Shame & Wurmser's 3 Defenses (Master 01) -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-4 border-purple-500/20">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold text-purple-400">مستر ۰۱ • کالبدشکافی شرم، دفاع‌های وورمسر و ACC</span>
+              <h3 class="text-base font-bold text-white mt-0.5">قطب‌نمای شرم ناتانسون (Nathanson's Compass) در رفتار تو</h3>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30 text-xs">روی هر قطب کلیک کن</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs" id="compass-poles">
+            <button data-pole="self_attack" class="compass-btn p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 font-bold text-right transition-all">
+              ۱. حمله به خود<span class="block text-[10px] font-normal text-slate-300 mt-0.5">خودسخت‌گیری در مقایسه</span>
+            </button>
+            <button data-pole="avoidance" class="compass-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all">
+              ۲. اجتناب و فرار<span class="block text-[10px] font-normal text-slate-400 mt-0.5">غرق شدن در اینستاگرام</span>
+            </button>
+            <button data-pole="attack_other" class="compass-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all">
+              ۳. حمله متقابل<span class="block text-[10px] font-normal text-slate-400 mt-0.5">ادامه بحث و تنش (N2)</span>
+            </button>
+            <button data-pole="wurmser" class="compass-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all">
+              ۴. دفاع‌های وورمسر<span class="block text-[10px] font-normal text-slate-400 mt-0.5">عقلانی‌سازی و کنترل</span>
+            </button>
+          </div>
+
+          <div id="compass-detail-box" class="bg-obsidian-950/90 rounded-xl p-4 border border-white/10 text-xs space-y-2 leading-relaxed">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Procrastinator Archetypes (Master 03) + Imposter Patterns (Neuroscience PDF) -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3.5 border-amber-500/20">
+          <div>
+            <span class="text-xs font-bold text-amber-400">مستر ۰۳ + سند راهبردی علوم اعصاب</span>
+            <h3 class="text-base font-bold text-white mt-0.5">ترکیب تیپ اهمال‌کاری و الگوهای ایمپاستر</h3>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5">
+              <div class="font-bold text-amber-300 mb-1">۱. تیپ ترکیبی اهمال‌کاری: «کمال‌گرا + رویاپرداز»</div>
+              <p class="text-slate-300 leading-relaxed">به خاطر Ideation=80% و Strategic=83.8%، ساختن سیستم‌های کلان برایت لذت‌بخش است (رویاپرداز)، اما وقتی نوبت اجرای مویرگی می‌رسد، ترس از نقص و قضاوت (کمال‌گرا) باعث می‌شود مغز به اینستاگرام پناه ببرد.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5">
+              <div class="font-bold text-sky-300 mb-1">۲. الگوی ایمپاستر: «نابغه ذاتی + فراگیر افراطی»</div>
+              <p class="text-slate-300 leading-relaxed">چون خودت را باهوش‌تر می‌بینی (پاسخ ۳.ب)، توقع داری مفاهیم پیچیده مالی را در بار اول کامل بفهمی؛ اگر جایی گیر کنی، شرم زنده می‌شود و فکر می‌کنی باید قبل از عمل، همه منابع دنیا را جمع کنی (انباشت شناختی).</p>
+            </div>
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+              <div class="font-bold text-emerald-300 mb-1">۳. شواهد عینی ضد ایمپاستر (از پرونده واقعی تو):</div>
+              <p class="text-slate-200 leading-relaxed">پاس کردن ۶۶ واحد در ۳ ترم با معدل بالای ۱۷ در کنار ۴ شیفت کاری، حفظ بافر نقدی ۳۳ میلیون تومانی و مهندسی سیستم زتل‌کاستن و پرایس‌اکشن.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: 6 ARCHETYPES & PHILOSOPHY ==================== -->
+    <section id="tab-archetypes" class="tab-panel hidden space-y-5">
+
+      <!-- Top Row: Polar Area Chart of 6 Personas + Interactive 3 Dyads -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Chart 2: 6 Archetypes Polar Chart -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-amber-400">معماری کهن‌الگوهای شخصی</span>
+            <h2 class="text-lg font-bold text-white mt-0.5">طیف ۶ شخصیت الگو در ساختار شناختی تو</h2>
+            <p class="text-xs text-slate-400 mt-1">وزن هر کهن‌الگو بر اساس تقاطع گالوپ، استرانگ و رفتارهای تاییدشده</p>
+          </div>
+          <div class="relative h-72 my-2">
+            <canvas id="archetypePolarChart"></canvas>
+          </div>
+          <div class="text-[11px] text-slate-400 text-center">
+            جهان از دریچه <strong class="text-white">منطق، کارایی سیستمی و زیباشناسی عمیق</strong> تحلیل می‌شود، نه احساسات سطحی.
+          </div>
+        </div>
+
+        <!-- Interactive 3 Dyads & 6 Personas Deep Breakdown -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold text-sky-400">تقاطع شخصیت‌های الگو و مکانیزم‌های رفتاری</span>
+              <h3 class="text-lg font-bold text-white mt-0.5">سه دوقطبی (Dyad) سازنده ذهن تو</h3>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 border border-white/10">روی هر زوج کلیک کن</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <button data-dyad="will_hannibal" class="dyad-btn p-3 rounded-xl bg-sky-500/20 border border-sky-400 text-sky-200 font-bold text-right transition-all">
+              ۱. ویل گراهام × هانیبال لکتر
+              <span class="block text-[11px] font-normal text-slate-300 mt-1">پارادوکس ارتباطی و زیباشناسی</span>
+            </button>
+            <button data-dyad="rust_rick" class="dyad-btn p-3 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all">
+              ۲. راستین کول × ریک سانچز
+              <span class="block text-[11px] font-normal text-slate-400 mt-1">حقیقت‌جویی عریان و عبور از قراردادها</span>
+            </button>
+            <button data-dyad="davinci_wayne" class="dyad-btn p-3 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all">
+              ۳. داوینچی × بروس وین
+              <span class="block text-[11px] font-normal text-slate-400 mt-1">تسلط چندرشته‌ای و معماری اثر</span>
+            </button>
+          </div>
+
+          <div id="dyad-detail-box" class="bg-obsidian-950/90 rounded-2xl p-4 border border-white/10 space-y-3 text-xs leading-relaxed">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Core Values + Interactive Binary Decision Filter (0/1) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- 5 Core Values Cards -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-3.5">
+          <div>
+            <span class="text-xs font-bold text-emerald-400">فلسفه وجودی و قطب‌نمای تصمیم‌گیری</span>
+            <h3 class="text-lg font-bold text-white mt-0.5">پنج ارزش هسته‌ای و بنیادین (فیلتر باینری ۰ و ۱)</h3>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3.5 rounded-xl bg-obsidian-800/70 border-r-4 border-r-emerald-400 border border-white/5">
+              <div class="font-bold text-white text-sm">۱. آزادی استراتژیک و قدرتِ خودمختاری (Strategic Autonomy)</div>
+              <p class="text-slate-300 mt-1 leading-relaxed">آزادی برای تو صرفاً رهایی از قیدوبند نیست، بلکه فضای مانور ضروری برای رشد بی‌نهایت و کشف است. استقلال مالی (پرایس‌اکشن، بافر ۲۱ میلیونی) و قدرت، اهرم‌های تضمین این خودمختاری‌اند. تو به سیستمی پایبند نیستی مگر آنکه خودت آن را مهندسی کرده باشی (ریشه بیزاری از زمان‌فروشی).</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-obsidian-800/70 border-r-4 border-r-sky-400 border border-white/5">
+              <div class="font-bold text-white text-sm">۲. خرد رادیکال و حقیقت‌جویی ساختارشکن (Radical Truth)</div>
+              <p class="text-slate-300 mt-1 leading-relaxed">پذیرش واقعیت‌های تلخ بر توهم‌های تسلی‌بخش برتری مطلق دارد (راستین کول + ریک سانچز). کنجکاوی بی‌پایان، نقد مداوم و انعطاف‌پذیری شناختی موتور تو هستند. اطلاعات و تجربیاتت را سخاوتمندانه با دایره انتخابی‌ات (قبیله) به اشتراک می‌گذاری تا سطح آگاهی محیطت را بالا ببری.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-obsidian-800/70 border-r-4 border-r-amber-400 border border-white/5">
+              <div class="font-bold text-white text-sm">۳. معماریِ اثر و تسلط سیستمی (Systemic Mastery)</div>
+              <p class="text-slate-300 mt-1 leading-relaxed">تو «شایستگی و تسلط» را بر «آرامش منفعلانه» مقدم می‌دانی (داوینچی + بروس وین). هدف نهایی مصرف کردن جهان نیست، بلکه خلق ارزش، حل معماهای پیچیده مالی و به‌جا گذاشتن یک میراث و ساختار ماندگار است.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-obsidian-800/70 border-r-4 border-r-purple-400 border border-white/5">
+              <div class="font-bold text-white text-sm">۴. زیباشناسیِ معنا و طغیان در دل پوچی (Aesthetic Rebellion)</div>
+              <p class="text-slate-300 mt-1 leading-relaxed">جهان برای تو فرم، ظرافت و عمق دارد (هانیبال لکتر + آلبر کامو). رنجِ شیفت کاری، مطالعه صبحگاهی و نوسانات دوره گذار را نه بهانه قربانی‌پنداری، بلکه ابزاری برای خودشناسی و ساختن معنا در برابر سکوت جهان می‌دانی.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-obsidian-800/70 border-r-4 border-r-rose-400 border border-white/5">
+              <div class="font-bold text-white text-sm">۵. همدلی شناختی و مرزبندی قاطع (Cognitive Empathy)</div>
+              <p class="text-slate-300 mt-1 leading-relaxed">همدلی تو احساسی و رقیق نیست، بلکه شناختی و تحلیلی است (ویل گراهام). معماری ذهنی آدم‌ها را عمیق درک می‌کنی، اما حقیقت و حفظ اصول درونی برایت از نگه‌داشتنِ رابطه سطحی مهم‌تر است.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Binary Value Filter Calculator (0/1 Decision Engine) -->
+        <div class="lg:col-span-5 glass-accent rounded-2xl p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-emerald-400">ابزار فلسفی-عملیاتی • خط‌کش تصمیم‌گیری</span>
+            <h3 class="text-base font-bold text-white">ماشین‌حساب فیلتر باینری ۵ ارزش هسته‌ای</h3>
+            <p class="text-xs text-slate-300">هر دوراهی، پروژه، رابطه یا دعوتی که پیش رویت قرار گرفت را با این ۵ ارزش بسنج:</p>
+
+            <input id="decision-title-input" type="text" placeholder="عنوان تصمیم (مثلاً: ورود به یک پروژه فرعی یا ادامه یک ارتباط)..." class="w-full px-3.5 py-2 rounded-xl bg-obsidian-950 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400" />
+          </div>
+
+          <div class="space-y-2 text-xs" id="binary-filter-checks">
+            <label class="flex items-center justify-between p-2.5 rounded-xl bg-obsidian-900/80 border border-white/5 cursor-pointer">
+              <span>۱. آیا خودمختاری زمانی/مالی مرا تقویت می‌کند؟</span>
+              <input type="checkbox" data-val-weight="1" checked class="val-filter-cb w-4 h-4 accent-emerald-500 rounded" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 rounded-xl bg-obsidian-900/80 border border-white/5 cursor-pointer">
+              <span>۲. آیا بر پایه واقعیت عریان و بدون توهم/ریاکاری است؟</span>
+              <input type="checkbox" data-val-weight="1" checked class="val-filter-cb w-4 h-4 accent-emerald-500 rounded" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 rounded-xl bg-obsidian-900/80 border border-white/5 cursor-pointer">
+              <span>۳. آیا به تسلط سیستمی و مهارت مرکب من اضافه می‌کند؟</span>
+              <input type="checkbox" data-val-weight="1" checked class="val-filter-cb w-4 h-4 accent-emerald-500 rounded" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 rounded-xl bg-obsidian-900/80 border border-white/5 cursor-pointer">
+              <span>۴. آیا با استاندارد زیباشناسی و اصالت من همخوان است؟</span>
+              <input type="checkbox" data-val-weight="1" class="val-filter-cb w-4 h-4 accent-emerald-500 rounded" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 rounded-xl bg-obsidian-900/80 border border-white/5 cursor-pointer">
+              <span>۵. آیا مرزهای شناختی و حلقه امن قبیله را حفظ می‌کند؟</span>
+              <input type="checkbox" data-val-weight="1" class="val-filter-cb w-4 h-4 accent-emerald-500 rounded" />
+            </label>
+          </div>
+
+          <div id="binary-verdict-box" class="p-3.5 rounded-xl bg-obsidian-950 border border-emerald-500/30 text-xs space-y-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: DEEP PSYCHOMETRICS (NEO + CLIFTON + STRONG) ==================== -->
+    <section id="tab-psychometrics" class="tab-panel hidden space-y-5">
+
+      <!-- Row 1: NEO-PI-R 1403 Raw vs 1405 Calibrated (Chart 3 + Deep Explanation) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-rose-400">تست ۱ • NEO-PI-R (فرم بلند ۲۴۰ سؤالی - ۲۷ شهریور ۱۴۰۳)</span>
+            <h2 class="text-base font-bold text-white mt-0.5">مقایسه «نمره خام ۱۴۰۳ (نامعتبر ۲۴ دقیقه‌ای)» و «کالیبراسیون ۱۴۰۵»</h2>
+            <p class="text-xs text-slate-400 mt-1">چرا گزارش ۱۴۰۳ برچسب «کاملاً نامعتبر» خورد و کدام بخش‌هایش همچنان دقیق است؟</p>
+          </div>
+          <div class="relative h-64 my-2">
+            <canvas id="neoComparisonChart"></canvas>
+          </div>
+          <div class="text-[11px] text-slate-400">
+            پاسخ‌دهی در ۲۴ دقیقه (۶ ثانیه به ازای هر سؤال) + سوگیری منفی (۱۴۵ مخالف در برابر ۷۸ موافق) باعث انحراف کاذب در E2، A6 و N3 شده بود.
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 space-y-3 text-xs">
+          <h3 class="text-sm font-bold text-white">کالبدشکافی تک‌به‌تک ۵ عامل و ۳۰ خرده‌مقیاس نئو در مورد تو:</h3>
+
+          <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5 space-y-1">
+            <div class="flex justify-between font-bold text-sky-300">
+              <span>۱. گشودگی به تجربه (O = 144 | صدک 80.2% | T=76 بسیار بالا)</span>
+              <span>✅ تایید ۱۰۰٪</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">بالاترین و واقعی‌ترین نمره تو در نئو: کنجکاوی فکری و ایده‌پردازی (O5=68%)، عمل‌گرایی و تنوع‌طلبی (O4=72%)، احساسات عمیق درونی (O3=66%)، زیباشناسی لکتری (O2=60%) و بازنگری در ارزش‌های سنتی به سبک ریک سانچز و راستین کول (O6=64%).</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5 space-y-1">
+            <div class="flex justify-between font-bold text-rose-300">
+              <span>۲. روان‌رنجوری (N = 141 | صدک 71.3% | کالیبره ۱۴۰۵: ~52%)</span>
+              <span>⚖️ اصلاح‌شده</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">در ۱۴۰۳ نمره افسردگی (N3=70%) بالا بود که در ۱۴۰۵ با انسجام ذهنی به شدت کاهش یافته است. اما سه خرده‌مقیاس همچنان فعال‌اند: **کم‌رویی/حساسیت به قضاوت اجتماعی (N4=66%)** که ریشه کمال‌گرایی اجتماعی توست، **شتاب‌زدگی/فوریت دوپامینی (N5=66%)** در پرش به ایده‌های نو و اینستاگرام، و **پرخاشگری/تنش کلامی (N2=60%)** در بحث‌ها.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5 space-y-1">
+            <div class="flex justify-between font-bold text-emerald-300">
+              <span>۳. برون‌گرایی (E = 107 | صدک 49.3% | کالیبره ۱۴۰۵: ~64%)</span>
+              <span>🔄 بازتعریف‌شده</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">نئو تو را در جمع‌گرایی پایین (E2=32%) زده بود، اما قاطعیت و رهبری (E3=60%) و سطح فعالیت و انرژی (E4=74%) بالا بود! حقیقت این است: تو **برون‌گرای انتخابگر و رهبر تیم‌های هدفمند** هستی؛ از مهمانی و گپ سطحی بیزاری، اما در قبیله و پروژه‌های جدی وسط میدانی.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5 space-y-1">
+            <div class="flex justify-between font-bold text-purple-300">
+              <span>۴. توافق‌پذیری (A = 87 | صدک 35.6% | کالیبره ۱۴۰۵: ~50%)</span>
+              <span>🔄 پارادوکس ویل/هانیبال</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">پایین بودن توافق‌پذیری در نئو به خاطر **بی‌پرده‌گویی، عدم باج‌دهی عاطفی و شکاکیت علمی (راستین کول)** است، نه بی‌رحمی! برعکسِ نمره خام A6=34%، تو همدلی شناختی بسیار بالایی داری (ویل گراهام) اما وقتی ریاکاری ببینی، شمشیر هانیبال فعال می‌شود.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5 space-y-1">
+            <div class="flex justify-between font-bold text-amber-300">
+              <span>۵. وظیفه‌شناسی (C = 106 | صدک 45.7% | کالیبره ۱۴۰۵: ~58%)</span>
+              <span>⚙️ شکاف بینش-اجرا</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">نظم (C2=56%) و تلاش برای موفقیت (C4=56%) متوسط رو به بالاست، اما **احتیاط و بازداری قبل از عمل (C6=30%)** پایین‌ترین خرده‌مقیاس توست که دقیقاً پرش سریع روی ایده‌های جدید و نیاز به چک‌لیست و داربست ابسیدین را توضیح می‌دهد.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: CliftonStrengths (Gallup) + Strong Interest Inventory (Charts 4 & 5) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Chart 4: CliftonStrengths Top 10 vs Bottom 5 -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="text-xs font-bold text-emerald-400">تست ۲ • استعدادیابی کلیفتون (گالوپ CSTA - تفکر راهبردی ۸۳.۸٪)</span>
+            <h3 class="text-base font-bold text-white mt-0.5">۱۰ استعداد برتر در برابر ۵ نقطه کور انتهای جدول</h3>
+          </div>
+          <div class="relative h-72">
+            <canvas id="cliftonChart"></canvas>
+          </div>
+          <div class="p-3 rounded-xl bg-obsidian-900/90 border border-white/5 text-xs text-slate-300 leading-relaxed">
+            <strong class="text-emerald-400">راز فلسفی ۵ استعداد آخر تو:</strong> پایین بودنِ <span class="text-rose-300">گذشته‌نگر (Context 11.1%)</span> یعنی نگاهت فقط به آینده است؛ پایین بودنِ <span class="text-rose-300">ثبات روتین (Consistency 16.7%)</span> یعنی مغزت برای کار کارمندی ساخته نشده؛ و پایین بودنِ <span class="text-rose-300">خوش‌بینی ساده‌لوحانه (Positivity 19.2%)</span> همان واقع‌گرایی عریان راستین کول است!
+          </div>
+        </div>
+
+        <!-- Chart 5: Strong Interest Inventory (I-C-E + Top Scales + Personal Styles) -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="text-xs font-bold text-sky-400">تست ۳ • رغبت‌سنج شغلی و تحصیلی استرانگ (کد سه‌حرفی I-C-E)</span>
+            <h3 class="text-base font-bold text-white mt-0.5">نیمرخ RIASEC، حوزه‌های تخصصی و سبک‌های کاری</h3>
+          </div>
+          <div class="relative h-72">
+            <canvas id="strongChart"></canvas>
+          </div>
+          <div class="p-3 rounded-xl bg-obsidian-900/90 border border-white/5 text-xs text-slate-300 leading-relaxed">
+            <strong class="text-sky-400">چرا مدیریت مالی، کوانت و پرایس‌اکشن زیستگاه طبیعی توست؟</strong> ترکیب نادرِ **پژوهشگری (۸۵)** + **کارآفرینی (۸۵)** + **مالی و سرمایه‌گذاری (۷۵)** + **قراردادی/ساختارمند (۶۱.۷٪)** نشان می‌دهد تو نه یک محققِ صرفاً تئوریک هستی و نه یک بازاریِ سنتی؛ تو **مهندس سیستم‌های مالی و معمار ارزش** هستی.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: CBT/ACT BEHAVIORAL LAB ==================== -->
+    <section id="tab-lab" class="tab-panel hidden space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+        <!-- Tool 1: 8-Minute Provisional Draft Timer (CBT/ACT) -->
+        <div class="glass-accent rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-emerald-400">ابزار ۱ • پروتکل CBT/ACT و قانون کیفیت ۷۰٪</span>
+              <h2 class="text-lg font-bold text-white">تایمر ۸ دقیقه‌ای «پیش‌نویس موقت»</h2>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-lg bg-obsidian-900 text-slate-300 border border-white/10">ضد فلج کمال‌گرایی</span>
+          </div>
+
+          <div class="space-y-2.5">
+            <label class="block text-xs text-slate-300">پیش‌بینی قابل‌تست قبل از شروع (اختیاری):</label>
+            <input id="draft-prediction" type="text" placeholder="مثلاً: اگر الان بدون مطالعه بیشتر بنویسم، هیچ چیز به دردبخوری درنمی‌آید..." class="w-full px-3.5 py-2 rounded-xl bg-obsidian-950/90 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400" />
+          </div>
+
+          <div class="bg-obsidian-950/70 rounded-2xl p-5 text-center border border-white/5">
+            <div id="draft-timer-display" class="text-5xl font-extrabold text-white tabular-nums">08:00</div>
+            <p id="draft-status-text" class="text-xs text-emerald-300/90 mt-2">هدف: وجود داشتنِ پیش‌نویس با کیفیت ۷۰٪ • بدون ادیت و بدون اینستاگرام</p>
+            <div class="flex justify-center gap-2 mt-4">
+              <button id="btn-draft-start" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">شروع ۸ دقیقه</button>
+              <button id="btn-draft-pause" class="px-4 py-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-700 text-slate-200 font-semibold text-xs border border-white/10">توقف</button>
+              <button id="btn-draft-reset" class="px-4 py-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-700 text-slate-400 font-semibold text-xs border border-white/10">ریست</button>
+            </div>
+          </div>
+
+          <!-- ACT / Schema Reframe Cards -->
+          <div class="space-y-2 text-xs">
+            <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5">
+              <strong class="text-sky-400">جمله ناهم‌جوشی ACT هنگام هجوم قضاوت (مهار ERN):</strong>
+              <p class="text-slate-300 mt-1">«من الان این فکر را دارم که این پیش‌نویس بی‌کفایتی‌ام را ثابت می‌کند؛ و با وجود همین فکر، خط بعدی را با کیفیت ۷۰٪ می‌نویسم.»</p>
+            </div>
+            <div class="p-3 rounded-xl bg-obsidian-800/70 border border-white/5">
+              <strong class="text-amber-400">جمله طرحواره‌ای (تفکیک ارزش شخصی از تحسین بیرونی):</strong>
+              <p class="text-slate-300 mt-1">«من احترام را دوست دارم، اما لازم نیست با این یک جمله احترام بخرم؛ الان فقط ایده را قابل‌تست می‌کنم.»</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tool 2: 10-Second Conflict Pause + 2-Min Post-Advice Review -->
+        <div class="glass-card rounded-2xl p-5 space-y-4 border-rose-500/20">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-rose-400">ابزار ۲ • کنترل کلام در تنش (N2) + تنفس بازدم طولانی</span>
+              <h2 class="text-lg font-bold text-white">تمرینگر مکث ۱۰ ثانیه‌ای + ضد نشخوار</h2>
+            </div>
+          </div>
+
+          <!-- 10s Interactive Trainer -->
+          <div class="bg-obsidian-950/70 rounded-2xl p-4 border border-white/5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div id="pause-timer-display" class="text-4xl font-extrabold text-rose-400 tabular-nums">10</div>
+              <button id="btn-pause-start" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 font-bold text-xs">شروع تمرین ۱۰ ثانیه</button>
+            </div>
+            <div id="pause-stage-box" class="grid grid-cols-3 gap-2 text-[11px]">
+              <div id="stage-1" class="p-2.5 rounded-xl bg-obsidian-800 border border-white/5 text-slate-300">
+                <strong class="block text-white mb-0.5">۰–۲ ثانیه:</strong>
+                توقف کامل کلام حتی وسط جمله + لنگر لمسی (فشار پا به زمین)
+              </div>
+              <div id="stage-2" class="p-2.5 rounded-xl bg-obsidian-800 border border-white/5 text-slate-300">
+                <strong class="block text-white mb-0.5">۲–۸ ثانیه:</strong>
+                دم کوتاه و بازدم طولانی (تحریک عصب واگ)؛ بدون چیدن جواب کوبنده!
+              </div>
+              <div id="stage-3" class="p-2.5 rounded-xl bg-obsidian-800 border border-white/5 text-slate-300">
+                <strong class="block text-white mb-0.5">۸–۱۰ ثانیه:</strong>
+                انتخاب حرکت: بازتاب حرفش / سؤال / تایم‌اوت ۲۰ دقیقه‌ای
+              </div>
+            </div>
+          </div>
+
+          <!-- Post-Advice 2-Minute Anti-Rumination -->
+          <div class="bg-obsidian-800/60 rounded-xl p-4 border border-white/5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-amber-300">مرور ۲ دقیقه‌ای بعد از نصیحت / کمک (پارادوکس ویل گراهام)</h3>
+              <span class="text-[11px] text-slate-400">پایان دادن به نشخوار ذهنی</span>
+            </div>
+            <div class="grid grid-cols-1 gap-2 text-xs">
+              <input id="rum-fact" type="text" placeholder="۱. واقعیت عینی (دقیقاً چه گفت/کرد؟ بدون حدس)" class="px-3 py-2 rounded-lg bg-obsidian-950 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
+              <input id="rum-interp" type="text" placeholder="۲. برداشت ذهن من (مثلاً: حتماً فکر کرد مغرورم)" class="px-3 py-2 rounded-lg bg-obsidian-950 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
+              <input id="rum-repair" type="text" placeholder="۳. یک ترمیم مشخص (اگر لازم است؛ نه پیامِ تاییدگیری!)" class="px-3 py-2 rounded-lg bg-obsidian-950 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
+            </div>
+            <button id="btn-close-rumination" class="w-full py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold text-xs border border-amber-500/30">بستن پرونده نشخوار و برچسب «Replay»</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 3 (Greenberg's 1-Year-Old Child Test) + Tool 4 (3 Final Calibration Questions Form) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- Tool 3: Greenberg's 1-Year-Old Child Test -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 space-y-3.5 border-purple-500/20">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-purple-400">ابزار ۳ • مستر ۰۱ (مدل لسلی گرینبرگ)</span>
+              <h3 class="text-base font-bold text-white mt-0.5">رمزگشای هیجان «تست کودک ۱ ساله»</h3>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30">تفکیک هیجان اولیه از ثانویه</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            وقتی شرمِ مقایسه یا خشمِ بحث بالا می‌آید، از خودت بپرس: <strong class="text-white">«آیا یک کودک ۱ ساله هم این حس را به همین شکل تجربه می‌کند؟»</strong> اگر نه (مثلاً شرم از عقب‌ماندن در کنکور/ترید)، آن یک هیجان ثانویه است که روی یک نیاز اولیه نشسته است.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+            <button data-greenberg="shame_compare" class="gb-btn p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 font-bold text-right">
+              ۱. شرم مقایسه با موفق‌ها
+            </button>
+            <button data-greenberg="anger_debate" class="gb-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right">
+              ۲. خشم و کل‌کل در بحث
+            </button>
+            <button data-greenberg="numb_insta" class="gb-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right">
+              ۳. کرختی و فرار اینستاگرام
+            </button>
+          </div>
+
+          <div id="greenberg-output" class="p-3.5 rounded-xl bg-obsidian-950/90 border border-white/10 text-xs space-y-1.5 leading-relaxed">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Tool 4: Interactive 3 Calibration Questions Form -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 space-y-3.5 border-sky-500/20">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-sky-400">ابزار ۴ • شخصی‌سازی نهایی آزمایش ۲ هفته‌ای</span>
+              <h3 class="text-base font-bold text-white mt-0.5">ثبت پاسخ ۳ سؤال کالیبراسیون</h3>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30">ذخیره خودکار در پروفایل</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div>
+              <label class="block text-slate-300 mb-1">۱. اولین نشانه بدنی/ذهنی در ۲ ثانیه اول بحث (قبل از تند شدن کلام):</label>
+              <select id="cal-q1" class="w-full px-3 py-2 rounded-xl bg-obsidian-900 border border-white/10 text-white focus:outline-none focus:border-sky-400">
+                <option value="چیدن جواب کوبنده وسط حرف طرف مقابل">چیدن جواب کوبنده وسط حرف طرف مقابل</option>
+                <option value="تند شدن ریتم تنفس و بالا رفتن تن صدا">تند شدن ریتم تنفس و بالا رفتن تن صدا</option>
+                <option value="منقبض شدن فک، شانه و داغ شدن سینه">منقبض شدن فک، شانه و داغ شدن سینه</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">۲. کدام تسک بیشترین قفل کمال‌گرایی و فرار به اینستاگرام را دارد؟</label>
+              <select id="cal-q2" class="w-full px-3 py-2 rounded-xl bg-obsidian-900 border border-white/10 text-white focus:outline-none focus:border-sky-400">
+                <option value="ثبت و مستندسازی بک‌تست‌های پرایس‌اکشن خاکستر">ثبت و مستندسازی بک‌تست‌های پرایس‌اکشن خاکستر</option>
+                <option value="نوشتن نوت‌های اتمیک و دائمی در ابسیدین">نوشتن نوت‌های اتمیک و دائمی در ابسیدین</option>
+                <option value="مطالعه دروس سنگین دانشگاه (مثل برنامه‌ریزی مالیاتی)">مطالعه دروس سنگین دانشگاه (مثل برنامه‌ریزی مالیاتی)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">۳. نفر امن در حلقه قبیله برای بازخورد بدون قضاوت (Form R) یا Body Doubling:</label>
+              <input id="cal-q3" type="text" placeholder="نام مستعار یا نقش (مثلاً: رفیق صمیمی دانشگاه / هم‌تیمی ترید)" class="w-full px-3 py-2 rounded-xl bg-obsidian-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400" />
+            </div>
+          </div>
+
+          <button id="btn-save-calibration" class="w-full py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-all">ثبت و اعمال در پروفایل ابسیدین</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: 14-DAY BARS TRACKER ==================== -->
+    <section id="tab-bars" class="tab-panel hidden space-y-5">
+
+      <div class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-white">ثبت روزانه آزمایش ۲ هفته‌ای (BARS - ۷ شاخص رفتاری)</h2>
+            <p class="text-xs text-slate-400">روزانه زیر ۱ دقیقه وضعیت واقعی خودت را ثبت کن تا بین «صفت پایدار» و «فشار محیطی» تفکیک شود.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">روز آزمایش:</span>
+            <select id="bars-day-select" class="px-3 py-1.5 rounded-xl bg-obsidian-800 border border-white/10 text-emerald-400 font-bold text-xs focus:outline-none tabular-nums"></select>
+          </div>
+        </div>
+
+        <!-- 7 BARS Anchored Scales -->
+        <div class="space-y-3" id="bars-items-container">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
+          <div class="text-xs text-slate-400">
+            میانگین کل ۱۴ روز: <strong id="bars-avg-score" class="text-emerald-400 tabular-nums">۰ از ۱۰</strong>
+          </div>
+          <button id="btn-save-bars-day" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">ثبت وضعیت امروز</button>
+        </div>
+      </div>
+
+      <!-- 14-Day Trend Chart -->
+      <div class="glass-card rounded-2xl p-5">
+        <h3 class="text-sm font-bold text-white mb-3">روند ثبات رفتاری در ۱۴ روز آزمایش</h3>
+        <div class="relative h-56">
+          <canvas id="barsTrendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: OBSIDIAN EXPORT ==================== -->
+    <section id="tab-export" class="tab-panel hidden space-y-5">
+      <div class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-white">خروجی کامل برای `Identity_and_Cognitive_Profile.md`</h2>
+            <p class="text-xs text-slate-400">نسخه نهایی، فلسفی و عصب‌روان‌شناختیِ مانیفست هویت تو (شامل معماری 2E، ۶ کهن‌الگو، ۵ ارزش هسته‌ای، کالبدشکافی نئو/استرانگ/گالوپ، قطب‌نمای شرم ناتانسون، پروتکل LTD اینستاگرام و آمار ۱۴ روزه BARS) آماده جایگزینی در والت ابسیدین.</p>
+          </div>
+          <button id="btn-copy-profile-md" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs">کپی Markdown کامل</button>
+        </div>
+        <pre id="profile-md-preview" dir="ltr" class="w-full p-4 rounded-xl bg-obsidian-950 border border-white/10 text-xs text-sky-300 font-mono overflow-x-auto max-h-96 leading-relaxed"></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-obsidian-950/95 backdrop-blur-xl border-t border-white/10 px-1 py-1.5 flex justify-around items-center">
+    <button data-tab="profile" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-sky-400">
+      <span class="text-sm">🧠</span>
+      <span class="text-[10px] font-semibold">پروفایل</span>
+    </button>
+    <button data-tab="archetypes" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400">
+      <span class="text-sm">🎭</span>
+      <span class="text-[10px] font-semibold">آرکی‌تایپ</span>
+    </button>
+    <button data-tab="psychometrics" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400">
+      <span class="text-sm">📊</span>
+      <span class="text-[10px] font-semibold">۳ تست</span>
+    </button>
+    <button data-tab="lab" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400">
+      <span class="text-sm">🧪</span>
+      <span class="text-[10px] font-semibold">آزمایشگاه</span>
+    </button>
+    <button data-tab="bars" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400">
+      <span class="text-sm">📈</span>
+      <span class="text-[10px] font-semibold">ثبت BARS</span>
+    </button>
+    <button data-tab="export" class="mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400">
+      <span class="text-sm">🔄</span>
+      <span class="text-[10px] font-semibold">ابسیدین</span>
+    </button>
+  </nav>
+
+  <script>
+    const STORAGE_KEY = 'shokoofayi_psych_lab_v3';
+
+    const DYAD_DATA = {
+      will_hannibal: {
+        title: '۱. ویل گراهام × هانیبال لکتر • پارادوکس ارتباطی و زیباشناسی جراحانه',
+        psych: 'ریشه در تست‌ها: ترکیب Individualization (#10 گالوپ: دیدن الگوی منحصربه‌فرد هر انسان) + Connectedness (#9) + زیبایی‌شناسی بالا در نئو (O2=60%) در کنار توافق‌پذیریِ غیرتعارفی (A=35.6%).',
+        mech: 'تو در ابتدای مواجهه با انسان‌ها مرزهایت را باز می‌گذاری (ویل گراهام) تا با همدلی شناختیِ محض، معماری ذهن، رنج و انگیزه‌های طرف مقابل را شبیه‌سازی و تحلیل کنی (پاسخ ۲ تو در آزمون). اما به محض اینکه ریاکاری، سطحی‌نگری یا نقض اصول بنیادین را تشخیص دهی، کلید هانیبال لکتر فعال می‌شود: قطع ارتباط سرد، قاطع و بدون بازگشت.',
+        shadow: 'سایه رفتاری و تله: وقتی راه‌حل منطقی و دقیقی که با همدلیِ ویل گراهام استخراج کرده‌ای توسط طرف مقابل اجرا نمی‌شود، دچار نشخوار ذهنی می‌شوی. پادزهر: درک اینکه وظیفه تو «شفاف‌سازی نقشه» است، نه زندگی کردن به جای دیگران.'
+      },
+      rust_rick: {
+        title: '۲. راستین کول × ریک سانچز • خرد رادیکال، طغیان اگزیستانسیال و عبور از قراردادها',
+        psych: 'ریشه در تست‌ها: بازنگری در ارزش‌ها (O6=64%) + ایده‌پردازی (#1 - 80%) + تحلیلی (#6 - 64.3%) + پایین بودن گذشته‌نگری (Context 11.1%) و خوش‌بینی ساده‌لوحانه (Positivity 19.2%).',
+        mech: 'مثل راستین کول، تو جهان را بدون فیلترهای تسلی‌بخش می‌بینی و رنج را بخشی از تراش خوردنِ آگاهی می‌دانی. مثل ریک سانچز، ذهنت یک ماشین بیزین (Bayesian) است که با هر داده جدید، مدل‌های قبلی را آپدیت می‌کند؛ بنابراین تعهد کورکورانه به سنت‌ها، عناوین توخالی یا جمع‌های سطحی را کاملاً غیرمنطقی می‌دانی و با طنز تلخ و تیزهوشانه آن را هضم می‌کنی.',
+        shadow: 'سایه رفتاری و تله: خطر سقوط به پوچ‌گرایی فلج‌کننده یا بحث‌های فرساینده برای اثبات حماقت دیگران (N2=60%). پادزهر: چرخش از «نقد جهان» به «طغیان سازنده کامو» در قالب ساختن سیستم شخصی (پروژه شکوفایی).'
+      },
+      davinci_wayne: {
+        title: '۳. لئوناردو داوینچی × بروس وین • تسلط چندرشته‌ای (Polymath) و مهندسی زره اجرایی',
+        psych: 'ریشه در تست‌ها: کد استرانگ I-C-E (پژوهش ۸۵ + کارآفرینی ۸۵ + مالی ۷۵) + آینده‌نگر (#2 گالوپ) + یادگیرنده (#3) + تلاشگر (#4 - 70.8%) + رهبری (78.1%).',
+        mech: 'نیمه داوینچی تو شیفته پیوند زدن حوزه‌های ظاهراً جداست: از علوم اعصاب و زتل‌کاستن تا مهندسی مالی، پرایس‌اکشن و نانوفناوری. نیمه بروس وین تو می‌داند که استعداد خام بدون «زره، داربست محیطی و انضباط تاریک صبحگاهی (۰۶:۳۰ صبح)» در برابر آشوب محیطی شکست می‌خورد؛ برای همین آرامش سطحی را فدای تسلط و ساختن سنگر نقدینگی (۳۳ میلیون تومان) می‌کنی.',
+        shadow: 'سایه رفتاری و تله: نیمه داوینچی دوست دارد مدام دفترچه‌های طراحی جدید باز کند و پروژه‌ها را نیمه‌کاره رها کند (Dreamer)، و نیمه بروس وین وقتی خسته می‌شود با کمال‌گرایی بی‌رحمانه به خودش شلاق می‌زند. پادزهر: قانون کیفیت ۷۰٪ و قرنطینه ایده‌ها تا ۸ بهمن.'
+      }
+    };
+
+    const COMPASS_DATA = {
+      self_attack: {
+        title: '۱. قطب حمله به خود (Self-Attack) • وقتی خودت را با افراد موفق‌تر مقایسه می‌کنی',
+        mech: 'طبق مستر ۰۱، گناه می‌گوید «کارم اشتباه بود» اما شرم می‌گوید «من خودم مشکلم» (پاسخ ۶ تو). وقتی می‌بینی هنوز به جایگاه دلخواه نرسیده‌ای، به جای اصلاح سیستم، به هویت خودت حمله می‌کنی.',
+        rx: 'پادزهر عملیاتی: تفکیک «من» از «پیش‌نویس». اجرای قانون کیفیت ۷۰٪ و نوشتن ۱ خط در ژورنال شبانه (نمره ۱ تا ۱۰) برای انتقال پردازش از آمیگدال به VLPFC.'
+      },
+      avoidance: {
+        title: '۲. قطب اجتناب و فرار (Avoidance) • ربایش شبکه برجستگی توسط اینستاگرام',
+        mech: 'وقتی تسک پرایس‌اکشن یا مالیاتی سخت یا مبهم می‌شود، قشر سینگولیت قدامی (ACC) سیگنال خطا و تهدید طردشدن می‌دهد. مغز برای بی‌حس کردن این شرم، با دوپامین ارزان اینستاگرام فرار می‌کند.',
+        rx: 'پادزهر عملیاتی: صفحه Grayscale + وقفه ۵ دقیقه‌ای LTD (تضعیف سیناپسی بلندمدت) + زدن آب سرد به صورت قبل از باز کردن اینستاگرام.'
+      },
+      attack_other: {
+        title: '۳. قطب حمله متقابل (Shame-Rage) • ترمز پایین در بحث و تنش (N2=60%)',
+        mech: 'وقتی در بحث حس می‌کنی طرف مقابل منطق تو را نادیده گرفته یا زیر سؤال برده، شرمِ پنهان در کسری از ثانیه به خشم دفاعی و ادامه دادن بحث تبدیل می‌شود (پاسخ ۴.الف).',
+        rx: 'پادزهر عملیاتی: تشخیص نشانه ۲ ثانیه اول + مکث ۱۰ ثانیه‌ای وسط جمله + تنفس ۴ ثانیه دم / ۸ ثانیه بازدم قبل از جمله بعدی.'
+      },
+      wurmser: {
+        title: '۴. دفاع‌های سه‌گانه لئون وورمسر (Rationalization, Control, Projection)',
+        mech: '۱) عقلانی‌سازی افراطی: تبدیل درد عاطفی دیگران به پازل منطقی (پاسخ ۲) یا غرق شدن در طراحی سیستم‌های ابسیدین به جای اجرا. ۲) کنترل‌گری: تلاش برای بی‌نقص بودن خروجی تا کسی نتواند نقدت کند.',
+        rx: 'پادزهر عملیاتی: قانون هضم ۱:۱ (ممنوعیت مصرف آموزش جدید بدون بک‌تست) + مرور ۲ دقیقه‌ای بعد از نصیحت و بستن پرونده با برچسب Replay.'
+      }
+    };
+
+    const GREENBERG_DATA = {
+      shame_compare: {
+        secondary: 'هیجان ثانویه (پوششی): شرمِ خودتخریبگر و حس «من عقبم / من مشکلم».',
+        primary: 'هیجان اولیه اصیل (زیرین): اشتیاق عمیق به شکوفایی، دیده شدنِ توانمندی و نیاز به امنیت در آینده.',
+        action: 'پیام تنظیم‌کننده: «اینکه با دیدن افراد موفق بی‌قرار می‌شوم یعنی رشد برایم مهم است؛ الان فقط ۱ بلوک ۸ دقیقه‌ای با کیفیت ۷۰٪ جلو می‌روم.»'
+      },
+      anger_debate: {
+        secondary: 'هیجان ثانویه (پوششی): خشمِ بحث، تند شدن کلام و اصرار بر بردنِ منطقی.',
+        primary: 'هیجان اولیه اصیل (زیرین): دردِ نادیده گرفته شدن یا ترس از بی‌اعتبار شدن در چشم طرف مقابل.',
+        action: 'پیام تنظیم‌کننده: مکث ۱۰ ثانیه‌ای + فشار کف پا به زمین (Tactile Grounding) + بازدم طولانی ۸ ثانیه‌ای.'
+      },
+      numb_insta: {
+        secondary: 'هیجان ثانویه (پوششی): کرختی، بی‌حوصلگی و اسکرول بی‌هدف در اینستاگرام.',
+        primary: 'هیجان اولیه اصیل (زیرین): ترس از قضاوت شدنِ خروجی (کمال‌گرایی اجتماعی) و خستگی شبکه اجرایی.',
+        action: 'پیام تنظیم‌کننده: ۵ دقیقه وقفه LTD بدون گوشی + ۱ لیوان آب خنک + شروع کثیف ۲ دقیقه‌ای.'
+      }
+    };
+
+    const BARS_METRICS = [
+      { id: 'urgency', title: '۱. ترمز ایده جدید (UPPS Urgency)', opts: ['۰: شیرجه فوری', '۱: ثبت + وسواس', '۲: قرنطینه + بازگشت', '—: فرصت نبود'] },
+      { id: 'draft', title: '۲. پیش‌نویس ۸ دقیقه‌ای با سقف کیفیت ۷۰٪', opts: ['۰: قفل + گوشی', '۱: تاخیر زیاد', '۲: پیش‌نویس ۷۰٪ اجرا شد', '—: فرصت نبود'] },
+      { id: 'conflict', title: '۳. مکث ۱۰ ثانیه‌ای و تنفس ۴-۸ در تنش (N2)', opts: ['۰: ادامه بحث/تندشدن', '۱: توقف با تاخیر', '۲: مکث ۱۰ث + انتخاب', '—: تنشی نبود'] },
+      { id: 'empathy', title: '۴. همدلی بدون نصیحت فوری و نشخوار', opts: ['۰: راه‌حل سریع + نشخوار', '۱: سوال قبل راه‌حل', '۲: شنیدن + بستن Replay', '—: موردی نبود'] },
+      { id: 'check', title: '۵. چک‌لیست قبل از اقدام (C6)', opts: ['۰: اقدام بدون چک', '۱: چک ناقص', '۲: چک کامل قبل اقدام', '—: فرصت نبود'] },
+      { id: 'instagram_ltd', title: '۶. مهار اینستاگرام (وقفه ۵د LTD + Grayscale)', opts: ['۰: غرق در ریلز/فید', '۱: خروج بعد از ۱۰ دقیقه', '۲: مهار با وقفه ۵د LTD', '—: هوسی نبود'] },
+      { id: 'digestion_amcc', title: '۷. قانون هضم ۱:۱ + میکرو-سختی ارادی (aMCC)', opts: ['۰: فقط مصرف منفعل', '۱: خروجی ناقص', '۲: هضم ۱:۱ + تمرین aMCC', '—: فرصت نبود'] },
+    ];
+
+    function loadState() {
+      const defaults = {
+        selectedDyad: 'will_hannibal',
+        selectedPole: 'self_attack',
+        selectedGreenberg: 'shame_compare',
+        calibration: {
+          q1: 'چیدن جواب کوبنده وسط حرف طرف مقابل',
+          q2: 'ثبت و مستندسازی بک‌تست‌های پرایس‌اکشن خاکستر',
+          q3: 'رفیق صمیمی در حلقه قبیله (Body Doubling)'
+        },
+        selectedBarsDay: 1,
+        barsLogs: {}
+      };
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('shokoofayi_psych_lab_v2') || localStorage.getItem('shokoofayi_psych_lab_v1');
+        if (!raw) return defaults;
+        const parsed = JSON.parse(raw);
+        return {
+          ...defaults,
+          ...parsed,
+          calibration: { ...defaults.calibration, ...(parsed.calibration || {}) }
+        };
+      } catch (e) {
+        return defaults;
+      }
+    }
+
+    let state = loadState();
+    let trendChart = null;
+    let chartsInitialized = { archetype: false, psychometrics: false };
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+      renderMarkdownExport();
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(window._toastInt);
+      window._toastInt = setTimeout(() => el.classList.add('hidden'), 2400);
+    }
+
+    // Tabs
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        const act = b.dataset.tab === tabId;
+        b.className = act
+          ? 'nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-sky-500 text-slate-950'
+          : 'nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white';
+      });
+      document.querySelectorAll('.mob-nav-btn').forEach(b => {
+        const act = b.dataset.tab === tabId;
+        b.className = act
+          ? 'mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-sky-400'
+          : 'mob-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-slate-400';
+      });
+
+      if (tabId === 'archetypes' && !chartsInitialized.archetype) {
+        chartsInitialized.archetype = true;
+        initArchetypePolarChart();
+      }
+      if (tabId === 'psychometrics' && !chartsInitialized.psychometrics) {
+        chartsInitialized.psychometrics = true;
+        initPsychometricCharts();
+      }
+    }
+
+    document.querySelectorAll('.nav-btn, .mob-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+    document.querySelectorAll('.quick-tab-jump').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.goto));
+    });
+
+    // Dyads Interactive Selector
+    function renderDyad() {
+      const key = state.selectedDyad || 'will_hannibal';
+      const item = DYAD_DATA[key] || DYAD_DATA.will_hannibal;
+      document.querySelectorAll('.dyad-btn').forEach(btn => {
+        const active = btn.dataset.dyad === key;
+        btn.className = active
+          ? 'dyad-btn p-3 rounded-xl bg-sky-500/20 border border-sky-400 text-sky-200 font-bold text-right transition-all'
+          : 'dyad-btn p-3 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all hover:border-white/25';
+      });
+      document.getElementById('dyad-detail-box').innerHTML = `
+        <div class="text-sm font-extrabold text-amber-300">${item.title}</div>
+        <p class="text-sky-300"><strong class="text-white">شواهد روان‌سنجی در تست‌های تو:</strong> ${item.psych}</p>
+        <p class="text-slate-200"><strong class="text-white">مکانیزم شناختی و رفتاری:</strong> ${item.mech}</p>
+        <p class="text-emerald-300"><strong class="text-emerald-400">سایه و پادزهر عملیاتی:</strong> ${item.shadow}</p>
+      `;
+    }
+
+    document.querySelectorAll('.dyad-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.selectedDyad = btn.dataset.dyad;
+        saveState();
+        renderDyad();
+      });
+    });
+
+    // Binary Value Filter Calculator
+    function updateBinaryVerdict() {
+      const cbs = document.querySelectorAll('.val-filter-cb');
+      let score = 0;
+      cbs.forEach(cb => { if (cb.checked) score++; });
+      const title = document.getElementById('decision-title-input').value.trim() || 'این گزینه';
+      const box = document.getElementById('binary-verdict-box');
+      if (score >= 4) {
+        box.className = 'p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-xs space-y-1';
+        box.innerHTML = `<div class="font-bold text-emerald-300">حکم باینری: ۱ (تایید استراتژیک — امتیاز ${score}/5)</div>
+          <p class="text-slate-200">«${title}» با معماری ۵ ارزش هسته‌ای تو هم‌راستاست. بدون تعهد زودرس، آن را در قالب یک آزمایش ۹۰ روزه یا بلوک اجرایی تعریف کن.</p>`;
+      } else if (score === 3) {
+        box.className = 'p-3.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-xs space-y-1';
+        box.innerHTML = `<div class="font-bold text-amber-300">حکم باینری: مشروط / قرنطینه در انبار سرد (امتیاز ${score}/5)</div>
+          <p class="text-slate-200">«${title}» بخشی از ارزش‌هایت را پوشش می‌دهد اما خطر پراکندگی تمرکز دارد. فعلاً وارد \`Cold_Archive.md\` شود تا ۸ بهمن ۱۴۰۵.</p>`;
+      } else {
+        box.className = 'p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-xs space-y-1';
+        box.innerHTML = `<div class="font-bold text-rose-300">حکم باینری: ۰ (حذف قاطع به سبک هانیبال — امتیاز ${score}/5)</div>
+          <p class="text-slate-200">«${title}» خودمختاری یا اصالت تو را می‌بلعد. بدون باج‌دهی عاطفی و بدون توضیح اضافه به آن «نه» بگو.</p>`;
+      }
+    }
+
+    document.querySelectorAll('.val-filter-cb').forEach(cb => cb.addEventListener('change', updateBinaryVerdict));
+    document.getElementById('decision-title-input').addEventListener('input', updateBinaryVerdict);
+
+    // Nathanson's Compass interactive cards
+    function renderCompass() {
+      const pole = state.selectedPole || 'self_attack';
+      const data = COMPASS_DATA[pole] || COMPASS_DATA.self_attack;
+      document.querySelectorAll('.compass-btn').forEach(btn => {
+        const active = btn.dataset.pole === pole;
+        btn.className = active
+          ? 'compass-btn p-2.5 rounded-xl bg-purple-500/20 border border-purple-400 text-purple-200 font-bold text-right transition-all'
+          : 'compass-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all hover:border-white/25';
+      });
+      document.getElementById('compass-detail-box').innerHTML = `
+        <div class="font-bold text-purple-300 text-sm">${data.title}</div>
+        <p class="text-slate-300"><strong class="text-white">مکانیسم عصب‌شناختی:</strong> ${data.mech}</p>
+        <p class="text-emerald-300"><strong class="text-emerald-400">پروتکل مداخله:</strong> ${data.rx}</p>
+      `;
+    }
+
+    document.querySelectorAll('.compass-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.selectedPole = btn.dataset.pole;
+        saveState();
+        renderCompass();
+      });
+    });
+
+    // Greenberg 1-Year-Old Test Decoder
+    function renderGreenberg() {
+      const key = state.selectedGreenberg || 'shame_compare';
+      const item = GREENBERG_DATA[key] || GREENBERG_DATA.shame_compare;
+      document.querySelectorAll('.gb-btn').forEach(btn => {
+        const active = btn.dataset.greenberg === key;
+        btn.className = active
+          ? 'gb-btn p-2.5 rounded-xl bg-purple-500/20 border border-purple-400 text-purple-200 font-bold text-right transition-all'
+          : 'gb-btn p-2.5 rounded-xl bg-obsidian-800 border border-white/10 text-slate-300 font-bold text-right transition-all hover:border-white/25';
+      });
+      document.getElementById('greenberg-output').innerHTML = `
+        <div class="text-rose-300">${item.secondary}</div>
+        <div class="text-sky-300">${item.primary}</div>
+        <div class="text-emerald-300 font-semibold pt-1">${item.action}</div>
+      `;
+    }
+
+    document.querySelectorAll('.gb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.selectedGreenberg = btn.dataset.greenberg;
+        saveState();
+        renderGreenberg();
+      });
+    });
+
+    // 3 Calibration Questions Form
+    function renderCalibrationForm() {
+      document.getElementById('cal-q1').value = state.calibration.q1;
+      document.getElementById('cal-q2').value = state.calibration.q2;
+      document.getElementById('cal-q3').value = state.calibration.q3;
+    }
+
+    document.getElementById('btn-save-calibration').addEventListener('click', () => {
+      state.calibration.q1 = document.getElementById('cal-q1').value;
+      state.calibration.q2 = document.getElementById('cal-q2').value;
+      state.calibration.q3 = document.getElementById('cal-q3').value.trim() || 'رفیق صمیمی در حلقه قبیله';
+      saveState();
+      showToast('پاسخ ۳ سؤال کالیبراسیون ذخیره و در خروجی ابسیدین اعمال شد!');
+    });
+
+    // Chart 1: Radar Chart (Tab 1)
+    function initRadarChart() {
+      const ctx = document.getElementById('profileRadarChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['تفکر راهبردی (۸۳.۸٪)', 'پژوهش و ایده‌پردازی (۸۵٪)', 'کارآفرینی و رهبری (۷۸٪)', 'همدلی شناختی و تیم (۸۰٪)', 'شاسی اجرایی با داربست (۵۸٪)', 'ثبات روتین بدون داربست (۱۷٪)'],
+          datasets: [{
+            label: 'پروفایل کالیبره‌شده ۱۴۰۵',
+            data: [84, 85, 78, 80, 58, 17],
+            backgroundColor: 'rgba(56, 189, 248, 0.22)',
+            borderColor: '#38bdf8',
+            pointBackgroundColor: '#10b981',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { display: false },
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              angleLines: { color: 'rgba(255,255,255,0.08)' },
+              pointLabels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } }
+            }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // Chart 2: Archetypes Polar Area Chart (Tab 2)
+    function initArchetypePolarChart() {
+      const ctx = document.getElementById('archetypePolarChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+          labels: [
+            'داوینچی (سنتز چندرشته‌ای ۹۰٪)',
+            'ویل گراهام (همدلی شناختی ۸۸٪)',
+            'ریک سانچز (ساختارشکنی ۸۶٪)',
+            'هانیبال لکتر (زیباشناسی و مرز ۸۵٪)',
+            'بروس وین (زره انضباط و اثر ۸۴٪)',
+            'راستین کول (حقیقت عریان ۸۲٪)'
+          ],
+          datasets: [{
+            data: [90, 88, 86, 85, 84, 82],
+            backgroundColor: [
+              'rgba(245, 158, 11, 0.55)',
+              'rgba(56, 189, 248, 0.55)',
+              'rgba(16, 185, 129, 0.55)',
+              'rgba(244, 63, 94, 0.55)',
+              'rgba(99, 102, 241, 0.55)',
+              'rgba(168, 85, 247, 0.55)'
+            ],
+            borderColor: '#0b0f17',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 50,
+              max: 100,
+              ticks: { display: false },
+              grid: { color: 'rgba(255,255,255,0.07)' }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 }, boxWidth: 10, padding: 8 }
+            }
+          }
+        }
+      });
+    }
+
+    // Charts 3, 4, 5: Psychometric Deep-Dive Charts (Tab 3)
+    function initPsychometricCharts() {
+      // Chart 3: NEO Raw 1403 vs Calibrated 1405
+      const neoCtx = document.getElementById('neoComparisonChart').getContext('2d');
+      new Chart(neoCtx, {
+        type: 'bar',
+        data: {
+          labels: ['گشودگی (O)', 'روان‌رنجوری (N)', 'برون‌گرایی هدفمند (E)', 'توافق‌پذیری/همدلی (A)', 'وظیفه‌شناسی (C)'],
+          datasets: [
+            {
+              label: 'نئوی خام ۱۴۰۳ (۲۴ دقیقه‌ای نامعتبر)',
+              data: [80.2, 71.3, 49.3, 35.6, 45.7],
+              backgroundColor: 'rgba(244, 63, 94, 0.45)',
+              borderColor: '#f43f5e',
+              borderWidth: 1.5,
+              borderRadius: 6
+            },
+            {
+              label: 'نیمرخ واقعی کالیبره‌شده ۱۴۰۵',
+              data: [84.0, 52.0, 64.0, 50.0, 58.0],
+              backgroundColor: 'rgba(16, 185, 129, 0.65)',
+              borderColor: '#10b981',
+              borderWidth: 1.5,
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+            x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } }
+          },
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } }
+          }
+        }
+      });
+
+      // Chart 4: CliftonStrengths Top 8 + Bottom 3
+      const cliftonCtx = document.getElementById('cliftonChart').getContext('2d');
+      new Chart(cliftonCtx, {
+        type: 'bar',
+        data: {
+          labels: [
+            '#1 ایده‌پردازی (Ideation)',
+            '#2 آینده‌نگر (Futuristic)',
+            '#3 یادگیرنده (Learner)',
+            '#4 تلاشگر (Achiever)',
+            '#5 گردآورنده (Input)',
+            '#6 تحلیلی (Analytical)',
+            '#7 تفکر (Intellection)',
+            '#8 فرماندهی (Command)',
+            '#32 ثبات روتین (Consistency)',
+            '#33 انطباق‌پذیری (Adaptability)',
+            '#34 گذشته‌نگر (Context)'
+          ],
+          datasets: [{
+            label: 'درصد توانمندی گالوپ',
+            data: [80.0, 72.7, 71.4, 70.8, 66.7, 64.3, 64.3, 61.5, 16.7, 12.5, 11.1],
+            backgroundColor: [
+              '#10b981', '#10b981', '#10b981', '#38bdf8', '#10b981', '#10b981', '#10b981', '#f59e0b',
+              '#f43f5e', '#f43f5e', '#f43f5e'
+            ],
+            borderRadius: 5
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Chart 5: Strong Interest Inventory
+      const strongCtx = document.getElementById('strongChart').getContext('2d');
+      new Chart(strongCtx, {
+        type: 'bar',
+        data: {
+          labels: [
+            'پژوهش (Research)',
+            'کارآفرینی (Entrepreneurship)',
+            'جهت‌گیری تیمی (Team Style)',
+            'سبک رهبری (Leadership)',
+            'مالی و سرمایه‌گذاری (Finance)',
+            'تم جستجوگر (Investigative)',
+            'تم قراردادی/سیستمی (Conventional)',
+            'تم متهورانه (Enterprising)',
+            'تم واقع‌گرا/فیزیکی (Realistic)'
+          ],
+          datasets: [{
+            label: 'امتیاز رغبت‌سنج استرانگ',
+            data: [85.0, 85.0, 80.0, 78.1, 75.0, 65.2, 61.7, 58.7, 36.8],
+            backgroundColor: [
+              '#38bdf8', '#f59e0b', '#10b981', '#10b981', '#f59e0b', '#38bdf8', '#818cf8', '#f59e0b', '#64748b'
+            ],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+            x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 9 } } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // 8-Minute Draft Timer
+    let draftSec = 8 * 60;
+    let draftInt = null;
+    function updateDraftUI() {
+      const m = String(Math.floor(draftSec / 60)).padStart(2, '0');
+      const s = String(draftSec % 60).padStart(2, '0');
+      document.getElementById('draft-timer-display').textContent = `${m}:${s}`;
+    }
+    document.getElementById('btn-draft-start').addEventListener('click', () => {
+      clearInterval(draftInt);
+      document.getElementById('draft-status-text').textContent = 'در حال نوشتن نسخه موقت با سقف کیفیت ۷۰٪... بدون قضاوت و بدون گوشی';
+      draftInt = setInterval(() => {
+        if (draftSec > 0) {
+          draftSec--;
+          updateDraftUI();
+        } else {
+          clearInterval(draftInt);
+          draftInt = null;
+          showToast('۸ دقیقه تمام شد! پیش‌نویس الان وجود دارد — پیروزی بر ACC!');
+        }
+      }, 1000);
+    });
+    document.getElementById('btn-draft-pause').addEventListener('click', () => { clearInterval(draftInt); draftInt = null; });
+    document.getElementById('btn-draft-reset').addEventListener('click', () => {
+      clearInterval(draftInt);
+      draftInt = null;
+      draftSec = 8 * 60;
+      document.getElementById('draft-status-text').textContent = 'هدف: وجود داشتنِ پیش‌نویس با کیفیت ۷۰٪ • بدون ادیت و بدون اینستاگرام';
+      updateDraftUI();
+    });
+
+    // 10-Second Conflict Pause Trainer
+    let pauseInt = null;
+    document.getElementById('btn-pause-start').addEventListener('click', () => {
+      clearInterval(pauseInt);
+      let sec = 10;
+      const disp = document.getElementById('pause-timer-display');
+      const s1 = document.getElementById('stage-1');
+      const s2 = document.getElementById('stage-2');
+      const s3 = document.getElementById('stage-3');
+
+      const highlight = (activeEl) => {
+        [s1, s2, s3].forEach(el => el.classList.remove('border-rose-400', 'bg-rose-500/15'));
+        if (activeEl) activeEl.classList.add('border-rose-400', 'bg-rose-500/15');
+      };
+
+      disp.textContent = sec;
+      highlight(s1);
+      pauseInt = setInterval(() => {
+        sec--;
+        disp.textContent = sec;
+        if (sec >= 8) highlight(s1);
+        else if (sec >= 2) highlight(s2);
+        else if (sec > 0) highlight(s3);
+        else {
+          clearInterval(pauseInt);
+          pauseInt = null;
+          highlight(null);
+          showToast('مکث ۱۰ ثانیه‌ای کامل شد! الان حرکتت را انتخاب کن.');
+        }
+      }, 1000);
+    });
+
+    document.getElementById('btn-close-rumination').addEventListener('click', () => {
+      document.getElementById('rum-fact').value = '';
+      document.getElementById('rum-interp').value = '';
+      document.getElementById('rum-repair').value = '';
+      showToast('پرونده با برچسب «Replay» بسته شد. برگرد روی کار فعلی!');
+    });
+
+    // BARS 14-Day Tracker
+    function initBarsDaySelect() {
+      const sel = document.getElementById('bars-day-select');
+      sel.innerHTML = Array.from({ length: 14 }, (_, i) => `<option value="${i + 1}" class="bg-obsidian-900">روز ${i + 1}</option>`).join('');
+      sel.value = state.selectedBarsDay;
+      sel.addEventListener('change', (e) => {
+        state.selectedBarsDay = parseInt(e.target.value, 10);
+        saveState();
+        renderBarsItems();
+      });
+    }
+
+    function renderBarsItems() {
+      const dayKey = 'd' + state.selectedBarsDay;
+      const current = state.barsLogs[dayKey] || {};
+      const container = document.getElementById('bars-items-container');
+
+      container.innerHTML = BARS_METRICS.map(m => {
+        const val = current[m.id];
+        const buttons = m.opts.map((label, idx) => {
+          const code = idx < 3 ? String(idx) : 'na';
+          const isSel = val === code;
+          return `<button data-metric="${m.id}" data-val="${code}" class="bars-opt px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-all ${isSel ? 'bg-emerald-500 text-slate-950 border-emerald-400' : 'bg-obsidian-900 text-slate-300 border-white/10 hover:border-white/25'}">${label}</button>`;
+        }).join('');
+        return `
+          <div class="bg-obsidian-800/60 rounded-xl p-3.5 border border-white/5 space-y-2">
+            <div class="text-xs sm:text-sm font-bold text-white">${m.title}</div>
+            <div class="flex flex-wrap gap-1.5">${buttons}</div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.bars-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!state.barsLogs[dayKey]) state.barsLogs[dayKey] = {};
+          state.barsLogs[dayKey][btn.dataset.metric] = btn.dataset.val;
+          saveState();
+          renderBarsItems();
+          updateBarsStatsAndChart();
+        });
+      });
+    }
+
+    document.getElementById('btn-save-bars-day').addEventListener('click', () => {
+      saveState();
+      updateBarsStatsAndChart();
+      showToast(`روز ${state.selectedBarsDay} آزمایش رفتاری ذخیره شد`);
+    });
+
+    function getDayScore(dayObj) {
+      if (!dayObj) return null;
+      let sum = 0, count = 0;
+      BARS_METRICS.forEach(m => {
+        const v = dayObj[m.id];
+        if (v === '0' || v === '1' || v === '2') {
+          sum += parseInt(v, 10);
+          count++;
+        }
+      });
+      return count > 0 ? Math.round((sum / (count * 2)) * 10 * 10) / 10 : null;
+    }
+
+    function updateBarsStatsAndChart() {
+      const scores = [];
+      let total = 0, daysWithData = 0;
+      for (let i = 1; i <= 14; i++) {
+        const s = getDayScore(state.barsLogs['d' + i]);
+        scores.push(s);
+        if (s !== null) { total += s; daysWithData++; }
+      }
+      const avg = daysWithData > 0 ? (total / daysWithData).toFixed(1) : '۰';
+      document.getElementById('bars-avg-score').textContent = `${avg} از ۱۰ (${daysWithData} روز ثبت‌شده)`;
+
+      const ctx = document.getElementById('barsTrendChart').getContext('2d');
+      if (trendChart) trendChart.destroy();
+      trendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 14 }, (_, i) => `روز ${i + 1}`),
+          datasets: [{
+            label: 'امتیاز کنترل رفتاری (از ۱۰)',
+            data: scores,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            fill: true,
+            tension: 0.3,
+            spanGaps: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 10, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { family: 'Vazirmatn', size: 10 } } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // Comprehensive Markdown Export for Identity_and_Cognitive_Profile.md
+    function renderMarkdownExport() {
+      const daysLogged = Object.keys(state.barsLogs).length;
+      const md = `---
+title: "پروفایل شناختی، فلسفی و مانیفست هویت ۱۴۰۵ (Identity & Cognitive Operating Manual)"
+created: 2026-11-03 07:55
+modified: 2026-11-18 10:35
+type: structure/identity
+psychometrics:
+  strong_code: "I-C-E (Investigative 65.2%, Conventional 61.7%, Enterprising 58.7%)"
+  strong_top5: ["Research (85)", "Entrepreneurship (85)", "Social Sciences (75)", "Finance & Investing (75)", "Science (72.5)"]
+  clifton_top5: ["Ideation (80%)", "Futuristic (72.7%)", "Learner (71.4%)", "Achiever (70.8%)", "Input (66.7%)"]
+  clifton_ranks_6_10: ["Analytical (64.3%)", "Intellection (64.3%)", "Command (61.5%)", "Connectedness (58.3%)", "Individualization (57.1%)"]
+  strategic_thinking: "83.8%"
+  team_orientation: "80%"
+  neo_1403_status: "Invalidated raw speed artifact (24m); Recalibrated in 1405 via SJT & BARS"
+tags:
+  - type/structure
+  - theme/identity
+  - theme/cognitive-architecture
+  - theme/archetypes
+  - theme/neuroscience
+---
+
+# 🧠 مانیفست هویت، فلسفه وجودی و راهنمای کاربری شناخت (نسخه جامع ۱۴۰۵)
+
+> **قانون بقا:** این سند برای سرزنش خود یا توجیه کم‌کاری نیست؛ کتابچه مهندسی معکوس برای کاربری موتوری استثنایی (۸۳.۸٪ تفکر راهبردی + سنتز چندرشته‌ای) با سیستم تعلیق حساس به دوپامین و قضاوت بیرونی است. تو معمار سیستمی هستی که باید شرایط محیطی را طوری بچیند که اصطکاک اراده به حداقل برسد.
+
+## ۱. معماری روان‌سنجی یکپارچه: هویت شناختی 2E (Twice-Exceptional)
+- **موتور پرشتاب انتزاعی:** تلاقی ایده‌پردازی (#1 - 80%)، آینده‌نگری (#2 - 72.7%)، یادگیرنده (#3 - 71.4%)، گردآورنده (#5 - 66.7%)، تحلیلی و تفکر (#6 و #7 - 64.3%) با گشودگی بسیار بالا در نئو (O=144, T=76) و کد استرانگ **I-C-E** (پژوهش ۸۵، کارآفرینی ۸۵، مالی و سرمایه‌گذاری ۷۵).
+- **شاسی اجرایی و پارادوکس Achiever / Consistency:** اشتیاق شدید به دستاورد (Achiever #4 - 70.8%) در برابر بیزاری عصب‌شناختی از تکرار مکانیکی (Consistency #32 - 16.7%).
+- **کالیبراسیون نئوی ۱۴۰۳ در افق ۱۴۰۵:**
+  - رد برچسب انزواطلبی (E2=32%) و بی‌عاطفگی (A6=34%): تو برون‌گرای انتخابگر، رهبر تیم‌های هدفمند (Team Orientation 80%, Leadership 78.1%) و دارای همدلی شناختی عمیق هستی.
+  - عبور از خلق افسرده ۱۴۰۳ (N3=70%) و رسیدن به انسجام ذهنی ۱۴۰۵.
+  - تایید ۳ شاخص حساس: کمال‌گرایی اجتماعی/حساسیت به قضاوت (N4=66%)، فوریت دوپامینی در پرش به ایده‌ها (N5=66%)، و ترمز کلامی پایین در بحث (N2=60%, Command 61.5%).
+
+## ۲. تقاطع ۶ شخصیت الگو (Archetypal Synthesis)
+1. **ویل گراهام × هانیبال لکتر (پارادوکس ارتباطی و زیباشناسی):** نفوذپذیری و همدلی شناختی محض در ابتدای رابطه برای درک معماری ذهن طرف مقابل (ویل گراهام / Individualization #10)، همراه با استانداردهای زیباشناختی بالا و حذف قاطع و بی‌رحمانه در صورت مشاهده ریاکاری یا نقض اصول (هانیبال لکتر / O2=60%, A=35.6%).
+2. **راستین کول × ریک سانچز (خرد رادیکال و عبور از قراردادها):** ترجیح واقعیت عریان بر توهم‌های تسلی‌بخش، آپدیت دائمی مدل‌های ذهنی با داده‌های جدید (O6=64%)، بیزاری از تعهدات سنتی منسوخ و استفاده از طنز برای هضم واقعیت‌گرایی عریان.
+3. **لئوناردو داوینچی × بروس وین (تسلط چندرشته‌ای و زره اجرایی):** ترکیب کنجکاوی سیری‌ناپذیر چندرشته‌ای (داوینچی / Ideation 80%) با فدا کردن آرامش سطحی برای ساختن داربست‌های انضباطی، سنگر نقدینگی و خلق اثر ماندگار (بروس وین / Achiever 70.8%).
+
+## ۳. پنج ارزش هسته‌ای (فیلتر باینری ۰ و ۱ تصمیمات)
+1. **آزادی استراتژیک و قدرتِ خودمختاری:** فضای مانور برای رشد بی‌نهایت؛ استقلال مالی و مهارت کمیاب اهرم‌های تضمین آن هستند.
+2. **خرد رادیکال و حقیقت‌جویی ساختارشکن:** برتری واقعیت تلخ بر توهم شیرین؛ ارتقای آگاهی قبیله انتخابی.
+3. **معماریِ اثر و تسلط سیستمی:** مقدم دانستن شایستگی و خلق میراث بر آرامش منفعلانه.
+4. **زیباشناسیِ معنا و طغیان در دل پوچی:** تبدیل رنج و سختی دوره گذار به ابزار خودشناسی و فرم دادن به زندگی (کامو + دقت لکتری).
+5. **همدلی شناختی و مرزبندی قاطع:** درک تحلیلی انسان‌ها بدون باج‌دهی عاطفی.
+
+## ۴. کالبدشکافی عصب‌روان‌کاوانه شرم، کمال‌گرایی و ربایش اینستاگرام
+- **مکانیسم ACC و موج ERN (مستر ۰۱):** کمال‌گرایی اجتماعی و ترس از طردشدن، دامنه موج خطای ERN را بالا می‌برد و حس «من خودم مشکلم» (شرم) را فعال می‌کند.
+- **قطب‌نمای شرم ناتانسون و دفاع‌های وورمسر:** ۱) حمله به خود در مقایسه با افراد موفق، ۲) اجتناب و فرار به **اینستاگرام** (ربایش شبکه برجستگی)، ۳) حمله متقابل در بحث (N2)، ۴) عقلانی‌سازی افراطی (ابزاربازی در ابسیدین/AI به جای اجرای تسک).
+- **پروتکل‌های اجرایی ۱۴ روزه BARS:**
+  - **نشانه ۲ ثانیه اول بحث:** ${state.calibration.q1} ⬅️ مکث ۱۰ ثانیه‌ای + لنگر لمسی + تنفس ۴-۸.
+  - **تسک هدف تایمر ۸ دقیقه‌ای (کیفیت ۷۰٪):** ${state.calibration.q2}.
+  - **نفر امن قبیله (Body Doubling / Form R):** ${state.calibration.q3}.
+  - **سد ضد اینستاگرام (LTD):** صفحه Grayscale + وقفه ۵ دقیقه‌ای + آب سرد + قانون هضم ۱:۱ (۱ ساعت بک‌تست به ازای ۱ ساعت آموزش).
+  - **آمار ثبت‌شده BARS:** ${daysLogged} روز از ۱۴ روز.
+
+## متادیتا و ارتباطات شبکه (Back Matter)
+based_on:: [[دانشنامه جامع سیستم هدف‌گذاری و مدیریت عدم‌قطعیت]], [[01_Master_Emotion_and_Shame]], [[02_Master_Attention_Energy_MentalHealth]], [[03_Master_Procrastination_and_Habits]]
+see:: [[Macro_Vision]], [[Sprint_1405_Fall]]
+used_in:: [[mission_control]], [[2_Sprints/Weekly/Template_Weekly_Desk]]
+`;
+      document.getElementById('profile-md-preview').textContent = md;
+    }
+
+    document.getElementById('btn-copy-profile-md').addEventListener('click', () => {
+      const text = document.getElementById('profile-md-preview').textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast('متن کامل Markdown برای ابسیدین کپی شد!'));
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('متن کامل Markdown کپی شد!');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initRadarChart();
+      renderDyad();
+      updateBinaryVerdict();
+      renderCompass();
+      renderGreenberg();
+      renderCalibrationForm();
+      initBarsDaySelect();
+      renderBarsItems();
+      updateBarsStatsAndChart();
+      renderMarkdownExport();
+    });
+  </script>
+</body>
+</html>
