@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="dark">
 <head>
@@ -379,6 +380,20 @@
             <span>شاخص مهارت پرایس‌اکشن: <strong class="text-white">سطح ۳ ⬅️ هدف ۵.۵</strong></span>
             <span>کمینه بدون پشیمانی: <strong id="zero-regret-summary" class="text-[#2ef295] tabular-nums">۰ از ۷</strong></span>
           </div>
+          <div class="grid grid-cols-3 gap-2 pt-1 text-[11px]">
+            <button data-goto="weekly" class="quick-tab-jump em-sub rounded-xl p-2 text-right hover:border-[#2ef295]/40 transition-all">
+              <div class="text-slate-400">📱 گوشی / اینستاگرام</div>
+              <div id="mission-screen-summary" class="font-extrabold text-[#ff9d5c] tabular-nums mt-0.5">ثبت نشده</div>
+            </button>
+            <button data-goto="weekly" class="quick-tab-jump em-sub rounded-xl p-2 text-right hover:border-[#2ef295]/40 transition-all">
+              <div class="text-slate-400">🌙 خواب و کیفیت</div>
+              <div id="mission-sleep-summary" class="font-extrabold text-[#2ef295] tabular-nums mt-0.5">ثبت نشده</div>
+            </button>
+            <button data-goto="weekly" class="quick-tab-jump em-sub rounded-xl p-2 text-right hover:border-[#2ef295]/40 transition-all">
+              <div class="text-slate-400">📚 ۱۵ صفحه قبل خواب</div>
+              <div id="mission-book-summary" class="font-extrabold text-emerald-300 tabular-nums mt-0.5">۰ از ۷ شب</div>
+            </button>
+          </div>
         </div>
 
         <!-- Right: Emerald Glowing Focus Timer -->
@@ -565,6 +580,75 @@
           <button type="submit" class="px-4 py-2 rounded-xl em-btn-mint font-extrabold text-xs shrink-0">+ افزودن تسک</button>
         </form>
         <div id="day-tasks-list" class="space-y-2.5"></div>
+      </div>
+
+      <!-- Daily Screen Time (Phone + Instagram), Sleep & 15-Page Pre-Sleep Book Tracker -->
+      <div class="em-card rounded-3xl p-5 space-y-4 border-[#2ef295]/20">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold text-[#2ef295]">تله‌متری زیستی و دیجیتال • ثبت برای روز فعال (<span id="bio-active-day-label">شنبه</span>)</span>
+            <h3 class="text-base font-bold text-white mt-0.5">تایم گوشی و اینستاگرام، کیفیت خواب و ۱۵ صفحه کتاب قبل خواب</h3>
+          </div>
+          <span id="bio-sleep-duration-badge" class="px-3 py-1 rounded-xl bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">مدت خواب: --</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+          <!-- Box 1: Phone & Instagram Time -->
+          <div class="em-sub rounded-2xl p-3.5 space-y-2.5">
+            <div class="font-bold text-[#ff9d5c]">📱 تایم گوشی و اینستاگرام‌گردی</div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">کل گوشی (دقیقه)</label>
+                <input id="bio-phone-min" type="number" min="0" max="1440" placeholder="مثلاً 180" class="w-full px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-white tabular-nums focus:outline-none focus:border-[#ff7a29]" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">اینستاگرام (دقیقه)</label>
+                <input id="bio-insta-min" type="number" min="0" max="1440" placeholder="مثلاً 35" class="w-full px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-white tabular-nums focus:outline-none focus:border-[#ff7a29]" />
+              </div>
+            </div>
+            <div id="bio-insta-warning" class="text-[11px] text-slate-400">هدف: اینستاگرام زیر ۳۰ دقیقه در روز</div>
+          </div>
+
+          <!-- Box 2: Sleep Time, Wake Time & Quality -->
+          <div class="em-sub rounded-2xl p-3.5 space-y-2.5">
+            <div class="font-bold text-[#2ef295]">🌙 ساعت خواب، بیداری و کیفیت خواب</div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">خوابیدن</label>
+                <input id="bio-sleep-time" type="time" value="23:30" class="w-full px-2 py-1.5 rounded-xl bg-black/50 border border-white/10 text-white tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">بیداری</label>
+                <input id="bio-wake-time" type="time" value="06:15" class="w-full px-2 py-1.5 rounded-xl bg-black/50 border border-white/10 text-white tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">کیفیت (۱-۱۰)</label>
+                <input id="bio-sleep-quality" type="number" min="1" max="10" value="8" class="w-full px-2 py-1.5 rounded-xl bg-black/50 border border-white/10 text-[#2ef295] font-bold text-center tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400">خط قرمز: خاموشی ۲۳:۳۰ بدون صفحه نمایش</div>
+          </div>
+
+          <!-- Box 3: 15 Pages Pre-Sleep Reading Routine -->
+          <div class="em-sub rounded-2xl p-3.5 flex flex-col justify-between gap-2.5">
+            <div>
+              <div class="font-bold text-emerald-300">📚 روتین ۱۵ صفحه کتاب قبل خواب</div>
+              <p class="text-[11px] text-slate-400 mt-1">جایگزین اسکرول شبانه برای آرام‌سازی مغز قبل از ۲۳:۳۰</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input id="bio-book-pages" type="number" min="0" max="200" value="15" class="w-20 px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-emerald-300 font-bold text-center tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              <label class="flex items-center gap-2 flex-1 p-1.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer">
+                <input id="bio-book-done" type="checkbox" class="w-4 h-4 accent-[#2ef295]" />
+                <span class="text-[11px] text-slate-200 font-semibold">۱۵ صفحه خوانده شد</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div id="bio-week-avg-text" class="text-[11px] text-slate-400">میانگین هفته پس از ثبت روزها محاسبه می‌شود.</div>
+          <button id="btn-save-bio-day" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs transition-all">ثبت آمار خواب و گوشی امروز</button>
+        </div>
       </div>
 
       <div class="em-card-glow rounded-3xl p-5 space-y-3">
@@ -989,6 +1073,7 @@
       { id: 'growth', label: '📈 بلوک ۲۰٪ رشد (۲×۳۵د صبح یا اولترادین ۴۵/۱۰)' },
       { id: 'ltd', label: '📵 سد اینستاگرام (Grayscale + وقفه ۵د LTD)' },
       { id: 'amcc', label: '🧠 تمرین اراده aMCC + قانون هضم ۱:۱' },
+      { id: 'book15', label: '📚 ۱۵ صفحه کتاب قبل خواب (روتین شبانه بدون گوشی)' },
     ];
     const PHASE1_ITEMS = [
       { id: 'p1_caffeine', label: '☕ تاخیر ۹۰ دقیقه‌ای کافئین صبح' },
@@ -1117,6 +1202,7 @@
         week: 1,
         kpis: { videos: 2, chapters: 2, backtests: 2 },
         finance: { installments: Array(10).fill(false), tuitionMehr: false, tuitionBahman: false },
+        bioLogs: {},
         habits: {},
         phase1: { p1_caffeine: true, p1_fasting: true, p1_grayscale: false, p1_amcc: false },
         contract70: {
@@ -1145,7 +1231,7 @@
         const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('shokoofayi_unified_v1');
         if (!raw) return defaults;
         const p = JSON.parse(raw);
-        return { ...defaults, ...p, kpis: { ...defaults.kpis, ...(p.kpis || {}) }, finance: { ...defaults.finance, ...(p.finance || {}) }, phase1: { ...defaults.phase1, ...(p.phase1 || {}) }, contract70: { ...defaults.contract70, ...(p.contract70 || {}) }, calibration: { ...defaults.calibration, ...(p.calibration || {}) } };
+        return { ...defaults, ...p, kpis: { ...defaults.kpis, ...(p.kpis || {}) }, finance: { ...defaults.finance, ...(p.finance || {}) }, bioLogs: { ...(p.bioLogs || {}) }, phase1: { ...defaults.phase1, ...(p.phase1 || {}) }, contract70: { ...defaults.contract70, ...(p.contract70 || {}) }, calibration: { ...defaults.calibration, ...(p.calibration || {}) } };
       } catch (e) { return defaults; }
     }
 
@@ -1463,7 +1549,7 @@
     function renderDayTasks() {
       const pills = document.getElementById('day-pills');
       pills.innerHTML = DAYS.map(d => `<button data-day="${d}" class="day-pill px-3 py-1 rounded-xl text-xs font-bold ${d === state.selectedDay ? 'bg-[#2ef295] text-[#03110a]' : 'em-sub text-slate-300'}">${d}</button>`).join('');
-      pills.querySelectorAll('.day-pill').forEach(b => b.addEventListener('click', () => { state.selectedDay = b.dataset.day; saveState(); renderDayTasks(); }));
+      pills.querySelectorAll('.day-pill').forEach(b => b.addEventListener('click', () => { state.selectedDay = b.dataset.day; saveState(); renderDayTasks(); renderBioPanel(); }));
       const list = document.getElementById('day-tasks-list');
       const dayItems = state.tasks[state.selectedDay] || [];
       if (dayItems.length === 0) {
@@ -1487,6 +1573,103 @@
       saveState();
       renderDayTasks();
       showToast('تسک جدید اضافه شد');
+    });
+
+    function calcSleepMinutes(sleepStr, wakeStr) {
+      if (!sleepStr || !wakeStr || !sleepStr.includes(':') || !wakeStr.includes(':')) return null;
+      const [sh, sm] = sleepStr.split(':').map(Number);
+      const [wh, wm] = wakeStr.split(':').map(Number);
+      if (Number.isNaN(sh) || Number.isNaN(wh)) return null;
+      let diff = (wh * 60 + wm) - (sh * 60 + sm);
+      if (diff <= 0) diff += 24 * 60;
+      return diff;
+    }
+
+    function formatMinutesFa(mins) {
+      if (mins == null || Number.isNaN(mins)) return '--';
+      const h = Math.floor(mins / 60), m = mins % 60;
+      return h > 0 ? `${h}س ${m}د` : `${m} دقیقه`;
+    }
+
+    function renderBioPanel() {
+      const day = state.selectedDay || 'شنبه';
+      const rec = (state.bioLogs && state.bioLogs[day]) || { phoneMin: '', instaMin: '', sleepTime: '23:30', wakeTime: '06:15', sleepQuality: 8, bookPages: 15, bookDone: false };
+      const dayLbl = document.getElementById('bio-active-day-label');
+      if (dayLbl) dayLbl.textContent = day;
+
+      document.getElementById('bio-phone-min').value = rec.phoneMin !== '' && rec.phoneMin != null ? rec.phoneMin : '';
+      document.getElementById('bio-insta-min').value = rec.instaMin !== '' && rec.instaMin != null ? rec.instaMin : '';
+      document.getElementById('bio-sleep-time').value = rec.sleepTime || '23:30';
+      document.getElementById('bio-wake-time').value = rec.wakeTime || '06:15';
+      document.getElementById('bio-sleep-quality').value = rec.sleepQuality || 8;
+      document.getElementById('bio-book-pages').value = rec.bookPages != null ? rec.bookPages : 15;
+      document.getElementById('bio-book-done').checked = !!rec.bookDone;
+
+      const sleepMins = calcSleepMinutes(rec.sleepTime || '23:30', rec.wakeTime || '06:15');
+      document.getElementById('bio-sleep-duration-badge').textContent = `مدت خواب: ${formatMinutesFa(sleepMins)}`;
+
+      const instaNum = parseInt(rec.instaMin, 10);
+      const warnEl = document.getElementById('bio-insta-warning');
+      if (!Number.isNaN(instaNum) && instaNum > 30) {
+        warnEl.textContent = `⚠️ اینستاگرام امروز ${instaNum} دقیقه بوده (بیش از سقف ۳۰د — وقفه ۵د LTD فعال شود)`;
+        warnEl.className = 'text-[11px] text-[#ff9d5c] font-semibold';
+      } else if (!Number.isNaN(instaNum)) {
+        warnEl.textContent = `✅ عالی! اینستاگرام در محدوده کنترل (${instaNum} دقیقه)`;
+        warnEl.className = 'text-[11px] text-[#2ef295] font-semibold';
+      } else {
+        warnEl.textContent = 'هدف: اینستاگرام زیر ۳۰ دقیقه در روز';
+        warnEl.className = 'text-[11px] text-slate-400';
+      }
+
+      // Compute weekly summary across logged days
+      const entries = Object.values(state.bioLogs || {});
+      const instaVals = entries.map(x => parseInt(x.instaMin, 10)).filter(n => !Number.isNaN(n));
+      const phoneVals = entries.map(x => parseInt(x.phoneMin, 10)).filter(n => !Number.isNaN(n));
+      const qualVals = entries.map(x => parseInt(x.sleepQuality, 10)).filter(n => !Number.isNaN(n));
+      let bookDays = 0;
+      for (let d = 0; d < 7; d++) {
+        if (state.habits[`book15_${d}`] === 'done' || (state.bioLogs && state.bioLogs[DAYS[d]] && state.bioLogs[DAYS[d]].bookDone)) bookDays++;
+      }
+
+      const avgInsta = instaVals.length ? Math.round(instaVals.reduce((a, b) => a + b, 0) / instaVals.length) : null;
+      const avgPhone = phoneVals.length ? Math.round(phoneVals.reduce((a, b) => a + b, 0) / phoneVals.length) : null;
+      const avgQual = qualVals.length ? (qualVals.reduce((a, b) => a + b, 0) / qualVals.length).toFixed(1) : null;
+
+      const avgEl = document.getElementById('bio-week-avg-text');
+      if (entries.length > 0) {
+        avgEl.textContent = `میانگین هفته (${entries.length} روز): گوشی ${avgPhone != null ? formatMinutesFa(avgPhone) : '--'} | اینستاگرام ${avgInsta != null ? avgInsta + 'د' : '--'} | کیفیت خواب ${avgQual || '--'}/۱۰ | کتاب شبانه ${bookDays}/۷`;
+      } else {
+        avgEl.textContent = 'میانگین هفته پس از ثبت روزها محاسبه می‌شود.';
+      }
+
+      // Update Mission Control quick strip
+      const mScreen = document.getElementById('mission-screen-summary');
+      const mSleep = document.getElementById('mission-sleep-summary');
+      const mBook = document.getElementById('mission-book-summary');
+      if (mScreen) mScreen.textContent = (avgPhone != null || avgInsta != null) ? `${avgPhone != null ? formatMinutesFa(avgPhone) : '--'} / ${avgInsta != null ? avgInsta + 'د' : '--'}` : 'ثبت نشده';
+      if (mSleep) mSleep.textContent = avgQual ? `${formatMinutesFa(sleepMins)} • ${avgQual}/۱۰` : 'ثبت نشده';
+      if (mBook) mBook.textContent = `${bookDays} از ۷ شب`;
+    }
+
+    document.getElementById('btn-save-bio-day').addEventListener('click', () => {
+      const day = state.selectedDay || 'شنبه';
+      const dayIdx = DAYS.indexOf(day);
+      const phoneMin = document.getElementById('bio-phone-min').value.trim();
+      const instaMin = document.getElementById('bio-insta-min').value.trim();
+      const sleepTime = document.getElementById('bio-sleep-time').value || '23:30';
+      const wakeTime = document.getElementById('bio-wake-time').value || '06:15';
+      const sleepQuality = Math.max(1, Math.min(10, parseInt(document.getElementById('bio-sleep-quality').value, 10) || 8));
+      const bookPages = Math.max(0, parseInt(document.getElementById('bio-book-pages').value, 10) || 0);
+      const bookDone = document.getElementById('bio-book-done').checked || bookPages >= 15;
+
+      if (!state.bioLogs) state.bioLogs = {};
+      state.bioLogs[day] = { phoneMin, instaMin, sleepTime, wakeTime, sleepQuality, bookPages, bookDone };
+      if (dayIdx >= 0 && bookDone) state.habits[`book15_${dayIdx}`] = 'done';
+
+      saveState();
+      renderHabitMatrix();
+      renderBioPanel();
+      showToast(`آمار خواب، گوشی و مطالعه ${day} ذخیره شد!`);
     });
 
     function renderNightlyLogs() {
@@ -1759,7 +1942,7 @@
       const zr = countZeroRegretDays(), p1 = Object.values(state.phase1 || {}).filter(Boolean).length;
       const fin = state.finance || { installments: [], tuitionMehr: false, tuitionBahman: false };
       const paid = (fin.installments || []).filter(Boolean).length;
-      document.getElementById('markdown-preview').textContent = `---\ntitle: "Winter Arc — هفته ${String(state.week).padStart(2, '0')}"\narc: "Winter Arc (December, January, February | 28 Aban - 28 Esfand)"\nweek_number: ${state.week}\nkhakestar_videos_done: ${state.kpis.videos}\nkhakestar_pages_read: ${state.kpis.chapters}\nbacktests_logged: ${state.kpis.backtests}\nzero_regret_days: ${zr}\namcc_phase1_score: "${p1}/4"\ninstallments_6m_paid: "${paid}/10"\ntuition_mehr_12m: ${!!fin.tuitionMehr}\ntuition_bahman_24m: ${!!fin.tuitionBahman}\n---\n\n## تعهدات مالی\n- [${paid === 10 ? 'x' : ' '}] قسط ماهانه ۶ میلیون تومان (۲۵ مهر تا ۲۵ تیر): ${paid} از ۱۰ قسط پرداخت‌شده\n- [${fin.tuitionMehr ? 'x' : ' '}] شهریه ترم مهر ۱۴۰۵: ۱۲ میلیون تومان\n- [${fin.tuitionBahman ? 'x' : ' '}] شهریه ترم بهمن ۱۴۰۵-۱۴۰۶: ۲۴ میلیون تومان\n\n## قرارداد ۷۰٪\n- **تسک:** ${state.contract70.task}\n- **شرط LTD:** ${state.contract70.ifthen}\n\n## قرنطینه سرد (قفل Winter Arc تا ۲۸ اسفند)\n${state.archive.map(a => `- [ ] ${a.title}`).join('\n')}`;
+      document.getElementById('markdown-preview').textContent = `---\ntitle: "Winter Arc — هفته ${String(state.week).padStart(2, '0')}"\narc: "Winter Arc (December, January, February | 28 Aban - 28 Esfand)"\nweek_number: ${state.week}\nkhakestar_videos_done: ${state.kpis.videos}\nkhakestar_pages_read: ${state.kpis.chapters}\nbacktests_logged: ${state.kpis.backtests}\nzero_regret_days: ${zr}\namcc_phase1_score: "${p1}/4"\ninstallments_6m_paid: "${paid}/10"\ntuition_mehr_12m: ${!!fin.tuitionMehr}\ntuition_bahman_24m: ${!!fin.tuitionBahman}\n---\n\n## تعهدات مالی\n- [${paid === 10 ? 'x' : ' '}] قسط ماهانه ۶ میلیون تومان (۲۵ مهر تا ۲۵ تیر): ${paid} از ۱۰ قسط پرداخت‌شده\n- [${fin.tuitionMehr ? 'x' : ' '}] شهریه ترم مهر ۱۴۰۵: ۱۲ میلیون تومان\n- [${fin.tuitionBahman ? 'x' : ' '}] شهریه ترم بهمن ۱۴۰۵-۱۴۰۶: ۲۴ میلیون تومان\n\n## تله‌متری خواب، گوشی و مطالعه ۱۵ صفحه‌ای\n${Object.keys(state.bioLogs || {}).map(d => { const r = state.bioLogs[d]; const sm = calcSleepMinutes(r.sleepTime, r.wakeTime); return `- **${d}:** گوشی ${r.phoneMin || 0}د (اینستاگرام ${r.instaMin || 0}د) | خواب ${r.sleepTime} تا ${r.wakeTime} (${formatMinutesFa(sm)} • کیفیت ${r.sleepQuality}/10) | کتاب قبل خواب: ${r.bookPages || 0} صفحه ${r.bookDone ? '✅' : '⬜'}`; }).join('\n') || '- موردی ثبت نشده'}\n\n## قرارداد ۷۰٪\n- **تسک:** ${state.contract70.task}\n- **شرط LTD:** ${state.contract70.ifthen}\n\n## قرنطینه سرد (قفل Winter Arc تا ۲۸ اسفند)\n${state.archive.map(a => `- [ ] ${a.title}`).join('\n')}`;
     }
     function renderProfileMarkdown() {
       const days = Object.keys(state.barsLogs).length;
@@ -1783,7 +1966,7 @@
           if (!parsed || typeof parsed !== 'object' || !parsed.kpis) throw new Error('invalid');
           state = { ...state, ...parsed };
           saveState();
-          renderSoundBtn(); renderKPIs(); renderFinanceTasks(); renderPhase1(); renderContract70(); renderHabitMatrix(); renderDayTasks(); renderNightlyLogs(); renderArchive();
+          renderSoundBtn(); renderKPIs(); renderFinanceTasks(); renderPhase1(); renderContract70(); renderHabitMatrix(); renderDayTasks(); renderBioPanel(); renderNightlyLogs(); renderArchive();
           renderCompass(); renderDyad(); renderGreenberg(); renderCalibrationForm(); renderBarsItems(); updateBarsStatsAndChart();
           showToast('بکاپ JSON با موفقیت بازیابی شد!');
         } catch (err) {
@@ -1797,7 +1980,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderSoundBtn();
       updateTimerUI();
-      renderKPIs(); renderPhase1(); renderContract70(); renderPillars(); renderHabitMatrix(); renderDayTasks(); renderNightlyLogs(); renderArchive();
+      renderKPIs(); renderPhase1(); renderContract70(); renderPillars(); renderHabitMatrix(); renderDayTasks(); renderBioPanel(); renderNightlyLogs(); renderArchive();
       renderCompass(); renderDyad(); updateBinaryVerdict(); renderGreenberg(); renderCalibrationForm();
       initBarsDaySelect(); renderBarsItems();
       renderFinanceTasks();
@@ -1807,3 +1990,4 @@
   </script>
 </body>
 </html>
+```
