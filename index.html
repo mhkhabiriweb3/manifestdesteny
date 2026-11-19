@@ -297,19 +297,22 @@
               <div id="sprint-dot-matrix" class="dot-matrix" title="پیشرفت کل اسپرینت" aria-hidden="true"></div>
               <div class="flex items-center gap-1.5 em-sub px-3 py-1.5 rounded-xl">
                 <span class="text-xs text-slate-400">هفته:</span>
-                <select id="week-selector" class="bg-transparent text-[#2ef295] font-extrabold text-sm focus:outline-none cursor-pointer tabular-nums">
-                  <option value="1" class="bg-[#07120c]">۰۱</option>
-                  <option value="2" class="bg-[#07120c]">۰۲</option>
-                  <option value="3" class="bg-[#07120c]">۰۳</option>
-                  <option value="4" class="bg-[#07120c]">۰۴</option>
-                  <option value="5" class="bg-[#07120c]">۰۵</option>
-                  <option value="6" class="bg-[#07120c]">۰۶</option>
-                  <option value="7" class="bg-[#07120c]">۰۷</option>
-                  <option value="8" class="bg-[#07120c]">۰۸</option>
-                  <option value="9" class="bg-[#07120c]">۰۹</option>
-                  <option value="10" class="bg-[#07120c]">۱۰</option>
-                  <option value="11" class="bg-[#07120c]">۱۱</option>
-                  <option value="12" class="bg-[#07120c]">۱۲</option>
+                <select id="week-selector" class="bg-transparent text-[#2ef295] font-extrabold text-xs sm:text-sm focus:outline-none cursor-pointer tabular-nums">
+                  <option value="1" class="bg-[#07120c]">W01 • ۲۵ آبان (Pre-Arc)</option>
+                  <option value="2" class="bg-[#07120c]">W02 • ۲ آذر (Pre-Arc)</option>
+                  <option value="3" class="bg-[#07120c]">W03 • ۹ آذر (Winter Arc)</option>
+                  <option value="4" class="bg-[#07120c]">W04 • ۱۶ آذر (Winter Arc)</option>
+                  <option value="5" class="bg-[#07120c]">W05 • ۲۳ آذر (Winter Arc)</option>
+                  <option value="6" class="bg-[#07120c]">W06 • ۳۰ آذر (Winter Arc)</option>
+                  <option value="7" class="bg-[#07120c]">W07 • ۷ دی (Winter Arc)</option>
+                  <option value="8" class="bg-[#07120c]">W08 • ۱۴ دی (Winter Arc)</option>
+                  <option value="9" class="bg-[#07120c]">W09 • ۲۱ دی (Winter Arc)</option>
+                  <option value="10" class="bg-[#07120c]">W10 • ۲۸ دی (Winter Arc)</option>
+                  <option value="11" class="bg-[#07120c]">W11 • ۵ بهمن (Winter Arc)</option>
+                  <option value="12" class="bg-[#07120c]">W12 • ۱۲ بهمن (Winter Arc)</option>
+                  <option value="13" class="bg-[#07120c]">W13 • ۱۹ بهمن (Winter Arc)</option>
+                  <option value="14" class="bg-[#07120c]">W14 • ۲۶ بهمن (Winter Arc)</option>
+                  <option value="15" class="bg-[#07120c]">W15 • ۳ اسفند (Winter Arc)</option>
                 </select>
               </div>
             </div>
@@ -582,14 +585,33 @@
         <div id="day-tasks-list" class="space-y-2.5"></div>
       </div>
 
-      <!-- Daily Screen Time (Phone + Instagram), Sleep & 15-Page Pre-Sleep Book Tracker -->
+      <!-- Daily Screen Time (Phone + Instagram), Sleep, Booklet & 15-Page Pre-Sleep Book Tracker (Date-Indexed) -->
       <div class="em-card rounded-3xl p-5 space-y-4 border-[#2ef295]/20">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <span class="text-xs font-bold text-[#2ef295]">تله‌متری زیستی و دیجیتال • ثبت برای روز فعال (<span id="bio-active-day-label">شنبه</span>)</span>
-            <h3 class="text-base font-bold text-white mt-0.5">تایم گوشی و اینستاگرام، کیفیت خواب و ۱۵ صفحه کتاب قبل خواب</h3>
+            <span class="text-xs font-bold text-[#2ef295]">تله‌متری تاریخ‌دار (آماده اتصال به پلن ترید) • <span id="bio-active-day-label">دوشنبه</span> <span id="bio-active-date-badge" class="text-slate-300 font-mono" dir="ltr"></span></span>
+            <h3 class="text-base font-bold text-white mt-0.5">تایم گوشی و اینستاگرام، خواب، مطالعه جزوه و ۱۵ صفحه کتاب قبل خواب</h3>
           </div>
-          <span id="bio-sleep-duration-badge" class="px-3 py-1 rounded-xl bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">مدت خواب: --</span>
+          <div class="flex items-center gap-2">
+            <select id="weekly-week-selector" class="px-3 py-1 rounded-xl em-sub text-[#2ef295] font-bold text-xs focus:outline-none cursor-pointer tabular-nums">
+              <option value="1" class="bg-[#07120c]">هفته ۰۱ (۲۵ آبان / Nov 16)</option>
+              <option value="2" class="bg-[#07120c]">هفته ۰۲ (۲ آذر / Nov 23)</option>
+              <option value="3" class="bg-[#07120c]">هفته ۰۳ • شروع Winter Arc (۹ آذر / Nov 30)</option>
+              <option value="4" class="bg-[#07120c]">هفته ۰۴ (۱۶ آذر / Dec 7)</option>
+              <option value="5" class="bg-[#07120c]">هفته ۰۵ (۲۳ آذر / Dec 14)</option>
+              <option value="6" class="bg-[#07120c]">هفته ۰۶ (۳۰ آذر / Dec 21)</option>
+              <option value="7" class="bg-[#07120c]">هفته ۰۷ (۷ دی / Dec 28)</option>
+              <option value="8" class="bg-[#07120c]">هفته ۰۸ (۱۴ دی / Jan 4)</option>
+              <option value="9" class="bg-[#07120c]">هفته ۰۹ (۲۱ دی / Jan 11)</option>
+              <option value="10" class="bg-[#07120c]">هفته ۱۰ (۲۸ دی / Jan 18)</option>
+              <option value="11" class="bg-[#07120c]">هفته ۱۱ (۵ بهمن / Jan 25)</option>
+              <option value="12" class="bg-[#07120c]">هفته ۱۲ (۱۲ بهمن / Feb 1)</option>
+              <option value="13" class="bg-[#07120c]">هفته ۱۳ (۱۹ بهمن / Feb 8)</option>
+              <option value="14" class="bg-[#07120c]">هفته ۱۴ (۲۶ بهمن / Feb 15)</option>
+              <option value="15" class="bg-[#07120c]">هفته ۱۵ (۳ اسفند / Feb 22)</option>
+            </select>
+            <span id="bio-sleep-duration-badge" class="px-3 py-1 rounded-xl bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">مدت خواب: --</span>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
@@ -629,25 +651,58 @@
             <div class="text-[11px] text-slate-400">خط قرمز: خاموشی ۲۳:۳۰ بدون صفحه نمایش</div>
           </div>
 
-          <!-- Box 3: 15 Pages Pre-Sleep Reading Routine -->
+          <!-- Box 3: Booklet Study + 15 Pages Pre-Sleep Reading Routine -->
           <div class="em-sub rounded-2xl p-3.5 flex flex-col justify-between gap-2.5">
-            <div>
-              <div class="font-bold text-emerald-300">📚 روتین ۱۵ صفحه کتاب قبل خواب</div>
-              <p class="text-[11px] text-slate-400 mt-1">جایگزین اسکرول شبانه برای آرام‌سازی مغز قبل از ۲۳:۳۰</p>
+            <div class="font-bold text-emerald-300">📚 جزوه روزانه + ۱۵ صفحه کتاب قبل خواب</div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">جزوه / مطالعه (صفحه)</label>
+                <input id="bio-booklet-pages" type="number" min="0" max="200" placeholder="مثلاً 8" class="w-full px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-white font-bold text-center tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">کتاب قبل خواب (صفحه)</label>
+                <input id="bio-book-pages" type="number" min="0" max="200" value="15" class="w-full px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-emerald-300 font-bold text-center tabular-nums focus:outline-none focus:border-[#2ef295]" />
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <input id="bio-book-pages" type="number" min="0" max="200" value="15" class="w-20 px-2.5 py-1.5 rounded-xl bg-black/50 border border-white/10 text-emerald-300 font-bold text-center tabular-nums focus:outline-none focus:border-[#2ef295]" />
-              <label class="flex items-center gap-2 flex-1 p-1.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer">
-                <input id="bio-book-done" type="checkbox" class="w-4 h-4 accent-[#2ef295]" />
-                <span class="text-[11px] text-slate-200 font-semibold">۱۵ صفحه خوانده شد</span>
-              </label>
-            </div>
+            <label class="flex items-center gap-2 p-1.5 rounded-xl bg-black/40 border border-white/10 cursor-pointer">
+              <input id="bio-book-done" type="checkbox" class="w-4 h-4 accent-[#2ef295]" />
+              <span class="text-[11px] text-slate-200 font-semibold">روتین ۱۵ صفحه قبل خواب تکمیل شد</span>
+            </label>
           </div>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
           <div id="bio-week-avg-text" class="text-[11px] text-slate-400">میانگین هفته پس از ثبت روزها محاسبه می‌شود.</div>
-          <button id="btn-save-bio-day" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs transition-all">ثبت آمار خواب و گوشی امروز</button>
+          <button id="btn-save-bio-day" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs transition-all">ثبت آمار امروز در تاریخچه</button>
+        </div>
+      </div>
+
+      <!-- 2 Live Weekly Telemetry Charts (Sleep/Instagram & Study/Book/Mood) -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <div class="em-card rounded-3xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[11px] font-bold text-[#ff7a29]">نمودار ۱ • تعادل زیستی و مهار دیجیتال</span>
+              <h3 class="text-sm sm:text-base font-bold text-white">میزان خواب (ساعت)، کیفیت خواب و اینستاگرام (دقیقه)</h3>
+            </div>
+            <span id="chart1-week-badge" class="text-[11px] px-2.5 py-0.5 rounded-lg em-sub text-[#2ef295] font-bold tabular-nums">W01</span>
+          </div>
+          <div class="relative h-56">
+            <canvas id="weeklySleepInstaChart"></canvas>
+          </div>
+        </div>
+
+        <div class="em-card rounded-3xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[11px] font-bold text-[#2ef295]">نمودار ۲ • خروجی مطالعه و وضعیت روانی</span>
+              <h3 class="text-sm sm:text-base font-bold text-white">صفحات جزوه، کتاب شبانه (هدف ۱۵) و نمره ژورنال</h3>
+            </div>
+            <span id="chart2-week-badge" class="text-[11px] px-2.5 py-0.5 rounded-lg em-sub text-[#2ef295] font-bold tabular-nums">W01</span>
+          </div>
+          <div class="relative h-56">
+            <canvas id="weeklyStudyOutputChart"></canvas>
+          </div>
         </div>
       </div>
 
@@ -1203,6 +1258,7 @@
         kpis: { videos: 2, chapters: 2, backtests: 2 },
         finance: { installments: Array(10).fill(false), tuitionMehr: false, tuitionBahman: false },
         bioLogs: {},
+        dailyHistory: {},
         habits: {},
         phase1: { p1_caffeine: true, p1_fasting: true, p1_grayscale: false, p1_amcc: false },
         contract70: {
@@ -1231,12 +1287,12 @@
         const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('shokoofayi_unified_v1');
         if (!raw) return defaults;
         const p = JSON.parse(raw);
-        return { ...defaults, ...p, kpis: { ...defaults.kpis, ...(p.kpis || {}) }, finance: { ...defaults.finance, ...(p.finance || {}) }, bioLogs: { ...(p.bioLogs || {}) }, phase1: { ...defaults.phase1, ...(p.phase1 || {}) }, contract70: { ...defaults.contract70, ...(p.contract70 || {}) }, calibration: { ...defaults.calibration, ...(p.calibration || {}) } };
+        return { ...defaults, ...p, kpis: { ...defaults.kpis, ...(p.kpis || {}) }, finance: { ...defaults.finance, ...(p.finance || {}) }, bioLogs: { ...(p.bioLogs || {}) }, dailyHistory: { ...(p.dailyHistory || {}) }, phase1: { ...defaults.phase1, ...(p.phase1 || {}) }, contract70: { ...defaults.contract70, ...(p.contract70 || {}) }, calibration: { ...defaults.calibration, ...(p.calibration || {}) } };
       } catch (e) { return defaults; }
     }
 
     let state = loadState();
-    let trendChart = null;
+    let trendChart = null, weeklySleepInstaChart = null, weeklyStudyOutputChart = null;
     let chartsInited = { profile: false, archetype: false, psycho: false };
     const COMMAND_TABS = ['mission', 'weekly', 'archive', 'switches', 'sync'];
 
@@ -1357,6 +1413,7 @@
       if (tabId === 'archetypes' && !chartsInited.archetype) { chartsInited.archetype = true; requestAnimationFrame(initArchetypePolarChart); }
       if (tabId === 'psychometrics' && !chartsInited.psycho) { chartsInited.psycho = true; requestAnimationFrame(initPsychometricCharts); }
       if (tabId === 'bars') { requestAnimationFrame(updateBarsStatsAndChart); }
+      if (tabId === 'weekly') { requestAnimationFrame(renderWeeklyCharts); }
       closeDrawer();
       saveState();
     }
@@ -1407,7 +1464,18 @@
         renderKPIs();
       });
     });
-    document.getElementById('week-selector').addEventListener('change', (e) => { state.week = parseInt(e.target.value, 10); saveState(); showToast('هفته ' + state.week + ' فعال شد'); });
+    function setActiveWeek(w) {
+      state.week = Math.max(1, Math.min(15, parseInt(w, 10) || 1));
+      document.getElementById('week-selector').value = state.week;
+      const ws = document.getElementById('weekly-week-selector');
+      if (ws) ws.value = state.week;
+      saveState();
+      renderBioPanel();
+      renderWeeklyCharts();
+      showToast(`هفته ${String(state.week).padStart(2, '0')} (${state.week <= 2 ? 'Pre-Winter Arc' : 'Winter Arc'}) فعال شد`);
+    }
+    document.getElementById('week-selector').addEventListener('change', (e) => setActiveWeek(e.target.value));
+    document.getElementById('weekly-week-selector').addEventListener('change', (e) => setActiveWeek(e.target.value));
 
     // Phase 1 & Contract 70%
     function renderPhase1() {
@@ -1591,17 +1659,45 @@
       return h > 0 ? `${h}س ${m}د` : `${m} دقیقه`;
     }
 
+    // Timeline Anchor: Week 01 starts Monday, Nov 16, 2026 (دوشنبه ۲۵ آبان ۱۴۰۵)
+    const WEEK_ORDER_DAYS = ['دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه', 'یکشنبه'];
+    function getDateForWeekAndDay(weekNum, persianDayName) {
+      const offsetInWeek = WEEK_ORDER_DAYS.indexOf(persianDayName);
+      const safeOffset = offsetInWeek >= 0 ? offsetInWeek : 0;
+      const base = new Date(Date.UTC(2026, 10, 16)); // 2026-11-16 (Monday)
+      base.setUTCDate(base.getUTCDate() + (weekNum - 1) * 7 + safeOffset);
+      const iso = base.toISOString().slice(0, 10);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const shortEn = `${months[base.getUTCMonth()]} ${base.getUTCDate()}`;
+      return { iso, shortEn };
+    }
+
+    function getDayBioRecord(weekNum, dayName) {
+      const { iso } = getDateForWeekAndDay(weekNum, dayName);
+      if (state.dailyHistory && state.dailyHistory[iso]) return state.dailyHistory[iso];
+      if (weekNum === 1 && state.bioLogs && state.bioLogs[dayName]) return state.bioLogs[dayName];
+      return null;
+    }
+
     function renderBioPanel() {
-      const day = state.selectedDay || 'شنبه';
-      const rec = (state.bioLogs && state.bioLogs[day]) || { phoneMin: '', instaMin: '', sleepTime: '23:30', wakeTime: '06:15', sleepQuality: 8, bookPages: 15, bookDone: false };
+      const w = state.week || 1;
+      const day = state.selectedDay || 'دوشنبه';
+      const { iso, shortEn } = getDateForWeekAndDay(w, day);
+      const ws = document.getElementById('weekly-week-selector');
+      if (ws) ws.value = w;
+
+      const rec = getDayBioRecord(w, day) || { phoneMin: '', instaMin: '', sleepTime: '23:30', wakeTime: '06:15', sleepQuality: 8, bookletPages: '', bookPages: 15, bookDone: false };
       const dayLbl = document.getElementById('bio-active-day-label');
       if (dayLbl) dayLbl.textContent = day;
+      const dateBadge = document.getElementById('bio-active-date-badge');
+      if (dateBadge) dateBadge.textContent = `(${iso} • ${shortEn})`;
 
       document.getElementById('bio-phone-min').value = rec.phoneMin !== '' && rec.phoneMin != null ? rec.phoneMin : '';
       document.getElementById('bio-insta-min').value = rec.instaMin !== '' && rec.instaMin != null ? rec.instaMin : '';
       document.getElementById('bio-sleep-time').value = rec.sleepTime || '23:30';
       document.getElementById('bio-wake-time').value = rec.wakeTime || '06:15';
       document.getElementById('bio-sleep-quality').value = rec.sleepQuality || 8;
+      document.getElementById('bio-booklet-pages').value = rec.bookletPages !== '' && rec.bookletPages != null ? rec.bookletPages : '';
       document.getElementById('bio-book-pages').value = rec.bookPages != null ? rec.bookPages : 15;
       document.getElementById('bio-book-done').checked = !!rec.bookDone;
 
@@ -1621,28 +1717,30 @@
         warnEl.className = 'text-[11px] text-slate-400';
       }
 
-      // Compute weekly summary across logged days
-      const entries = Object.values(state.bioLogs || {});
-      const instaVals = entries.map(x => parseInt(x.instaMin, 10)).filter(n => !Number.isNaN(n));
-      const phoneVals = entries.map(x => parseInt(x.phoneMin, 10)).filter(n => !Number.isNaN(n));
-      const qualVals = entries.map(x => parseInt(x.sleepQuality, 10)).filter(n => !Number.isNaN(n));
+      // Weekly stats for active week w
+      const weekEntries = WEEK_ORDER_DAYS.map(d => getDayBioRecord(w, d)).filter(Boolean);
+      const instaVals = weekEntries.map(x => parseInt(x.instaMin, 10)).filter(n => !Number.isNaN(n));
+      const phoneVals = weekEntries.map(x => parseInt(x.phoneMin, 10)).filter(n => !Number.isNaN(n));
+      const qualVals = weekEntries.map(x => parseInt(x.sleepQuality, 10)).filter(n => !Number.isNaN(n));
+      const bookletTotal = weekEntries.map(x => parseInt(x.bookletPages, 10)).filter(n => !Number.isNaN(n)).reduce((a, b) => a + b, 0);
       let bookDays = 0;
-      for (let d = 0; d < 7; d++) {
-        if (state.habits[`book15_${d}`] === 'done' || (state.bioLogs && state.bioLogs[DAYS[d]] && state.bioLogs[DAYS[d]].bookDone)) bookDays++;
-      }
+      WEEK_ORDER_DAYS.forEach(d => {
+        const r = getDayBioRecord(w, d);
+        const hIdx = DAYS.indexOf(d);
+        if ((r && r.bookDone) || (w === 1 && hIdx >= 0 && state.habits[`book15_${hIdx}`] === 'done')) bookDays++;
+      });
 
       const avgInsta = instaVals.length ? Math.round(instaVals.reduce((a, b) => a + b, 0) / instaVals.length) : null;
       const avgPhone = phoneVals.length ? Math.round(phoneVals.reduce((a, b) => a + b, 0) / phoneVals.length) : null;
       const avgQual = qualVals.length ? (qualVals.reduce((a, b) => a + b, 0) / qualVals.length).toFixed(1) : null;
 
       const avgEl = document.getElementById('bio-week-avg-text');
-      if (entries.length > 0) {
-        avgEl.textContent = `میانگین هفته (${entries.length} روز): گوشی ${avgPhone != null ? formatMinutesFa(avgPhone) : '--'} | اینستاگرام ${avgInsta != null ? avgInsta + 'د' : '--'} | کیفیت خواب ${avgQual || '--'}/۱۰ | کتاب شبانه ${bookDays}/۷`;
+      if (weekEntries.length > 0) {
+        avgEl.textContent = `آمار هفته ${String(w).padStart(2, '0')} (${weekEntries.length} روز): گوشی ${avgPhone != null ? formatMinutesFa(avgPhone) : '--'} | اینستاگرام ${avgInsta != null ? avgInsta + 'د' : '--'} | خواب ${avgQual || '--'}/۱۰ | جزوه ${bookletTotal}ص | کتاب ${bookDays}/۷`;
       } else {
-        avgEl.textContent = 'میانگین هفته پس از ثبت روزها محاسبه می‌شود.';
+        avgEl.textContent = `هنوز دیتایی برای هفته ${String(w).padStart(2, '0')} ثبت نشده؛ اولین روز را ثبت کن تا نمودارها روشن شوند.`;
       }
 
-      // Update Mission Control quick strip
       const mScreen = document.getElementById('mission-screen-summary');
       const mSleep = document.getElementById('mission-sleep-summary');
       const mBook = document.getElementById('mission-book-summary');
@@ -1651,25 +1749,115 @@
       if (mBook) mBook.textContent = `${bookDays} از ۷ شب`;
     }
 
+    function renderWeeklyCharts() {
+      const w = state.week || 1;
+      const tag = `W${String(w).padStart(2, '0')} • ${w <= 2 ? 'Pre-Arc' : 'Winter Arc'}`;
+      const b1 = document.getElementById('chart1-week-badge');
+      const b2 = document.getElementById('chart2-week-badge');
+      if (b1) b1.textContent = tag;
+      if (b2) b2.textContent = tag;
+
+      const labels = WEEK_ORDER_DAYS.map(d => {
+        const { shortEn } = getDateForWeekAndDay(w, d);
+        return `${d} (${shortEn})`;
+      });
+      const sleepHours = [], instaMins = [], sleepQuals = [], bookletPagesArr = [], bookPagesArr = [], journalScores = [];
+
+      WEEK_ORDER_DAYS.forEach(d => {
+        const r = getDayBioRecord(w, d);
+        const sm = r ? calcSleepMinutes(r.sleepTime, r.wakeTime) : null;
+        sleepHours.push(sm != null ? Math.round((sm / 60) * 10) / 10 : null);
+        const im = r && r.instaMin !== '' ? parseInt(r.instaMin, 10) : NaN;
+        instaMins.push(!Number.isNaN(im) ? im : null);
+        const sq = r && r.sleepQuality != null ? parseInt(r.sleepQuality, 10) : NaN;
+        sleepQuals.push(!Number.isNaN(sq) ? sq : null);
+        const bl = r && r.bookletPages !== '' && r.bookletPages != null ? parseInt(r.bookletPages, 10) : NaN;
+        bookletPagesArr.push(!Number.isNaN(bl) ? bl : 0);
+        const bp = r && r.bookPages != null ? parseInt(r.bookPages, 10) : NaN;
+        bookPagesArr.push(!Number.isNaN(bp) ? bp : 0);
+        const nl = (state.nightlyLogs || []).find(x => x.day === d && (!x.week || x.week === w));
+        journalScores.push(nl ? nl.score : null);
+      });
+
+      const c1 = document.getElementById('weeklySleepInstaChart');
+      if (c1) {
+        if (weeklySleepInstaChart) weeklySleepInstaChart.destroy();
+        weeklySleepInstaChart = new Chart(c1.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'خواب (ساعت)', data: sleepHours, backgroundColor: 'rgba(46, 242, 149, 0.55)', borderColor: '#2ef295', borderWidth: 1, borderRadius: 6, yAxisID: 'y' },
+              { label: 'کیفیت خواب (۱-۱۰)', data: sleepQuals, type: 'line', borderColor: '#34d399', backgroundColor: '#34d399', tension: 0.35, spanGaps: true, yAxisID: 'y' },
+              { label: 'اینستاگرام (دقیقه)', data: instaMins, type: 'line', borderColor: '#ff7a29', backgroundColor: 'rgba(255, 122, 41, 0.2)', fill: true, tension: 0.35, spanGaps: true, yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { min: 0, max: 12, position: 'right', grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#2ef295', font: { size: 10 } } },
+              y1: { min: 0, suggestedMax: 90, position: 'left', grid: { display: false }, ticks: { color: '#ff9d5c', font: { size: 10 } } },
+              x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 9 } } }
+            },
+            plugins: { legend: { labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 }, boxWidth: 10 } } }
+          }
+        });
+      }
+
+      const c2 = document.getElementById('weeklyStudyOutputChart');
+      if (c2) {
+        if (weeklyStudyOutputChart) weeklyStudyOutputChart.destroy();
+        weeklyStudyOutputChart = new Chart(c2.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'صفحات جزوه', data: bookletPagesArr, backgroundColor: 'rgba(16, 185, 129, 0.65)', borderRadius: 6, yAxisID: 'y' },
+              { label: 'کتاب قبل خواب (صفحه)', data: bookPagesArr, backgroundColor: 'rgba(46, 242, 149, 0.35)', borderColor: '#2ef295', borderWidth: 1, borderRadius: 6, yAxisID: 'y' },
+              { label: 'نمره ژورنال (۱-۱۰)', data: journalScores, type: 'line', borderColor: '#fbbf24', backgroundColor: '#fbbf24', tension: 0.35, spanGaps: true, yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { min: 0, suggestedMax: 25, position: 'right', grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#2ef295', font: { size: 10 } } },
+              y1: { min: 0, max: 10, position: 'left', grid: { display: false }, ticks: { color: '#fbbf24', font: { size: 10 } } },
+              x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 9 } } }
+            },
+            plugins: { legend: { labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 }, boxWidth: 10 } } }
+          }
+        });
+      }
+    }
+
     document.getElementById('btn-save-bio-day').addEventListener('click', () => {
-      const day = state.selectedDay || 'شنبه';
+      const w = state.week || 1;
+      const day = state.selectedDay || 'دوشنبه';
+      const { iso } = getDateForWeekAndDay(w, day);
       const dayIdx = DAYS.indexOf(day);
       const phoneMin = document.getElementById('bio-phone-min').value.trim();
       const instaMin = document.getElementById('bio-insta-min').value.trim();
       const sleepTime = document.getElementById('bio-sleep-time').value || '23:30';
       const wakeTime = document.getElementById('bio-wake-time').value || '06:15';
       const sleepQuality = Math.max(1, Math.min(10, parseInt(document.getElementById('bio-sleep-quality').value, 10) || 8));
+      const bookletPages = document.getElementById('bio-booklet-pages').value.trim();
       const bookPages = Math.max(0, parseInt(document.getElementById('bio-book-pages').value, 10) || 0);
       const bookDone = document.getElementById('bio-book-done').checked || bookPages >= 15;
 
+      const record = { date: iso, week: w, day, phoneMin, instaMin, sleepTime, wakeTime, sleepQuality, bookletPages, bookPages, bookDone };
+      if (!state.dailyHistory) state.dailyHistory = {};
+      state.dailyHistory[iso] = record;
       if (!state.bioLogs) state.bioLogs = {};
-      state.bioLogs[day] = { phoneMin, instaMin, sleepTime, wakeTime, sleepQuality, bookPages, bookDone };
+      state.bioLogs[day] = record;
       if (dayIdx >= 0 && bookDone) state.habits[`book15_${dayIdx}`] = 'done';
 
       saveState();
       renderHabitMatrix();
       renderBioPanel();
-      showToast(`آمار خواب، گوشی و مطالعه ${day} ذخیره شد!`);
+      renderWeeklyCharts();
+      showToast(`آمار ${day} (${iso}) در تاریخچه ذخیره شد!`);
     });
 
     function renderNightlyLogs() {
@@ -1681,9 +1869,10 @@
       const text = document.getElementById('nightly-line-input').value.trim();
       if (!text) return showToast('یک خط بنویس');
       const score = Math.max(1, Math.min(10, parseInt(document.getElementById('nightly-score-input').value, 10) || 7));
-      state.nightlyLogs.unshift({ id: 'n_' + Date.now(), day: state.selectedDay, score, text });
+      const { iso } = getDateForWeekAndDay(state.week || 1, state.selectedDay || 'دوشنبه');
+      state.nightlyLogs.unshift({ id: 'n_' + Date.now(), week: state.week || 1, date: iso, day: state.selectedDay, score, text });
       document.getElementById('nightly-line-input').value = '';
-      saveState(); renderNightlyLogs(); showToast('ژورنال امشب ثبت شد');
+      saveState(); renderNightlyLogs(); renderWeeklyCharts(); showToast('ژورنال امشب ثبت شد');
     });
 
     // Archive
@@ -1942,7 +2131,7 @@
       const zr = countZeroRegretDays(), p1 = Object.values(state.phase1 || {}).filter(Boolean).length;
       const fin = state.finance || { installments: [], tuitionMehr: false, tuitionBahman: false };
       const paid = (fin.installments || []).filter(Boolean).length;
-      document.getElementById('markdown-preview').textContent = `---\ntitle: "Winter Arc — هفته ${String(state.week).padStart(2, '0')}"\narc: "Winter Arc (December, January, February | 28 Aban - 28 Esfand)"\nweek_number: ${state.week}\nkhakestar_videos_done: ${state.kpis.videos}\nkhakestar_pages_read: ${state.kpis.chapters}\nbacktests_logged: ${state.kpis.backtests}\nzero_regret_days: ${zr}\namcc_phase1_score: "${p1}/4"\ninstallments_6m_paid: "${paid}/10"\ntuition_mehr_12m: ${!!fin.tuitionMehr}\ntuition_bahman_24m: ${!!fin.tuitionBahman}\n---\n\n## تعهدات مالی\n- [${paid === 10 ? 'x' : ' '}] قسط ماهانه ۶ میلیون تومان (۲۵ مهر تا ۲۵ تیر): ${paid} از ۱۰ قسط پرداخت‌شده\n- [${fin.tuitionMehr ? 'x' : ' '}] شهریه ترم مهر ۱۴۰۵: ۱۲ میلیون تومان\n- [${fin.tuitionBahman ? 'x' : ' '}] شهریه ترم بهمن ۱۴۰۵-۱۴۰۶: ۲۴ میلیون تومان\n\n## تله‌متری خواب، گوشی و مطالعه ۱۵ صفحه‌ای\n${Object.keys(state.bioLogs || {}).map(d => { const r = state.bioLogs[d]; const sm = calcSleepMinutes(r.sleepTime, r.wakeTime); return `- **${d}:** گوشی ${r.phoneMin || 0}د (اینستاگرام ${r.instaMin || 0}د) | خواب ${r.sleepTime} تا ${r.wakeTime} (${formatMinutesFa(sm)} • کیفیت ${r.sleepQuality}/10) | کتاب قبل خواب: ${r.bookPages || 0} صفحه ${r.bookDone ? '✅' : '⬜'}`; }).join('\n') || '- موردی ثبت نشده'}\n\n## قرارداد ۷۰٪\n- **تسک:** ${state.contract70.task}\n- **شرط LTD:** ${state.contract70.ifthen}\n\n## قرنطینه سرد (قفل Winter Arc تا ۲۸ اسفند)\n${state.archive.map(a => `- [ ] ${a.title}`).join('\n')}`;
+      document.getElementById('markdown-preview').textContent = `---\ntitle: "Winter Arc — هفته ${String(state.week).padStart(2, '0')}"\narc: "Winter Arc (December, January, February | 28 Aban - 28 Esfand)"\nweek_number: ${state.week}\nkhakestar_videos_done: ${state.kpis.videos}\nkhakestar_pages_read: ${state.kpis.chapters}\nbacktests_logged: ${state.kpis.backtests}\nzero_regret_days: ${zr}\namcc_phase1_score: "${p1}/4"\ninstallments_6m_paid: "${paid}/10"\ntuition_mehr_12m: ${!!fin.tuitionMehr}\ntuition_bahman_24m: ${!!fin.tuitionBahman}\n---\n\n## تعهدات مالی\n- [${paid === 10 ? 'x' : ' '}] قسط ماهانه ۶ میلیون تومان (۲۵ مهر تا ۲۵ تیر): ${paid} از ۱۰ قسط پرداخت‌شده\n- [${fin.tuitionMehr ? 'x' : ' '}] شهریه ترم مهر ۱۴۰۵: ۱۲ میلیون تومان\n- [${fin.tuitionBahman ? 'x' : ' '}] شهریه ترم بهمن ۱۴۰۵-۱۴۰۶: ۲۴ میلیون تومان\n\n## تله‌متری تاریخ‌دار هفته ${String(state.week).padStart(2, '0')} (آماده اتصال به پلن ترید)\n${WEEK_ORDER_DAYS.map(d => { const r = getDayBioRecord(state.week || 1, d); if (!r) return null; const { iso } = getDateForWeekAndDay(state.week || 1, d); const sm = calcSleepMinutes(r.sleepTime, r.wakeTime); return `- **${iso} (${d}):** گوشی ${r.phoneMin || 0}د (اینستاگرام ${r.instaMin || 0}د) | خواب ${r.sleepTime}–${r.wakeTime} (${formatMinutesFa(sm)} • کیفیت ${r.sleepQuality}/10) | جزوه ${r.bookletPages || 0}ص | کتاب شبانه ${r.bookPages || 0}ص ${r.bookDone ? '✅' : '⬜'}`; }).filter(Boolean).join('\n') || '- موردی در این هفته ثبت نشده'}\n\n## قرارداد ۷۰٪\n- **تسک:** ${state.contract70.task}\n- **شرط LTD:** ${state.contract70.ifthen}\n\n## قرنطینه سرد (قفل Winter Arc تا ۲۸ اسفند)\n${state.archive.map(a => `- [ ] ${a.title}`).join('\n')}`;
     }
     function renderProfileMarkdown() {
       const days = Object.keys(state.barsLogs).length;
