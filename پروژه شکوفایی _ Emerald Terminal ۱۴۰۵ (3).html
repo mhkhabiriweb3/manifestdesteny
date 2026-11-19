@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>پروژه شکوفایی | Emerald Terminal ۱۴۰۵</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'Inter', 'sans-serif'],
+            mono: ['Inter', 'monospace'],
+          },
+          colors: {
+            terminal: {
+              950: '#040a07',
+              900: '#07120c',
+              800: '#0c1c14',
+              700: '#12291d',
+              mint: '#2ef295',
+              orange: '#ff7a29',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      font-family: 'Vazirmatn', 'Inter', sans-serif;
+      background-color: #040a07;
+      color: #e6f4ec;
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: filter 0.35s ease;
+    }
+    body.grayscale-sim { filter: grayscale(100%); }
+    .tabular-nums { font-variant-numeric: tabular-nums; font-family: 'Inter', 'Vazirmatn', sans-serif; }
+
+    /* Emerald Terminal Glass Surfaces */
+    .em-shell {
+      background: linear-gradient(155deg, rgba(13, 30, 21, 0.72) 0%, rgba(6, 14, 10, 0.88) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(46, 242, 149, 0.14);
+      box-shadow: 0 24px 55px -18px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(46, 242, 149, 0.12);
+    }
+    .em-card {
+      background: linear-gradient(160deg, rgba(12, 27, 19, 0.84) 0%, rgba(7, 15, 11, 0.94) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(46, 242, 149, 0.12);
+      box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .em-card-glow {
+      background: radial-gradient(circle at top right, rgba(46, 242, 149, 0.2), rgba(7, 18, 12, 0.92) 65%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(46, 242, 149, 0.32);
+      box-shadow: 0 20px 45px -16px rgba(46, 242, 149, 0.22), inset 0 1px 0 rgba(46, 242, 149, 0.22);
+    }
+    .em-sub {
+      background: rgba(5, 13, 9, 0.65);
+      border: 1px solid rgba(46, 242, 149, 0.1);
+    }
+    .em-btn-mint {
+      background: linear-gradient(135deg, #2ef295 0%, #10b981 100%);
+      color: #03110a;
+      box-shadow: 0 8px 24px -6px rgba(46, 242, 149, 0.45);
+    }
+    .em-btn-mint:hover { filter: brightness(1.06); }
+
+    .drawer-nav-active {
+      background: linear-gradient(90deg, rgba(46, 242, 149, 0.22), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(46, 242, 149, 0.45);
+      color: #2ef295;
+      box-shadow: 0 0 20px -6px rgba(46, 242, 149, 0.35);
+    }
+
+    .dot-matrix {
+      display: grid;
+      grid-template-columns: repeat(5, 6px);
+      gap: 4px;
+    }
+    .dot-matrix span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+    }
+
+    .tunnel-active .tunnel-dim {
+      opacity: 0.1;
+      pointer-events: none;
+      filter: blur(3px);
+      transition: all 0.35s ease;
+    }
+    .tunnel-focus-target { transition: all 0.35s ease; }
+    .tunnel-active .tunnel-focus-target {
+      border-color: rgba(46, 242, 149, 0.85) !important;
+      box-shadow: 0 0 65px -10px rgba(46, 242, 149, 0.5) !important;
+      z-index: 40;
+      position: relative;
+    }
+
+    /* Slide-over Hamburger Drawer */
+    #menu-drawer {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #menu-drawer.drawer-closed {
+      transform: translateX(105%);
+    }
+    #menu-drawer.drawer-open {
+      transform: translateX(0);
+    }
+
+    .breath-orb {
+      transition: transform 4s ease-in-out, box-shadow 4s ease-in-out;
+    }
+    .breath-inhale {
+      transform: scale(1.28);
+      box-shadow: 0 0 40px 6px rgba(46, 242, 149, 0.45);
+    }
+    .breath-exhale {
+      transition: transform 8s ease-in-out, box-shadow 8s ease-in-out;
+      transform: scale(0.86);
+      box-shadow: 0 0 18px 2px rgba(255, 122, 41, 0.28);
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(46, 242, 149, 0.22); border-radius: 999px; }
+  </style>
+</head>
+<body class="min-h-screen pb-10">
+
+  <!-- Ambient Emerald Forest Background Glows -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-24 w-[580px] h-[580px] rounded-full bg-[#10b981]/20 blur-[140px]"></div>
+    <div class="absolute top-1/2 -left-32 w-[460px] h-[460px] rounded-full bg-[#2ef295]/12 blur-[140px]"></div>
+    <div class="absolute -bottom-40 right-1/3 w-[520px] h-[520px] rounded-full bg-[#064e3b]/30 blur-[150px]"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-[60] hidden px-4 py-2.5 rounded-2xl bg-[#2ef295] text-[#03110a] font-extrabold text-xs sm:text-sm shadow-2xl"></div>
+
+  <!-- Hamburger Drawer Backdrop -->
+  <div id="drawer-backdrop" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm hidden"></div>
+
+  <!-- ==================== HAMBURGER NAVIGATION DRAWER ==================== -->
+  <aside id="menu-drawer" class="fixed top-0 right-0 z-50 h-full w-80 max-w-[86vw] em-shell border-l border-[#2ef295]/20 p-5 flex flex-col justify-between overflow-y-auto drawer-closed">
+    <div class="space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl em-btn-mint flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l6 8h-4l4 6h-5v4h-2v-4H6l4-6H6l6-8z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-extrabold text-sm text-white">پروژه شکوفایی</div>
+            <div class="text-[11px] text-[#2ef295]">Emerald Terminal • ۱۴۰۵</div>
+          </div>
+        </div>
+        <button id="btn-close-drawer" class="w-8 h-8 rounded-xl em-sub hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold">✕</button>
+      </div>
+
+      <!-- Panel 1: Command Center -->
+      <div class="space-y-1.5">
+        <div class="px-2 text-[11px] font-extrabold text-[#2ef295]/85 tracking-wide mb-2">پنل ۱ • کنترل فرماندهی اسپرینت</div>
+        <button data-tab="mission" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all drawer-nav-active">
+          <span>🎯</span><span>مرکز فرماندهی (صفحه اصلی)</span>
+        </button>
+        <button data-tab="weekly" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>📅</span><span>میز کار هفتگی و ژورنال ۱ خطی</span>
+        </button>
+        <button data-tab="archive" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>❄️</span><span>انبار قرنطینه سرد (Anti-FOMO)</span>
+        </button>
+        <button data-tab="switches" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>⚡</span><span>سوییچ‌های اضطراری و ضد اینستاگرام</span>
+        </button>
+        <button data-tab="sync" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>🔄</span><span>خروجی اسپرینت برای ابسیدین</span>
+        </button>
+      </div>
+
+      <!-- Panel 2: Psychological Profile -->
+      <div class="space-y-1.5 pt-3 border-t border-white/10">
+        <div class="px-2 text-[11px] font-extrabold text-[#ff7a29] tracking-wide mb-2">پنل ۲ • پروفایل روانشناختی و آزمایشگاه</div>
+        <button data-tab="profile" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>🧠</span><span>پروفایل یکپارچه 2E و قطب‌نمای شرم</span>
+        </button>
+        <button data-tab="archetypes" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>🎭</span><span>۶ آرکی‌تایپ، فلسفه و ۵ ارزش هسته‌ای</span>
+        </button>
+        <button data-tab="psychometrics" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>📊</span><span>کالبدشکافی گراف‌های ۳ تست</span>
+        </button>
+        <button data-tab="lab" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>🧪</span><span>آزمایشگاه رفتاری CBT / ACT</span>
+        </button>
+        <button data-tab="bars" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>📈</span><span>ردیاب ۱۴ روزه BARS</span>
+        </button>
+        <button data-tab="identity-export" class="drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white">
+          <span>📄</span><span>خروجی مانیفست هویت ابسیدین</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="em-sub rounded-2xl p-3.5 mt-4 space-y-1.5 text-[11px]">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-400">وضعیت ترمینال</span>
+        <span class="flex items-center gap-1.5 text-[#2ef295] font-bold"><span class="w-2 h-2 rounded-full bg-[#2ef295] animate-pulse"></span> فعال</span>
+      </div>
+      <div class="text-slate-200 font-bold">Winter Arc • Dec, Jan, Feb</div>
+      <div class="text-slate-400">۲۸ آبان تا ۲۸ اسفند • ۸۰٪ پایداری / ۲۰٪ جهش</div>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN TERMINAL CONTAINER ==================== -->
+  <div class="max-w-[1380px] mx-auto px-3 sm:px-5 pt-3 sm:pt-5 space-y-4">
+
+    <!-- Top Emerald Terminal Header Bar -->
+    <header class="em-shell rounded-3xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 sticky top-3 z-30 tunnel-dim">
+      <div class="flex items-center gap-3">
+        <!-- Hamburger Trigger Button -->
+        <button id="btn-open-drawer" aria-label="باز کردن منو" class="w-10 h-10 rounded-2xl em-sub hover:border-[#2ef295]/50 hover:text-[#2ef295] flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer">
+          <span class="w-5 h-0.5 bg-current rounded-full"></span>
+          <span class="w-3.5 h-0.5 bg-current rounded-full"></span>
+          <span class="w-5 h-0.5 bg-current rounded-full"></span>
+        </button>
+
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl em-btn-mint flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l6 8h-4l4 6h-5v4h-2v-4H6l4-6H6l6-8z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-sm sm:text-base font-extrabold text-white tracking-tight">پروژه شکوفایی</h1>
+              <span id="current-page-pill" class="px-2.5 py-0.5 rounded-full bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-[11px] font-bold">مرکز فرماندهی</span>
+            </div>
+            <p class="text-[11px] text-slate-400 hidden sm:block">Winter Arc (December, January, February) • ۲۸ آبان تا ۲۸ اسفند</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Panel Pill Switcher + Utility Actions -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center em-sub p-1 rounded-2xl text-xs">
+          <button id="btn-panel-command" class="px-3 py-1 rounded-xl bg-[#2ef295] text-[#03110a] font-extrabold transition-all">فرماندهی</button>
+          <button id="btn-panel-psych" class="px-3 py-1 rounded-xl text-slate-300 hover:text-white font-bold transition-all">پروفایل روانشناختی</button>
+        </div>
+
+        <button id="btn-sound-toggle" title="صداهای تایمر" class="px-2.5 py-1.5 rounded-2xl em-sub hover:border-[#2ef295]/40 text-xs font-semibold text-[#2ef295] transition-all">
+          🔊 صدا
+        </button>
+        <button id="btn-grayscale-toggle" class="px-3 py-1.5 rounded-2xl em-sub hover:border-white/25 text-xs font-semibold text-slate-300 transition-all">
+          🩶 Grayscale
+        </button>
+        <button id="btn-emergency-jump" class="px-3.5 py-1.5 rounded-2xl bg-[#ff7a29]/20 hover:bg-[#ff7a29]/30 text-[#ff9d5c] border border-[#ff7a29]/40 text-xs font-extrabold transition-all">
+          ⚡ قفل شدم!
+        </button>
+      </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- PANEL 1: COMMAND CENTER                                               -->
+    <!-- ===================================================================== -->
+
+    <!-- TAB 1.1: MISSION CONTROL -->
+    <section id="tab-mission" class="tab-panel space-y-4">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+
+        <!-- Left/Main: Sprint KPIs & Dot Matrix Telemetry -->
+        <div class="xl:col-span-7 em-card rounded-3xl p-5 flex flex-col justify-between gap-4 tunnel-dim">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-bold text-[#2ef295]">۲۰٪ جهش متمرکز • قانون هضم ۱:۱</span>
+                <span class="px-2 py-0.5 rounded-full bg-[#2ef295]/15 text-[#2ef295] text-[10px] font-bold" dir="ltr">Winter Arc • Dec–Feb (۲۸ آبان – ۲۸ اسفند)</span>
+              </div>
+              <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">پیشروی دوره پرایس‌اکشن خاکستر</h2>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div id="sprint-dot-matrix" class="dot-matrix" title="پیشرفت کل اسپرینت" aria-hidden="true"></div>
+              <div class="flex items-center gap-1.5 em-sub px-3 py-1.5 rounded-xl">
+                <span class="text-xs text-slate-400">هفته:</span>
+                <select id="week-selector" class="bg-transparent text-[#2ef295] font-extrabold text-sm focus:outline-none cursor-pointer tabular-nums">
+                  <option value="1" class="bg-[#07120c]">۰۱</option>
+                  <option value="2" class="bg-[#07120c]">۰۲</option>
+                  <option value="3" class="bg-[#07120c]">۰۳</option>
+                  <option value="4" class="bg-[#07120c]">۰۴</option>
+                  <option value="5" class="bg-[#07120c]">۰۵</option>
+                  <option value="6" class="bg-[#07120c]">۰۶</option>
+                  <option value="7" class="bg-[#07120c]">۰۷</option>
+                  <option value="8" class="bg-[#07120c]">۰۸</option>
+                  <option value="9" class="bg-[#07120c]">۰۹</option>
+                  <option value="10" class="bg-[#07120c]">۱۰</option>
+                  <option value="11" class="bg-[#07120c]">۱۱</option>
+                  <option value="12" class="bg-[#07120c]">۱۲</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="flex items-center justify-between text-xs text-slate-300 mb-2">
+                <span>🎬 ویدیوهای خاکستر</span>
+                <span id="pct-videos" class="text-[#2ef295] font-bold tabular-nums">0%</span>
+              </div>
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="text-2xl font-extrabold text-white tabular-nums"><span id="val-videos">2</span> <span class="text-xs font-normal text-slate-500">/ 29</span></div>
+                <div class="flex gap-1">
+                  <button data-kpi="videos" data-delta="-1" class="kpi-btn w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-bold text-sm">-</button>
+                  <button data-kpi="videos" data-delta="1" class="kpi-btn w-7 h-7 rounded-lg bg-[#2ef295]/20 hover:bg-[#2ef295]/35 text-[#2ef295] font-bold text-sm">+</button>
+                </div>
+              </div>
+              <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                <div id="bar-videos" class="h-full bg-[#2ef295] rounded-full transition-all duration-300" style="width: 7%"></div>
+              </div>
+            </div>
+
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="flex items-center justify-between text-xs text-slate-300 mb-2">
+                <span>📘 فصول جزوه</span>
+                <span id="pct-chapters" class="text-emerald-300 font-bold tabular-nums">0%</span>
+              </div>
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="text-2xl font-extrabold text-white tabular-nums"><span id="val-chapters">2</span> <span class="text-xs font-normal text-slate-500">/ 12</span></div>
+                <div class="flex gap-1">
+                  <button data-kpi="chapters" data-delta="-1" class="kpi-btn w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-bold text-sm">-</button>
+                  <button data-kpi="chapters" data-delta="1" class="kpi-btn w-7 h-7 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 font-bold text-sm">+</button>
+                </div>
+              </div>
+              <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                <div id="bar-chapters" class="h-full bg-emerald-400 rounded-full transition-all duration-300" style="width: 16%"></div>
+              </div>
+            </div>
+
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="flex items-center justify-between text-xs text-slate-300 mb-2">
+                <span>📊 بک‌تست ثبت‌شده</span>
+                <span id="pct-backtests" class="text-[#ff7a29] font-bold tabular-nums">0%</span>
+              </div>
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="text-2xl font-extrabold text-white tabular-nums"><span id="val-backtests">2</span> <span class="text-xs font-normal text-slate-500">/ 100</span></div>
+                <div class="flex gap-1">
+                  <button data-kpi="backtests" data-delta="-1" class="kpi-btn w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-bold text-sm">-</button>
+                  <button data-kpi="backtests" data-delta="1" class="kpi-btn w-7 h-7 rounded-lg bg-[#ff7a29]/20 hover:bg-[#ff7a29]/35 text-[#ff7a29] font-bold text-sm">+</button>
+                </div>
+              </div>
+              <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                <div id="bar-backtests" class="h-full bg-[#ff7a29] rounded-full transition-all duration-300" style="width: 2%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="em-sub rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-lg bg-[#2ef295]/15 text-[#2ef295] font-bold">قانون هضم ۱:۱</span>
+              <span id="digestion-status-text" class="text-slate-300">تراز هضم برقرار است.</span>
+            </div>
+            <span id="digestion-ratio-badge" class="font-mono font-bold text-[#2ef295] tabular-nums">4 : 2</span>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs text-slate-400">
+            <span>شاخص مهارت پرایس‌اکشن: <strong class="text-white">سطح ۳ ⬅️ هدف ۵.۵</strong></span>
+            <span>کمینه بدون پشیمانی: <strong id="zero-regret-summary" class="text-[#2ef295] tabular-nums">۰ از ۷</strong></span>
+          </div>
+        </div>
+
+        <!-- Right: Emerald Glowing Focus Timer -->
+        <div class="xl:col-span-5 em-card-glow rounded-3xl p-5 flex flex-col justify-between tunnel-focus-target">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="text-[11px] font-bold text-[#2ef295]">فاز ۱ طلایی صبح • چرخه اولترادین</span>
+              <h3 class="text-base font-extrabold text-white">تایمر قانون تونل و پیش‌نویس ۷۰٪</h3>
+            </div>
+            <button id="btn-tunnel-mode" class="px-3 py-1.5 rounded-xl em-sub hover:border-[#2ef295]/50 text-xs font-bold text-white transition-all">
+              💡 حالت تونل
+            </button>
+          </div>
+
+          <div class="my-3 flex flex-col items-center justify-center">
+            <div class="relative w-44 h-44 flex items-center justify-center">
+              <svg class="w-44 h-44 -rotate-90" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10" />
+                <circle id="timer-ring-progress" cx="80" cy="80" r="68" fill="none" stroke="#ff7a29" stroke-width="10" stroke-linecap="round" stroke-dasharray="427.26" stroke-dashoffset="0" style="transition: stroke-dashoffset 0.5s linear, stroke 0.35s ease;" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <div id="timer-display" class="text-4xl font-extrabold tracking-tight text-white tabular-nums">35:00</div>
+                <span id="timer-pct-label" class="text-[11px] font-bold text-[#2ef295] mt-0.5 tabular-nums">100%</span>
+              </div>
+            </div>
+            <p id="timer-subtitle" class="text-xs text-emerald-100/80 mt-2 text-center">چراغ مطالعه روشن • سقف کیفیت ۷۰٪ (بدون وسواس و اینستاگرام)</p>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-center gap-2 flex-wrap">
+              <button id="btn-timer-start" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs transition-all">شروع بلوک</button>
+              <button id="btn-timer-pause" class="px-3.5 py-2 rounded-xl em-sub hover:bg-white/10 text-white font-semibold text-xs transition-all">توقف</button>
+              <button id="btn-timer-reset" class="px-3.5 py-2 rounded-xl em-sub hover:bg-white/10 text-slate-300 font-semibold text-xs transition-all">ریست ۳۵</button>
+              <button id="btn-timer-2min" class="px-3 py-2 rounded-xl bg-[#ff7a29]/20 hover:bg-[#ff7a29]/30 text-[#ff9d5c] font-bold text-xs border border-[#ff7a29]/35 transition-all">قانون ۲د</button>
+            </div>
+            <div class="flex items-center justify-center gap-1.5 flex-wrap pt-1">
+              <button id="btn-timer-ultradian" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 font-semibold text-[11px] border border-white/10 transition-all">۴۵د اولترادین</button>
+              <button id="btn-timer-rest10" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 font-semibold text-[11px] border border-white/10 transition-all">۱۰د استراحت آفلاین</button>
+              <button id="btn-timer-ltd5" class="px-2.5 py-1.5 rounded-xl bg-[#ff7a29]/15 hover:bg-[#ff7a29]/25 text-[#ff9d5c] font-semibold text-[11px] border border-[#ff7a29]/30 transition-all">۵د وقفه اینستاگرام (LTD)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1 & 70% Contract -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 tunnel-dim">
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[11px] font-bold text-[#2ef295]">مستر ۰۲ • انرژی زیستی فاز ۱ (۰ تا ۶ ساعت بعد بیداری)</span>
+              <h3 class="text-base font-bold text-white mt-0.5">باشگاه اراده (aMCC) و مهار دوپامین صبحگاهی</h3>
+            </div>
+            <span id="amcc-score-badge" class="px-2.5 py-1 rounded-xl bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">aMCC: ۰/۴</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs" id="phase1-checklist"></div>
+        </div>
+
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[11px] font-bold text-[#ff7a29]">مستر ۰۳ • ضد فلج تحلیلی و کمال‌گرایی</span>
+              <h3 class="text-base font-bold text-white mt-0.5">قرارداد «کیفیت ۷۰٪» و الگوریتم «اگر-آنگاه»</h3>
+            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-[#ff7a29]/15 text-[#ff9d5c] border border-[#ff7a29]/30 text-xs font-bold">سقف ۷۰٪</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+            <div>
+              <label class="block text-slate-400 mb-1">تسک ۷۰٪ امروز:</label>
+              <input id="input-70pct-task" type="text" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-white focus:outline-none focus:border-[#2ef295]" />
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">شرط اگر-آنگاه در لحظه هوس اینستاگرام:</label>
+              <input id="input-ifthen-rule" type="text" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-white focus:outline-none focus:border-[#ff7a29]" />
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="saved-contract-preview" class="text-[11px] text-slate-400 truncate max-w-md"></span>
+            <button id="btn-save-contract" class="px-4 py-1.5 rounded-xl em-btn-mint font-extrabold text-xs transition-all">ثبت قرارداد</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pillars & Cashflow Shield -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 tunnel-dim">
+        <div class="xl:col-span-7 em-card rounded-3xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-bold text-white">چهار ستون بنیادین (اثر لیندی)</h3>
+              <p class="text-xs text-slate-400">ممیزی پاییز ۱۴۰۵ • افق ۵ ساله بدون تعهد زودرس</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-xl em-sub text-[#2ef295] font-semibold">Lindy Effect</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="pillars-grid"></div>
+        </div>
+
+        <div class="xl:col-span-5 em-card rounded-3xl p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[11px] font-bold text-[#ff7a29]">تعهدات مالی • فقط ۲ تسک کلیدی</span>
+              <h3 class="text-base font-bold text-white mt-0.5">تسک‌های مالی ثابت</h3>
+            </div>
+            <span id="fin-summary-badge" class="px-2.5 py-1 rounded-xl bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">۰/۱۰ قسط</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Financial Task 1: 6M Monthly Installment (25 Mehr to 25 Tir - 10 months) -->
+            <div class="em-sub rounded-2xl p-3.5 space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-white">۱. قسط ماهانه ۶ میلیون تومان</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">شروع ۲۵ مهر تا ۲۵ تیر (۱۰ قسط ماهانه)</div>
+                </div>
+                <span id="installment-count-text" class="text-xs font-extrabold text-[#2ef295] tabular-nums shrink-0">۰ از ۱۰</span>
+              </div>
+              <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                <div id="installment-bar" class="h-full bg-[#2ef295] rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+              <div id="installment-months-grid" class="grid grid-cols-5 gap-1.5 text-[10px]"></div>
+            </div>
+
+            <!-- Financial Task 2: University Tuition (12M Mehr 1405 + 24M Bahman 1405-1406) -->
+            <div class="em-sub rounded-2xl p-3.5 space-y-2">
+              <div class="text-xs sm:text-sm font-bold text-white">۲. شهریه دانشگاه (۲ مرحله)</div>
+              <label class="flex items-center justify-between gap-2 p-2 rounded-xl bg-black/40 border border-white/5 cursor-pointer hover:border-[#2ef295]/30 transition-all">
+                <div class="flex items-center gap-2.5">
+                  <input id="cb-tuition-mehr" type="checkbox" class="w-4 h-4 accent-[#2ef295] rounded cursor-pointer" />
+                  <span class="text-xs text-slate-200">شهریه ترم مهر ۱۴۰۵</span>
+                </div>
+                <span class="text-xs font-extrabold text-[#ff9d5c] tabular-nums">۱۲ م.ت</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-2 rounded-xl bg-black/40 border border-white/5 cursor-pointer hover:border-[#2ef295]/30 transition-all">
+                <div class="flex items-center gap-2.5">
+                  <input id="cb-tuition-bahman" type="checkbox" class="w-4 h-4 accent-[#2ef295] rounded cursor-pointer" />
+                  <span class="text-xs text-slate-200">شهریه ترم بهمن ۱۴۰۵–۱۴۰۶</span>
+                </div>
+                <span class="text-xs font-extrabold text-[#ff9d5c] tabular-nums">۲۴ م.ت</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1.2: WEEKLY DESK -->
+    <section id="tab-weekly" class="tab-panel hidden space-y-4">
+      <div class="em-card rounded-3xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">ماتریس «کمینه بدون پشیمانی» + سد اینستاگرام و aMCC</h2>
+            <p class="text-xs text-slate-400">روی هر خانه بزن تا وضعیت (⬜ ⬅️ ✅ ⬅️ ❌) تغییر کند.</p>
+          </div>
+          <button id="btn-reset-habits" class="px-3 py-1.5 rounded-xl em-sub hover:bg-white/10 text-xs text-slate-200">شروع هفته جدید</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse min-w-[600px]">
+            <thead>
+              <tr class="border-b border-white/10 text-xs text-slate-400">
+                <th class="py-2.5 pr-2 font-semibold">پروتکل علوم اعصاب</th>
+                <th class="py-2.5 text-center">شنبه</th><th class="py-2.5 text-center">یکشنبه</th><th class="py-2.5 text-center">دوشنبه</th><th class="py-2.5 text-center">سه‌شنبه</th><th class="py-2.5 text-center text-[#ff7a29]">چهارشنبه</th><th class="py-2.5 text-center">پنج‌شنبه</th><th class="py-2.5 text-center text-[#ff7a29]">جمعه</th>
+              </tr>
+            </thead>
+            <tbody id="habit-matrix-body" class="divide-y divide-white/5 text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="em-card rounded-3xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white">لاگ اجرایی روزانه (۸۰٪ تثبیت / ۲۰٪ رشد)</h3>
+            <p class="text-xs text-slate-400">روز مورد نظر را انتخاب کن</p>
+          </div>
+          <div class="flex flex-wrap gap-1.5" id="day-pills"></div>
+        </div>
+        <form id="add-task-form" class="flex flex-col sm:flex-row gap-2 mb-3.5">
+          <input id="new-task-input" type="text" placeholder="افزودن تسک جدید برای همین روز..." class="flex-1 px-3.5 py-2 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#2ef295]" />
+          <select id="new-task-tag" class="px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-xs text-[#2ef295] font-mono focus:outline-none">
+            <option value="#task/khakestar">#task/khakestar</option>
+            <option value="#task/backtest">#task/backtest</option>
+            <option value="#task/uni">#task/uni</option>
+            <option value="#task/notes">#task/notes</option>
+            <option value="#task/health">#task/health</option>
+          </select>
+          <button type="submit" class="px-4 py-2 rounded-xl em-btn-mint font-extrabold text-xs shrink-0">+ افزودن تسک</button>
+        </form>
+        <div id="day-tasks-list" class="space-y-2.5"></div>
+      </div>
+
+      <div class="em-card-glow rounded-3xl p-5 space-y-3">
+        <div>
+          <span class="text-xs font-bold text-[#2ef295]">مستر ۰۱ • نام‌گذاری هیجان (Affect Labeling)</span>
+          <h3 class="text-base font-bold text-white mt-0.5">ژورنال شبانه ۱ خطی (مقیاس ۱ تا ۱۰)</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center">
+          <div class="md:col-span-3 flex items-center gap-2 em-sub px-3 py-2 rounded-xl">
+            <span class="text-xs text-slate-300 shrink-0">نمره (۱-۱۰):</span>
+            <input id="nightly-score-input" type="number" min="1" max="10" value="7" class="w-14 bg-transparent text-[#2ef295] font-extrabold text-sm text-center focus:outline-none tabular-nums" />
+          </div>
+          <div class="md:col-span-7">
+            <input id="nightly-line-input" type="text" placeholder="فقط ۱ خط بدون سانسور: امروز چه حسی غالب بود؟" class="w-full px-3.5 py-2 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#2ef295]" />
+          </div>
+          <div class="md:col-span-2">
+            <button id="btn-save-nightly" class="w-full py-2 rounded-xl em-btn-mint font-extrabold text-xs transition-all">ثبت ۱ خط</button>
+          </div>
+        </div>
+        <div id="nightly-logs-list" class="space-y-1.5 pt-1 text-xs"></div>
+      </div>
+    </section>
+
+    <!-- TAB 1.3: COLD ARCHIVE -->
+    <section id="tab-archive" class="tab-panel hidden space-y-4">
+      <div class="em-card-glow rounded-3xl p-5">
+        <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">❄️ انبار قرنطینه سرد (Anti-FOMO Buffer)</h2>
+            <p class="text-xs text-slate-300 mt-1">قفل <strong class="text-[#2ef295]">Winter Arc (December, January, February)</strong> • مهروموم قطعی از <strong class="text-white">۲۸ آبان تا ۲۸ اسفند</strong>. هر لینک، ریلز اینستاگرام یا ایده وسوسه‌برانگیز را اینجا بینداز تا مغزت آرام شود.</p>
+          </div>
+          <span id="archive-count-badge" class="px-3 py-1 rounded-full bg-[#2ef295]/15 text-[#2ef295] border border-[#2ef295]/30 text-xs font-bold tabular-nums">۰ مورد</span>
+        </div>
+        <form id="archive-form" class="flex flex-col sm:flex-row gap-2.5 mb-5">
+          <input id="archive-title" type="text" required placeholder="عنوان ایده، کتاب، ویدیو یا ریلز اینستاگرام..." class="flex-1 px-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#2ef295]" />
+          <input id="archive-link" type="text" placeholder="لینک یا توضیح کوتاه (اختیاری)" class="sm:w-64 px-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#2ef295]" />
+          <button type="submit" class="px-5 py-2.5 rounded-xl em-btn-mint font-extrabold text-sm transition-all shrink-0">+ قرنطینه کن</button>
+        </form>
+        <div id="archive-list" class="space-y-2"></div>
+      </div>
+    </section>
+
+    <!-- TAB 1.4: EMERGENCY SWITCHES -->
+    <section id="tab-switches" class="tab-panel hidden space-y-4">
+      <div class="em-card rounded-3xl p-5 border-[#ff7a29]/30">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">⚡ سوییچ‌های اضطراری خروج از انجماد شناختی و ربایش اینستاگرام</h2>
+            <p class="text-xs text-slate-400">به مغز در حالت Freeze با منطق دستور نده؛ یکی از چهار سوییچ زیر را بزن.</p>
+          </div>
+          <div id="reset-countdown-badge" class="hidden px-3 py-1.5 rounded-xl bg-[#ff7a29]/20 text-[#ff9d5c] border border-[#ff7a29]/40 text-xs font-bold tabular-nums">
+            مداخله فعال: <span id="reset-timer-text">02:00</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
+          <div class="em-sub rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div><span class="text-xs font-bold text-[#ff7a29]">سوییچ ۱ • فیزیولوژیک</span><h3 class="text-sm font-bold text-white mt-1">ریست شوک سوماتیک</h3><p class="text-xs text-slate-300 leading-relaxed mt-1.5">۲۰ شنای نظامی یا آب یخ به صورت برای خروج DMN از حلقه نشخوار.</p></div>
+            <button data-switch="somatic" class="switch-action-btn w-full py-2 rounded-xl bg-[#ff7a29]/20 hover:bg-[#ff7a29]/30 text-[#ff9d5c] text-xs font-bold border border-[#ff7a29]/35">تایمر ۲ دقیقه‌ای</button>
+          </div>
+          <div class="em-sub rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div><span class="text-xs font-bold text-amber-300">سوییچ ۲ • ضد کمال‌گرایی</span><h3 class="text-sm font-bold text-white mt-1">نسخه کثیف (۷۰٪)</h3><p class="text-xs text-slate-300 leading-relaxed mt-1.5">فقط ۲ دقیقه چارت یا ۱ پاراگراف مالیاتی بدون وسواس و ادیت.</p></div>
+            <button data-switch="draft" class="switch-action-btn w-full py-2 rounded-xl bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 text-xs font-bold border border-amber-400/30">شروع ۲ دقیقه کثیف</button>
+          </div>
+          <div class="em-sub rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div><span class="text-xs font-bold text-[#2ef295]">سوییچ ۳ • محیطی</span><h3 class="text-sm font-bold text-white mt-1">قانون تاریکی و تونل</h3><p class="text-xs text-slate-300 leading-relaxed mt-1.5">خاموشی چراغ اتاق، فقط چراغ مطالعه روشن، گوشی در اتاق دیگر.</p></div>
+            <button data-switch="tunnel" class="switch-action-btn w-full py-2 rounded-xl em-btn-mint text-xs font-extrabold">فعال‌سازی تونل</button>
+          </div>
+          <div class="em-sub rounded-2xl p-4 flex flex-col justify-between gap-3 border-[#2ef295]/30">
+            <div><span class="text-xs font-bold text-emerald-300">سوییچ ۴ • مهار LTD</span><h3 class="text-sm font-bold text-white mt-1">ضد اینستاگرام + تنفس ۴-۸</h3><p class="text-xs text-slate-300 leading-relaxed mt-1.5">۵ دقیقه مکث اجباری + آب سرد + ۳ سیکل دم ۴ث و بازدم ۸ث.</p></div>
+            <button data-switch="ltd" class="switch-action-btn w-full py-2 rounded-xl bg-[#2ef295]/20 hover:bg-[#2ef295]/30 text-[#2ef295] text-xs font-bold border border-[#2ef295]/35">وقفه ۵د LTD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive 4-8 Vagal Breathing Pacer -->
+      <div class="em-card-glow rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1.5 text-center sm:text-right">
+          <span class="text-xs font-bold text-[#2ef295]">مستر ۰۱ • تنظیم فوری عصب واگ و کاهش ضربان قلب</span>
+          <h3 class="text-base font-extrabold text-white">راهنمای زنده تنفس ۴ ثانیه دم / ۸ ثانیه بازدم</h3>
+          <p class="text-xs text-slate-300 max-w-xl leading-relaxed">در لحظه هوس اینستاگرام یا بالا گرفتن بحث، ۳ سیکل همراه با این گوی تنفسی نفس بکش تا سیستم پاراسمپاتیک فعال شود.</p>
+          <div class="pt-1 flex items-center justify-center sm:justify-start gap-2">
+            <button id="btn-breath-toggle" class="px-4 py-2 rounded-xl em-btn-mint font-extrabold text-xs">شروع ۳ سیکل تنفس ۴-۸</button>
+            <span id="breath-cycle-status" class="text-xs text-emerald-200 font-semibold">آماده شروع</span>
+          </div>
+        </div>
+        <div class="w-28 h-28 flex items-center justify-center shrink-0">
+          <div id="breath-orb" class="breath-orb w-20 h-20 rounded-full bg-gradient-to-br from-[#2ef295]/80 to-[#064e3b] border border-[#2ef295]/60 flex items-center justify-center text-xs font-extrabold text-white text-center px-2">
+            آماده
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1.5: OBSIDIAN SPRINT SYNC -->
+    <section id="tab-sync" class="tab-panel hidden space-y-4">
+      <div class="em-card rounded-3xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">پل همگام‌سازی اسپرینت با Obsidian (`Week_XX.md`)</h2>
+            <p class="text-xs text-slate-400">کپی مستقیم برای فایل هفتگی و `Cold_Archive.md`.</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="btn-copy-md" class="px-4 py-2 rounded-xl em-btn-mint font-extrabold text-xs">کپی Markdown</button>
+            <button id="btn-download-json" class="px-4 py-2 rounded-xl em-sub hover:bg-white/10 text-slate-200 font-semibold text-xs">بکاپ JSON</button>
+            <button id="btn-import-json" class="px-4 py-2 rounded-xl em-sub hover:border-[#2ef295]/40 text-[#2ef295] font-semibold text-xs">بازیابی JSON</button>
+            <input id="input-import-json" type="file" accept=".json,application/json" class="hidden" />
+          </div>
+        </div>
+        <pre id="markdown-preview" dir="ltr" class="w-full p-4 rounded-2xl bg-black/60 border border-white/10 text-xs text-[#2ef295] font-mono overflow-x-auto max-h-96 leading-relaxed"></pre>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- PANEL 2: PSYCHOLOGICAL PROFILE & BEHAVIORAL LAB                       -->
+    <!-- ===================================================================== -->
+
+    <!-- TAB 2.1: 2E INTEGRATED PROFILE -->
+    <section id="tab-profile" class="tab-panel hidden space-y-4">
+      <div class="em-card-glow rounded-3xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="text-[11px] font-extrabold text-[#2ef295] tracking-wider">پنل ۲ • مانیفست هویت شناختی (Cognitive Operating Manual)</div>
+          <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+            «تو یک سرباز در حال جنگ با فیزیولوژی نیستی؛ تو <strong class="text-white">معمار سیستمی</strong> هستی که موتوری استثنایی (۸۳.۸٪ تفکر راهبردی + کد استرانگ I-C-E) اما با شاسی حساس به دوپامین و قضاوت دارد.»
+          </p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button data-goto="archetypes" class="quick-tab-jump px-3.5 py-1.5 rounded-xl em-btn-mint text-xs font-extrabold">۶ آرکی‌تایپ ⬅️</button>
+          <button data-goto="psychometrics" class="quick-tab-jump px-3.5 py-1.5 rounded-xl em-sub hover:border-[#2ef295]/50 text-emerald-200 text-xs font-bold">۳ تست ⬅️</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-7 em-card rounded-3xl p-5 space-y-4">
+          <div>
+            <span class="text-xs font-bold text-[#2ef295]">ساختار شناختی استثنایی دوگانه (2E: Twice-Exceptional)</span>
+            <h2 class="text-xl font-bold text-white mt-0.5">معمار راهبردی، فیلسوف ساختارشکن و پژوهشگر کارآفرین</h2>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="font-bold text-[#2ef295] mb-1">🚀 موتور انتزاعی</div>
+              <p class="text-slate-300 leading-relaxed">ایده‌پرداز ۸۰٪، آینده‌نگر ۷۲.۷٪، یادگیرنده ۷۱.۴٪، پژوهش ۸۵، کارآفرینی ۸۵، مالی ۷۵ و گشودگی T=76.</p>
+            </div>
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="font-bold text-[#ff7a29] mb-1">⚙️ پارادوکس 2E</div>
+              <p class="text-slate-300 leading-relaxed">تضاد تلاشگر (۷۰.۸٪) با ثبات روتین پایین (۱۶.۷٪) و احتیاط قبل عمل (C6=30%). نیاز به داربست محیطی.</p>
+            </div>
+            <div class="em-sub rounded-2xl p-3.5">
+              <div class="font-bold text-emerald-300 mb-1">🧬 واقع‌بینی زیستی</div>
+              <p class="text-slate-300 leading-relaxed">در ۲۱ سالگی، ظرفیت کار عمیق باید لگاریتمی از ۲-۳ ساعت فعلی به ۱۰ ساعت در ۵ سال برسد.</p>
+            </div>
+          </div>
+          <div class="em-sub rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold text-slate-200">چرخه قفل‌شدگی (ACC/ERN) و نقطه قطع سیناپسی:</div>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-lg bg-[#ff7a29]/20 text-[#ff9d5c] border border-[#ff7a29]/35">تهدید قضاوت (ERN بالا)</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-200 border border-amber-400/30">شرم و فلج تحلیلی</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 border border-white/15">فرار: اینستاگرام / AI / بحث</span>
+              <span class="text-slate-500">⬅️</span>
+              <span class="px-2.5 py-1 rounded-lg bg-[#2ef295]/20 text-[#2ef295] border border-[#2ef295]/40 font-bold">پیش‌نویس ۸د (۷۰٪) + LTD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="xl:col-span-5 em-card rounded-3xl p-5 flex flex-col justify-between">
+          <div class="mb-2">
+            <h3 class="text-base font-bold text-white">نیمرخ ۶ بُعدی توانمندی و کارکرد اجرایی</h3>
+            <p class="text-xs text-slate-400">موتور راهبردی در برابر شاسی اجرایی</p>
+          </div>
+          <div class="relative h-64">
+            <canvas id="profileRadarChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nathanson's Compass & Imposter Matrix -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-7 em-card rounded-3xl p-5 space-y-4">
+          <div>
+            <span class="text-xs font-bold text-[#2ef295]">مستر ۰۱ • شرم، دفاع‌های وورمسر و ACC</span>
+            <h3 class="text-base font-bold text-white mt-0.5">قطب‌نمای شرم ناتانسون در رفتار تو</h3>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <button data-pole="self_attack" class="compass-btn p-2.5 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold text-right">۱. حمله به خود</button>
+            <button data-pole="avoidance" class="compass-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold text-right">۲. فرار اینستاگرام</button>
+            <button data-pole="attack_other" class="compass-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold text-right">۳. حمله متقابل (N2)</button>
+            <button data-pole="wurmser" class="compass-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold text-right">۴. دفاع‌های وورمسر</button>
+          </div>
+          <div id="compass-detail-box" class="em-sub rounded-2xl p-4 text-xs space-y-2 leading-relaxed"></div>
+        </div>
+
+        <div class="xl:col-span-5 em-card rounded-3xl p-5 space-y-3 text-xs">
+          <span class="text-xs font-bold text-[#ff7a29]">مستر ۰۳ + سند علوم اعصاب</span>
+          <h3 class="text-base font-bold text-white">تیپ اهمال‌کاری و الگوی ایمپاستر</h3>
+          <div class="em-sub rounded-xl p-3"><strong class="text-[#ff9d5c] block mb-1">تیپ ترکیبی: «کمال‌گرا + رویاپرداز»</strong><p class="text-slate-300">عاشق طراحی سیستم‌های کلان، اما در اجرای مویرگی به دلیل ترس از نقص به اینستاگرام پناه می‌بری.</p></div>
+          <div class="em-sub rounded-xl p-3"><strong class="text-emerald-300 block mb-1">ایمپاستر: «نابغه ذاتی + فراگیر افراطی»</strong><p class="text-slate-300">توقع فهم فوری مفاهیم پیچیده و انباشت شناختی قبل از عمل.</p></div>
+          <div class="em-card-glow rounded-xl p-3"><strong class="text-[#2ef295] block mb-1">شاهد عینی ضد ایمپاستر:</strong><p class="text-slate-100">۶۶ واحد در ۳ ترم (معدل +۱۷) همزمان با ۴ شیفت کاری و مدیریت مستقل اقساط و شهریه دانشگاه.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2.2: 6 ARCHETYPES & 5 CORE VALUES -->
+    <section id="tab-archetypes" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-5 em-card rounded-3xl p-5 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-[#2ef295]">معماری کهن‌الگوهای شخصی</span>
+            <h2 class="text-lg font-bold text-white mt-0.5">طیف ۶ شخصیت الگو در ذهن تو</h2>
+          </div>
+          <div class="relative h-72 my-2">
+            <canvas id="archetypePolarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="xl:col-span-7 em-card rounded-3xl p-5 space-y-4">
+          <div>
+            <span class="text-xs font-bold text-[#ff7a29]">تقاطع شخصیت‌ها و مکانیزم‌های رفتاری</span>
+            <h3 class="text-lg font-bold text-white mt-0.5">سه دوقطبی (Dyad) سازنده ذهن تو</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <button data-dyad="will_hannibal" class="dyad-btn p-3 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold text-right">۱. ویل گراهام × هانیبال</button>
+            <button data-dyad="rust_rick" class="dyad-btn p-3 rounded-xl em-sub text-slate-300 font-bold text-right">۲. راستین کول × ریک سانچز</button>
+            <button data-dyad="davinci_wayne" class="dyad-btn p-3 rounded-xl em-sub text-slate-300 font-bold text-right">۳. داوینچی × بروس وین</button>
+          </div>
+          <div id="dyad-detail-box" class="em-sub rounded-2xl p-4 space-y-2.5 text-xs leading-relaxed"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-7 em-card rounded-3xl p-5 space-y-2.5 text-xs">
+          <h3 class="text-base font-bold text-white mb-2">پنج ارزش هسته‌ای و بنیادین (فیلتر باینری ۰ و ۱)</h3>
+          <div class="em-sub rounded-xl p-3 border-r-4 border-r-[#2ef295]"><strong class="text-white">۱. آزادی استراتژیک و خودمختاری:</strong> فضای مانور برای رشد بی‌نهایت؛ استقلال مالی اهرم تضمین آن است.</div>
+          <div class="em-sub rounded-xl p-3 border-r-4 border-r-emerald-400"><strong class="text-white">۲. خرد رادیکال و حقیقت‌جویی:</strong> برتری واقعیت عریان بر توهم؛ آپدیت دائمی مدل ذهنی و ارتقای قبیله.</div>
+          <div class="em-sub rounded-xl p-3 border-r-4 border-r-[#ff7a29]"><strong class="text-white">۳. معماری اثر و تسلط سیستمی:</strong> تقدم شایستگی و خلق میراث بر آرامش منفعلانه.</div>
+          <div class="em-sub rounded-xl p-3 border-r-4 border-r-amber-400"><strong class="text-white">۴. زیباشناسی معنا و طغیان:</strong> تبدیل رنج به خودشناسی و فرم دادن به زندگی در دل پوچی.</div>
+          <div class="em-sub rounded-xl p-3 border-r-4 border-r-teal-400"><strong class="text-white">۵. همدلی شناختی و مرزبندی:</strong> درک معماری ذهن انسان‌ها با اولویت مطلق بر حقیقت و اصول.</div>
+        </div>
+
+        <div class="xl:col-span-5 em-card-glow rounded-3xl p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="text-xs font-bold text-[#2ef295]">خط‌کش تصمیم‌گیری باینری</span>
+            <h3 class="text-base font-bold text-white">ماشین‌حساب فیلتر ۵ ارزش</h3>
+            <input id="decision-title-input" type="text" placeholder="عنوان تصمیم یا پیشنهاد..." class="w-full mt-2 px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-xs text-white focus:outline-none focus:border-[#2ef295]" />
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <label class="flex items-center justify-between p-2 rounded-xl em-sub cursor-pointer"><span>۱. تقویت خودمختاری زمانی/مالی؟</span><input type="checkbox" checked class="val-filter-cb w-4 h-4 accent-[#2ef295]" /></label>
+            <label class="flex items-center justify-between p-2 rounded-xl em-sub cursor-pointer"><span>۲. مبتنی بر واقعیت عریان بدون ریاکاری؟</span><input type="checkbox" checked class="val-filter-cb w-4 h-4 accent-[#2ef295]" /></label>
+            <label class="flex items-center justify-between p-2 rounded-xl em-sub cursor-pointer"><span>۳. افزایش تسلط سیستمی و مهارت؟</span><input type="checkbox" checked class="val-filter-cb w-4 h-4 accent-[#2ef295]" /></label>
+            <label class="flex items-center justify-between p-2 rounded-xl em-sub cursor-pointer"><span>۴. همخوان با زیباشناسی و اصالت؟</span><input type="checkbox" class="val-filter-cb w-4 h-4 accent-[#2ef295]" /></label>
+            <label class="flex items-center justify-between p-2 rounded-xl em-sub cursor-pointer"><span>۵. حفظ مرزهای شناختی و قبیله؟</span><input type="checkbox" class="val-filter-cb w-4 h-4 accent-[#2ef295]" /></label>
+          </div>
+          <div id="binary-verdict-box" class="p-3 rounded-xl em-sub text-xs"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2.3: 3 PSYCHOMETRIC TESTS -->
+    <section id="tab-psychometrics" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-[#ff7a29]">تست ۱ • NEO-PI-R (شهریور ۱۴۰۳ در برابر کالیبراسیون ۱۴۰۵)</span>
+            <h2 class="text-base font-bold text-white mt-0.5">اصلاح خطای نمره خام ۲۴ دقیقه‌ای</h2>
+          </div>
+          <div class="relative h-64 my-2"><canvas id="neoComparisonChart"></canvas></div>
+          <p class="text-[11px] text-slate-400">برچسب انزواطلبی (E2=32%) و سردی عاطفی (A6=34%) رد شد؛ تو برون‌گرای انتخابگر در تیم‌های هدفمند هستی.</p>
+        </div>
+
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-2.5 text-xs">
+          <h3 class="text-sm font-bold text-white">تفسیر ۵ عامل نئو در زیست واقعی تو:</h3>
+          <div class="em-sub p-2.5 rounded-xl"><strong class="text-[#2ef295]">گشودگی (O=80.2%, T=76):</strong> کنجکاوی فکری (O5=68%)، تنوع‌طلبی (O4=72%)، زیباشناسی (O2=60%) و بازنگری ارزش‌ها (O6=64%).</div>
+          <div class="em-sub p-2.5 rounded-xl"><strong class="text-[#ff9d5c]">روان‌رنجوری (71.3% ⬅️ 52%):</strong> خلق افسرده ۱۴۰۳ برطرف شده؛ حساسیت به قضاوت (N4=66%)، فوریت دوپامینی (N5=66%) و تنش بحث (N2=60%) فعال‌اند.</div>
+          <div class="em-sub p-2.5 rounded-xl"><strong class="text-emerald-300">برون‌گرایی (49.3% ⬅️ 64%):</strong> قاطعیت (E3=60%) و سطح انرژی (E4=74%) بالا؛ پرهیز از جمع‌های سطحی.</div>
+          <div class="em-sub p-2.5 rounded-xl"><strong class="text-teal-300">توافق‌پذیری (35.6% ⬅️ 50%):</strong> بی‌پرده‌گویی و شکاکیت علمی در کنار همدلی شناختی عمیق (ویل گراهام).</div>
+          <div class="em-sub p-2.5 rounded-xl"><strong class="text-amber-300">وظیفه‌شناسی (45.7% ⬅️ 58%):</strong> نظم (C2=56%) متوسط، اما احتیاط قبل عمل (C6=30%) پایین ⬅️ نیازمند چک‌لیست.</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3">
+          <div><span class="text-xs font-bold text-[#2ef295]">تست ۲ • استعدادیابی کلیفتون گالوپ (Strategic 83.8%)</span><h3 class="text-base font-bold text-white">استعدادهای برتر در برابر نقاط کور انتهای جدول</h3></div>
+          <div class="relative h-72"><canvas id="cliftonChart"></canvas></div>
+        </div>
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3">
+          <div><span class="text-xs font-bold text-emerald-300">تست ۳ • رغبت‌سنج شغلی استرانگ (کد I-C-E)</span><h3 class="text-base font-bold text-white">نیمرخ پژوهش، کارآفرینی و علوم مالی</h3></div>
+          <div class="relative h-72"><canvas id="strongChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2.4: CBT / ACT BEHAVIORAL LAB -->
+    <section id="tab-lab" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <div class="em-card-glow rounded-3xl p-5 space-y-4">
+          <div><span class="text-xs font-bold text-[#2ef295]">ابزار ۱ • CBT / ACT</span><h2 class="text-lg font-bold text-white">تایمر ۸ دقیقه‌ای «پیش‌نویس موقت (۷۰٪)»</h2></div>
+          <input id="draft-prediction" type="text" placeholder="پیش‌بینی قابل‌تست قبل شروع (اختیاری)..." class="w-full px-3.5 py-2 rounded-xl bg-black/50 border border-white/10 text-xs text-white focus:outline-none focus:border-[#2ef295]" />
+          <div class="em-sub rounded-2xl p-5 text-center">
+            <div id="draft-timer-display" class="text-5xl font-extrabold text-white tabular-nums">08:00</div>
+            <p id="draft-status-text" class="text-xs text-[#2ef295] mt-2">هدف: وجود داشتن پیش‌نویس با کیفیت ۷۰٪ • بدون گوشی</p>
+            <div class="flex justify-center gap-2 mt-4">
+              <button id="btn-draft-start" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs">شروع ۸ دقیقه</button>
+              <button id="btn-draft-pause" class="px-4 py-2 rounded-xl em-sub text-white font-semibold text-xs">توقف</button>
+              <button id="btn-draft-reset" class="px-4 py-2 rounded-xl em-sub text-slate-300 font-semibold text-xs">ریست</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="em-card rounded-3xl p-5 space-y-4">
+          <div><span class="text-xs font-bold text-[#ff7a29]">ابزار ۲ • کنترل کلام در تنش (N2)</span><h2 class="text-lg font-bold text-white">مکث ۱۰ ثانیه‌ای + ضد نشخوار ۲ دقیقه‌ای</h2></div>
+          <div class="em-sub rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div id="pause-timer-display" class="text-4xl font-extrabold text-[#ff7a29] tabular-nums">10</div>
+              <button id="btn-pause-start" class="px-4 py-2 rounded-xl bg-[#ff7a29]/20 hover:bg-[#ff7a29]/30 text-[#ff9d5c] border border-[#ff7a29]/35 font-bold text-xs">شروع مکث ۱۰ث</button>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[11px]">
+              <div id="stage-1" class="p-2 rounded-xl bg-black/45 border border-white/10 text-slate-300"><strong class="block text-white">۰–۲ث:</strong> توقف کلام + لنگر پا</div>
+              <div id="stage-2" class="p-2 rounded-xl bg-black/45 border border-white/10 text-slate-300"><strong class="block text-white">۲–۸ث:</strong> بازدم طولانی ۸ث</div>
+              <div id="stage-3" class="p-2 rounded-xl bg-black/45 border border-white/10 text-slate-300"><strong class="block text-white">۸–۱۰ث:</strong> سؤال یا تایم‌اوت</div>
+            </div>
+          </div>
+          <div class="em-sub rounded-2xl p-3.5 space-y-2 text-xs">
+            <div class="font-bold text-[#2ef295]">بستن پرونده نشخوار بعد از نصیحت (۲ دقیقه):</div>
+            <input id="rum-fact" type="text" placeholder="۱. واقعیت عینی (بدون حدس)" class="w-full px-3 py-1.5 rounded-lg bg-black/50 border border-white/10 text-white" />
+            <input id="rum-interp" type="text" placeholder="۲. برداشت ذهن من" class="w-full px-3 py-1.5 rounded-lg bg-black/50 border border-white/10 text-white" />
+            <input id="rum-repair" type="text" placeholder="۳. یک ترمیم مشخص (در صورت نیاز)" class="w-full px-3 py-1.5 rounded-lg bg-black/50 border border-white/10 text-white" />
+            <button id="btn-close-rumination" class="w-full py-2 rounded-xl bg-[#2ef295]/20 hover:bg-[#2ef295]/30 text-[#2ef295] font-bold border border-[#2ef295]/30">بستن پرونده با برچسب Replay</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3">
+          <div><span class="text-xs font-bold text-[#2ef295]">ابزار ۳ • مدل گرینبرگ (مستر ۰۱)</span><h3 class="text-base font-bold text-white">رمزگشای هیجان «تست کودک ۱ ساله»</h3></div>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <button data-greenberg="shame_compare" class="gb-btn p-2.5 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold">۱. شرم مقایسه</button>
+            <button data-greenberg="anger_debate" class="gb-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold">۲. خشم بحث</button>
+            <button data-greenberg="numb_insta" class="gb-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold">۳. فرار اینستاگرام</button>
+          </div>
+          <div id="greenberg-output" class="em-sub rounded-2xl p-3.5 text-xs space-y-1.5 leading-relaxed"></div>
+        </div>
+
+        <div class="xl:col-span-6 em-card rounded-3xl p-5 space-y-3 text-xs">
+          <div><span class="text-xs font-bold text-[#ff7a29]">ابزار ۴ • شخصی‌سازی آزمایش ۲ هفته‌ای</span><h3 class="text-base font-bold text-white">ثبت پاسخ ۳ سؤال کالیبراسیون</h3></div>
+          <select id="cal-q1" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-white">
+            <option value="چیدن جواب کوبنده وسط حرف طرف مقابل">نشانه بحث: چیدن جواب کوبنده وسط حرف طرف مقابل</option>
+            <option value="تند شدن ریتم تنفس و بالا رفتن تن صدا">نشانه بحث: تند شدن ریتم تنفس و بالا رفتن تن صدا</option>
+            <option value="منقبض شدن فک، شانه و داغ شدن سینه">نشانه بحث: منقبض شدن فک، شانه و داغ شدن سینه</option>
+          </select>
+          <select id="cal-q2" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-white">
+            <option value="ثبت و مستندسازی بک‌تست‌های پرایس‌اکشن خاکستر">تسک قفل: ثبت بک‌تست‌های پرایس‌اکشن خاکستر</option>
+            <option value="نوشتن نوت‌های اتمیک و دائمی در ابسیدین">تسک قفل: نوشتن نوت‌های اتمیک در ابسیدین</option>
+            <option value="مطالعه دروس سنگین دانشگاه (برنامه‌ریزی مالیاتی)">تسک قفل: مطالعه برنامه‌ریزی مالیاتی</option>
+          </select>
+          <input id="cal-q3" type="text" placeholder="نفر امن قبیله (Body Doubling / Form R)..." class="w-full px-3 py-2 rounded-xl bg-black/50 border border-white/10 text-white" />
+          <button id="btn-save-calibration" class="w-full py-2 rounded-xl em-btn-mint font-extrabold">ذخیره و اعمال در مانیفست</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2.5: 14-DAY BARS TRACKER -->
+    <section id="tab-bars" class="tab-panel hidden space-y-4">
+      <div class="em-card rounded-3xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-white">ردیاب ۱۴ روزه آزمایش رفتاری (BARS - ۷ شاخص)</h2>
+            <p class="text-xs text-slate-400">تفکیک «صفت پایدار» از «فشار محیطی» در کمتر از ۱ دقیقه</p>
+          </div>
+          <select id="bars-day-select" class="px-3 py-1.5 rounded-xl em-sub text-[#2ef295] font-bold text-xs focus:outline-none tabular-nums"></select>
+        </div>
+        <div class="space-y-2.5" id="bars-items-container"></div>
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
+          <div class="text-xs text-slate-300">میانگین ۱۴ روز: <strong id="bars-avg-score" class="text-[#2ef295] tabular-nums">۰ از ۱۰</strong></div>
+          <button id="btn-save-bars-day" class="px-5 py-2 rounded-xl em-btn-mint font-extrabold text-xs">ثبت وضعیت امروز</button>
+        </div>
+      </div>
+      <div class="em-card rounded-3xl p-5">
+        <h3 class="text-sm font-bold text-white mb-3">روند ثبات رفتاری ۱۴ روزه</h3>
+        <div class="relative h-56"><canvas id="barsTrendChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- TAB 2.6: IDENTITY MD EXPORT -->
+    <section id="tab-identity-export" class="tab-panel hidden space-y-4">
+      <div class="em-card rounded-3xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-white">خروجی مانیفست برای `Identity_and_Cognitive_Profile.md`</h2>
+            <p class="text-xs text-slate-400">شامل معماری 2E، ۶ کهن‌الگو، ۵ ارزش هسته‌ای، ۳ تست و پروتکل‌های BARS</p>
+          </div>
+          <button id="btn-copy-profile-md" class="px-4 py-2 rounded-xl em-btn-mint font-extrabold text-xs">کپی Markdown کامل</button>
+        </div>
+        <pre id="profile-md-preview" dir="ltr" class="w-full p-4 rounded-2xl bg-black/60 border border-white/10 text-xs text-[#2ef295] font-mono overflow-x-auto max-h-96 leading-relaxed"></pre>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'shokoofayi_emerald_terminal_v1';
+
+    const PAGE_LABELS = {
+      mission: 'مرکز فرماندهی',
+      weekly: 'میز کار هفتگی',
+      archive: 'قرنطینه سرد',
+      switches: 'سوییچ اضطراری',
+      sync: 'خروجی اسپرینت',
+      profile: 'پروفایل یکپارچه 2E',
+      archetypes: '۶ آرکی‌تایپ و ۵ ارزش',
+      psychometrics: 'کالبدشکافی ۳ تست',
+      lab: 'آزمایشگاه CBT / ACT',
+      bars: 'ردیاب ۱۴ روزه BARS',
+      'identity-export': 'خروجی مانیفست هویت'
+    };
+
+    const DAYS = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
+    const HABITS = [
+      { id: 'health', label: '🔥 کمینه سلامت (۲۰ شنا / ۱د پلانک / پیاده‌روی)' },
+      { id: 'skill', label: '📖 کمینه مهارت (۱۵د / ۲ صفحه جزوه)' },
+      { id: 'sleep', label: '💤 قفل خواب (خاموشی ۲۳:۳۰ بدون گوشی)' },
+      { id: 'tunnel', label: '💡 قانون تونل (تصویرسازی + چراغ مطالعه)' },
+      { id: 'growth', label: '📈 بلوک ۲۰٪ رشد (۲×۳۵د صبح یا اولترادین ۴۵/۱۰)' },
+      { id: 'ltd', label: '📵 سد اینستاگرام (Grayscale + وقفه ۵د LTD)' },
+      { id: 'amcc', label: '🧠 تمرین اراده aMCC + قانون هضم ۱:۱' },
+    ];
+    const PHASE1_ITEMS = [
+      { id: 'p1_caffeine', label: '☕ تاخیر ۹۰ دقیقه‌ای کافئین صبح' },
+      { id: 'p1_fasting', label: '🥩 ناشتایی سبک / پروتئین (حفظ اورکسین)' },
+      { id: 'p1_grayscale', label: '🩶 گوشی روی Grayscale در بلوک صبح' },
+      { id: 'p1_amcc', label: '⚡ اجرای ۱ میکرو-سختی ارادی (aMCC)' },
+    ];
+    const DEFAULT_DAY_TASKS = {
+      'شنبه': [
+        { id: 'sat-1', text: '۰۶:۳۰ - ۰۸:۳۰ | ساب‌تسک ۱: ۳۵د اول ویدیو خاکستر + شکلات تلخ (سقف ۷۰٪)', tag: '#task/khakestar', done: true },
+        { id: 'sat-2', text: '۰۶:۳۰ - ۰۸:۳۰ | ساب‌تسک ۲: ۳۵د دوم ویدیو + ۵ خط نکته خام (هضم ۱:۱)', tag: '#task/khakestar', done: false },
+        { id: 'sat-3', text: '۱۱:۰۰ - ۲۰:۰۰ | شیفت هایپر + ۵ صفحه جزوه در تایم خلوتی', tag: '#task/notes', done: false },
+        { id: 'sat-4', text: 'کمینه بدون پشیمانی: ۱ ست شنا یا پلانک (aMCC)', tag: '#task/health', done: false },
+      ],
+      'یکشنبه': [
+        { id: 'sun-1', text: '۰۷:۰۰ - ۰۹:۰۰ | مارک ۵ نمونه عینی روی تریدینگ‌ویو (هضم ۱:۱)', tag: '#task/backtest', done: false },
+        { id: 'sun-2', text: 'اسکرین‌شات و ثبت ۲ نکته کلیدی در ابسیدین', tag: '#task/backtest', done: false },
+        { id: 'sun-3', text: '۱۵:۲۵ - ۱۹:۳۰ | حضور در کلاس یکشنبه دانشگاه', tag: '#task/uni', done: true },
+      ],
+      'دوشنبه': [
+        { id: 'mon-1', text: '۰۶:۳۰ - ۰۸:۳۰ | ۲ باکس ۳۵د ویدیو خاکستر (بدون اینستاگرام)', tag: '#task/khakestar', done: false },
+        { id: 'mon-2', text: '۱۱:۰۰ - ۱۶:۳۰ | شیفت هایپر + ۳۰د مرور جزوه مالیاتی (۷۰٪)', tag: '#task/uni', done: false },
+        { id: 'mon-3', text: '۱۷:۰۵ - ۱۸:۴۵ | کلاس برنامه‌ریزی مالیاتی', tag: '#task/uni', done: false },
+      ],
+      'سه‌شنبه': [
+        { id: 'tue-1', text: '۰۶:۳۰ - ۰۸:۳۰ | ۲ باکس ۳۵د ویدیو خاکستر', tag: '#task/khakestar', done: false },
+        { id: 'tue-2', text: '۱۱:۰۰ - ۲۰:۰۰ | ۵ صفحه جزوه + ۱۰د مرور مالیاتی', tag: '#task/notes', done: false },
+      ],
+      'چهارشنبه': [
+        { id: 'wed-1', text: '۰۷:۳۰ - ۱۷:۰۵ | ماراتن ۴ کلاس دانشگاه (تنفس ۴-۸)', tag: '#task/uni', done: false },
+        { id: 'wed-2', text: 'عصر | صفر تکلیف مطالعاتی • فقط کمینه سلامت و خواب زودهنگام', tag: '#task/health', done: false },
+      ],
+      'پنج‌شنبه': [
+        { id: 'thu-1', text: '۰۶:۳۰ - ۰۸:۳۰ | ۲ باکس ۳۵د ویدیو خاکستر', tag: '#task/khakestar', done: false },
+        { id: 'thu-2', text: '۱۱:۰۰ - ۱۸:۴۵ | شیفت هایپر + مرور ترکیبی هفته', tag: '#task/notes', done: false },
+        { id: 'thu-3', text: '۱۹:۰۰ - ۲۰:۰۰ | کلاس زبان ترکیبی', tag: '#task/uni', done: true },
+      ],
+      'جمعه': [
+        { id: 'fri-1', text: '۰۹:۱۰ - ۱۹:۳۰ | ماراتن کلاس‌های جمعه', tag: '#task/uni', done: false },
+        { id: 'fri-2', text: '۲۰:۰۰ به بعد | تایم قبیله و تخلیه انرژی', tag: '#task/health', done: true },
+      ]
+    };
+    const PILLARS = [
+      { name: 'سلامت و انرژی زیستی', score: 8, max: 10, accent: '#2ef295', note: 'خواب ۲۳:۳۰ + فاز ۱ صبح + aMCC' },
+      { name: 'قبیله و حلقه امن', score: 9.5, max: 10, accent: '#10b981', note: 'مزیت رقابتی مطلق • جمعه‌شب‌ها' },
+      { name: 'تجربه زیسته و ماجراجویی', score: 6, max: 10, accent: '#34d399', note: 'تفریحات آفلاین • قفل دیفای' },
+      { name: 'ثروت و مهارت کمیاب', score: 4, max: 10, accent: '#ff7a29', note: 'هایپر + پرایس‌اکشن خاکستر' },
+    ];
+
+    const DYAD_DATA = {
+      will_hannibal: {
+        title: '۱. ویل گراهام × هانیبال لکتر • پارادوکس ارتباطی و زیباشناسی',
+        psych: 'Individualization (57.1%) + Connectedness (58.3%) + زیباشناسی نئو (O2=60%) + توافق‌پذیری بدون تعارف (A=35.6%).',
+        mech: 'در ورودی رابطه مرزهایت را باز می‌گذاری (ویل گراهام) تا معماری ذهن طرف را با همدلی شناختی تحلیل کنی؛ اما به محض دیدن ریاکاری یا نقض اصول، شمشیر هانیبال لکتر رابطه را بدون بازگشت قطع می‌کند.',
+        shadow: 'پادزهر: مرور ۲ دقیقه‌ای پسامشاوره و بستن پرونده نشخوار با برچسب Replay.'
+      },
+      rust_rick: {
+        title: '۲. راستین کول × ریک سانچز • خرد رادیکال و عبور از قراردادها',
+        psych: 'بازنگری ارزش‌ها (O6=64%) + Ideation (80%) + Analytical (64.3%) + Context (11.1%) + Positivity (19.2%).',
+        mech: 'پذیرش واقعیت تلخ بر توهم شیرین؛ ذهنت با هر داده جدید آپدیت می‌شود و وفاداری کورکورانه به سنت‌های منسوخ را غیرمنطقی می‌دانی.',
+        shadow: 'پادزهر: چرخش از نقد صِرف به طغیان سازنده کامو در پروژه شکوفایی + مکث ۱۰ ثانیه‌ای در بحث.'
+      },
+      davinci_wayne: {
+        title: '۳. لئوناردو داوینچی × بروس وین • تسلط چندرشته‌ای و زره انضباط',
+        psych: 'کد استرانگ I-C-E (پژوهش ۸۵ + کارآفرینی ۸۵ + مالی ۷۵) + Futuristic (72.7%) + Achiever (70.8%).',
+        mech: 'پیوند زدن علوم اعصاب، مالی، پرایس‌اکشن و زتل‌کاستن (داوینچی) در کنار فدا کردن آرامش سطحی برای ساخت زره انضباطی و سنگر نقدینگی (بروس وین).',
+        shadow: 'پادزهر: سقف کیفیت ۷۰٪ و قرنطینه ایده‌های جانبی در Cold Archive تا پایان Winter Arc (۲۸ اسفند).'
+      }
+    };
+
+    const COMPASS_DATA = {
+      self_attack: {
+        title: '۱. قطب حمله به خود (Self-Attack)',
+        mech: 'شرم می‌گوید «من خودم مشکلم»؛ مقایسه با افراد موفق‌تر باعث حمله به هویت به جای اصلاح سیستم می‌شود.',
+        rx: 'تفکیک «من» از «پیش‌نویس» + قانون کیفیت ۷۰٪ + ژورنال شبانه ۱ خطی.'
+      },
+      avoidance: {
+        title: '۲. قطب اجتناب و فرار به اینستاگرام (Avoidance)',
+        mech: 'در لحظه ابهام، ACC سیگنال خطر می‌دهد و شبکه برجستگی برای فرار به دوپامین ارزان اینستاگرام قفل می‌شود.',
+        rx: 'صفحه Grayscale + وقفه ۵ دقیقه‌ای LTD + آب سرد به صورت.'
+      },
+      attack_other: {
+        title: '۳. قطب حمله متقابل در بحث (Shame-Rage / N2=60%)',
+        mech: 'احساس نادیده‌گرفته‌شدن در بحث، شرم پنهان را فوری به خشم کلامی و کل‌کل بی‌پایان تبدیل می‌کند.',
+        rx: 'مکث ۱۰ ثانیه‌ای وسط جمله + لنگر لمسی پا + بازدم ۸ ثانیه‌ای.'
+      },
+      wurmser: {
+        title: '۴. دفاع‌های وورمسر (Rationalization & Control)',
+        mech: 'فرار از اجرای سخت به طراحی مجدد سیستم‌ها در ابسیدین یا چت با AI برای گرفتن حس کاذب پیشرفت.',
+        rx: 'قانون هضم ۱:۱ (۱ ساعت بک‌تست به ازای ۱ ساعت آموزش).'
+      }
+    };
+
+    const GREENBERG_DATA = {
+      shame_compare: {
+        secondary: 'هیجان ثانویه: شرم مقایسه و حس عقب‌ماندگی.',
+        primary: 'هیجان اولیه اصیل: اشتیاق به شکوفایی و نیاز به امنیت آینده.',
+        action: 'اقدام: ۱ بلوک ۸ دقیقه‌ای با سقف کیفیت ۷۰٪.'
+      },
+      anger_debate: {
+        secondary: 'هیجان ثانویه: خشم بحث و اصرار بر بردنِ منطقی.',
+        primary: 'هیجان اولیه اصیل: درد نادیده‌گرفته‌شدن یا ترس از بی‌اعتباری.',
+        action: 'اقدام: مکث ۱۰ث + فشار پا به زمین + بازدم طولانی.'
+      },
+      numb_insta: {
+        secondary: 'هیجان ثانویه: کرختی و اسکرول بی‌هدف اینستاگرام.',
+        primary: 'هیجان اولیه اصیل: ترس از قضاوت خروجی و خستگی شبکه اجرایی.',
+        action: 'اقدام: ۵ دقیقه وقفه LTD + آب سرد + شروع ۲ دقیقه‌ای.'
+      }
+    };
+
+    const BARS_METRICS = [
+      { id: 'urgency', title: '۱. ترمز ایده جدید (UPPS Urgency)', opts: ['۰: شیرجه فوری', '۱: ثبت + وسواس', '۲: قرنطینه + بازگشت', '—: نبود'] },
+      { id: 'draft', title: '۲. پیش‌نویس ۸د با کیفیت ۷۰٪', opts: ['۰: قفل + گوشی', '۱: تاخیر زیاد', '۲: اجرای ۷۰٪', '—: نبود'] },
+      { id: 'conflict', title: '۳. مکث ۱۰ث و تنفس ۴-۸ در تنش', opts: ['۰: ادامه بحث', '۱: توقف با تاخیر', '۲: مکث ۱۰ث موفق', '—: تنشی نبود'] },
+      { id: 'empathy', title: '۴. همدلی بدون نصیحت و نشخوار', opts: ['۰: راه‌حل + نشخوار', '۱: سوال قبل راه‌حل', '۲: بستن Replay', '—: نبود'] },
+      { id: 'check', title: '۵. چک‌لیست قبل از اقدام (C6)', opts: ['۰: بدون چک', '۱: چک ناقص', '۲: چک کامل', '—: نبود'] },
+      { id: 'instagram_ltd', title: '۶. مهار اینستاگرام (۵د LTD + Grayscale)', opts: ['۰: غرق در فید', '۱: خروج با تاخیر', '۲: مهار ۵د LTD', '—: نبود'] },
+      { id: 'digestion_amcc', title: '۷. هضم ۱:۱ + میکرو-سختی aMCC', opts: ['۰: مصرف منفعل', '۱: خروجی ناقص', '۲: هضم ۱:۱ + aMCC', '—: نبود'] },
+    ];
+
+    function loadState() {
+      const defaults = {
+        activeTab: 'mission',
+        soundEnabled: true,
+        week: 1,
+        kpis: { videos: 2, chapters: 2, backtests: 2 },
+        finance: { installments: Array(10).fill(false), tuitionMehr: false, tuitionBahman: false },
+        habits: {},
+        phase1: { p1_caffeine: true, p1_fasting: true, p1_grayscale: false, p1_amcc: false },
+        contract70: {
+          task: 'ثبت ۲ بک‌تست خام پرایس‌اکشن با سقف کیفیت ۷۰٪',
+          ifthen: 'اگر دستم رفت سمت اینستاگرام ⬅️ ۵د وقفه LTD + آب سرد + ۳ نفس ۴-۸'
+        },
+        nightlyLogs: [{ id: 'n1', day: 'شنبه', score: 8, text: 'با قانون کیفیت ۷۰٪ استارت زدم؛ وسواس را مهار کردم.' }],
+        selectedDay: 'شنبه',
+        tasks: JSON.parse(JSON.stringify(DEFAULT_DAY_TASKS)),
+        archive: [
+          { id: 'a1', title: 'استراتژی‌های ییلد فارمینگ لایه دوم دیفای', link: 'لینک ویدیو' },
+          { id: 'a2', title: 'کتاب تفکر سریع و کند (فصل خطاهای شناختی)', link: 'لینک فایل' }
+        ],
+        selectedDyad: 'will_hannibal',
+        selectedPole: 'self_attack',
+        selectedGreenberg: 'shame_compare',
+        calibration: {
+          q1: 'چیدن جواب کوبنده وسط حرف طرف مقابل',
+          q2: 'ثبت و مستندسازی بک‌تست‌های پرایس‌اکشن خاکستر',
+          q3: 'رفیق صمیمی در حلقه قبیله (Body Doubling)'
+        },
+        selectedBarsDay: 1,
+        barsLogs: {}
+      };
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('shokoofayi_unified_v1');
+        if (!raw) return defaults;
+        const p = JSON.parse(raw);
+        return { ...defaults, ...p, kpis: { ...defaults.kpis, ...(p.kpis || {}) }, finance: { ...defaults.finance, ...(p.finance || {}) }, phase1: { ...defaults.phase1, ...(p.phase1 || {}) }, contract70: { ...defaults.contract70, ...(p.contract70 || {}) }, calibration: { ...defaults.calibration, ...(p.calibration || {}) } };
+      } catch (e) { return defaults; }
+    }
+
+    let state = loadState();
+    let trendChart = null;
+    let chartsInited = { profile: false, archetype: false, psycho: false };
+    const COMMAND_TABS = ['mission', 'weekly', 'archive', 'switches', 'sync'];
+
+    function saveState() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+      renderSprintMarkdown();
+      renderProfileMarkdown();
+    }
+
+    function escapeHtml(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function playChime() {
+      if (!state.soundEnabled) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(528, ctx.currentTime);
+        gain.gain.setValueAtTime(0.14, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.85);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.85);
+      } catch (e) {}
+    }
+
+    function renderSoundBtn() {
+      const btn = document.getElementById('btn-sound-toggle');
+      if (!btn) return;
+      btn.textContent = state.soundEnabled ? '🔊 صدا' : '🔇 بی‌صدا';
+      btn.className = state.soundEnabled
+        ? 'px-2.5 py-1.5 rounded-2xl em-sub hover:border-[#2ef295]/40 text-xs font-semibold text-[#2ef295] transition-all'
+        : 'px-2.5 py-1.5 rounded-2xl em-sub hover:border-white/25 text-xs font-semibold text-slate-400 transition-all';
+    }
+
+    document.getElementById('btn-sound-toggle').addEventListener('click', () => {
+      state.soundEnabled = !state.soundEnabled;
+      saveState();
+      renderSoundBtn();
+      if (state.soundEnabled) playChime();
+      showToast(state.soundEnabled ? 'زنگ پایان تایمر فعال شد' : 'زنگ تایمر بی‌صدا شد');
+    });
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(window._tInt);
+      window._tInt = setTimeout(() => el.classList.add('hidden'), 2400);
+    }
+
+    // Hamburger Drawer Controls
+    const drawer = document.getElementById('menu-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    function openDrawer() {
+      drawer.classList.remove('drawer-closed');
+      drawer.classList.add('drawer-open');
+      backdrop.classList.remove('hidden');
+    }
+    function closeDrawer() {
+      drawer.classList.remove('drawer-open');
+      drawer.classList.add('drawer-closed');
+      backdrop.classList.add('hidden');
+    }
+    document.getElementById('btn-open-drawer').addEventListener('click', openDrawer);
+    document.getElementById('btn-close-drawer').addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+      if (e.altKey && (e.key === 'm' || e.key === 'M')) {
+        e.preventDefault();
+        if (drawer.classList.contains('drawer-open')) closeDrawer(); else openDrawer();
+      }
+    });
+
+    // Grayscale Toggle
+    document.getElementById('btn-grayscale-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('grayscale-sim');
+      showToast(document.body.classList.contains('grayscale-sim') ? 'حالت سیاه‌وسفید فعال شد' : 'حالت رنگی بازگشت');
+    });
+
+    // Tab Switching
+    function switchTab(tabId) {
+      state.activeTab = tabId;
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.remove('hidden');
+
+      document.getElementById('current-page-pill').textContent = PAGE_LABELS[tabId] || 'مرکز فرماندهی';
+
+      document.querySelectorAll('.drawer-nav-btn').forEach(b => {
+        const active = b.dataset.tab === tabId;
+        b.className = active
+          ? 'drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all drawer-nav-active'
+          : 'drawer-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:bg-white/5 hover:text-white';
+      });
+
+      const isCmd = COMMAND_TABS.includes(tabId);
+      document.getElementById('btn-panel-command').className = isCmd
+        ? 'px-3 py-1 rounded-xl bg-[#2ef295] text-[#03110a] font-extrabold transition-all'
+        : 'px-3 py-1 rounded-xl text-slate-300 hover:text-white font-bold transition-all';
+      document.getElementById('btn-panel-psych').className = !isCmd
+        ? 'px-3 py-1 rounded-xl bg-[#2ef295] text-[#03110a] font-extrabold transition-all'
+        : 'px-3 py-1 rounded-xl text-slate-300 hover:text-white font-bold transition-all';
+
+      if (tabId === 'profile' && !chartsInited.profile) { chartsInited.profile = true; requestAnimationFrame(initRadarChart); }
+      if (tabId === 'archetypes' && !chartsInited.archetype) { chartsInited.archetype = true; requestAnimationFrame(initArchetypePolarChart); }
+      if (tabId === 'psychometrics' && !chartsInited.psycho) { chartsInited.psycho = true; requestAnimationFrame(initPsychometricCharts); }
+      if (tabId === 'bars') { requestAnimationFrame(updateBarsStatsAndChart); }
+      closeDrawer();
+      saveState();
+    }
+
+    document.querySelectorAll('.drawer-nav-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+    document.querySelectorAll('.quick-tab-jump').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.goto)));
+    document.getElementById('btn-panel-command').addEventListener('click', () => switchTab('mission'));
+    document.getElementById('btn-panel-psych').addEventListener('click', () => switchTab('profile'));
+    document.getElementById('btn-emergency-jump').addEventListener('click', () => switchTab('switches'));
+
+    // KPIs & 1:1 Digestion
+    function renderKPIs() {
+      const limits = { videos: 29, chapters: 12, backtests: 100 };
+      Object.keys(limits).forEach(k => {
+        const val = Math.max(0, Math.min(limits[k], state.kpis[k] || 0));
+        const pct = Math.round((val / limits[k]) * 100);
+        document.getElementById('val-' + k).textContent = val;
+        document.getElementById('pct-' + k).textContent = pct + '%';
+        document.getElementById('bar-' + k).style.width = pct + '%';
+      });
+      document.getElementById('week-selector').value = state.week;
+      document.getElementById('zero-regret-summary').textContent = countZeroRegretDays() + ' از ۷';
+      const inp = (state.kpis.videos || 0) + (state.kpis.chapters || 0);
+      const out = state.kpis.backtests || 0;
+      document.getElementById('digestion-ratio-badge').textContent = `${inp} : ${out}`;
+      document.getElementById('digestion-status-text').textContent = inp > out * 2 + 2
+        ? '⚠️ هشدار انباشت: قبل از ویدیوی جدید، ۲ بک‌تست ثبت کن!'
+        : '✅ تراز هضم ۱:۱ برقرار است.';
+
+      const totalRatio = ((state.kpis.videos || 0) / 29 + (state.kpis.chapters || 0) / 12 + (state.kpis.backtests || 0) / 100) / 3;
+      const litDots = Math.max(1, Math.min(15, Math.round(totalRatio * 15)));
+      const matrix = document.getElementById('sprint-dot-matrix');
+      if (matrix) {
+        matrix.innerHTML = Array.from({ length: 15 }, (_, idx) => {
+          if (idx < litDots - 1) return '<span class="bg-[#2ef295]"></span>';
+          if (idx === litDots - 1) return '<span class="bg-[#ff7a29]"></span>';
+          return '<span class="bg-white/15"></span>';
+        }).join('');
+      }
+    }
+
+    document.querySelectorAll('.kpi-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.kpi, d = parseInt(btn.dataset.delta, 10);
+        const limits = { videos: 29, chapters: 12, backtests: 100 };
+        state.kpis[k] = Math.max(0, Math.min(limits[k], (state.kpis[k] || 0) + d));
+        saveState();
+        renderKPIs();
+      });
+    });
+    document.getElementById('week-selector').addEventListener('change', (e) => { state.week = parseInt(e.target.value, 10); saveState(); showToast('هفته ' + state.week + ' فعال شد'); });
+
+    // Phase 1 & Contract 70%
+    function renderPhase1() {
+      const box = document.getElementById('phase1-checklist');
+      let done = 0;
+      box.innerHTML = PHASE1_ITEMS.map(item => {
+        const ck = !!state.phase1[item.id];
+        if (ck) done++;
+        return `<label class="flex items-center gap-2 p-2.5 rounded-xl em-sub cursor-pointer ${ck ? 'border-[#2ef295]/45 text-[#2ef295]' : 'text-slate-300'}"><input type="checkbox" data-p1="${item.id}" ${ck ? 'checked' : ''} class="p1-cb w-4 h-4 accent-[#2ef295]" /><span>${item.label}</span></label>`;
+      }).join('');
+      document.getElementById('amcc-score-badge').textContent = `aMCC: ${done}/۴`;
+      box.querySelectorAll('.p1-cb').forEach(cb => cb.addEventListener('change', () => { state.phase1[cb.dataset.p1] = cb.checked; saveState(); renderPhase1(); }));
+    }
+
+    function renderContract70() {
+      document.getElementById('input-70pct-task').value = state.contract70.task || '';
+      document.getElementById('input-ifthen-rule').value = state.contract70.ifthen || '';
+      document.getElementById('saved-contract-preview').textContent = `فعال: ${state.contract70.task}`;
+    }
+    document.getElementById('btn-save-contract').addEventListener('click', () => {
+      state.contract70.task = document.getElementById('input-70pct-task').value.trim() || state.contract70.task;
+      state.contract70.ifthen = document.getElementById('input-ifthen-rule').value.trim() || state.contract70.ifthen;
+      saveState(); renderContract70(); showToast('قرارداد ۷۰٪ ذخیره شد');
+    });
+
+    // Pillars & Cashflow Chart
+    function renderPillars() {
+      document.getElementById('pillars-grid').innerHTML = PILLARS.map(p => `
+        <div class="em-sub rounded-2xl p-3.5">
+          <div class="flex justify-between mb-1.5">
+            <span class="text-sm font-bold text-white">${p.name}</span>
+            <span class="text-xs font-extrabold tabular-nums" style="color:${p.accent}">${p.score}/${p.max}</span>
+          </div>
+          <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden mb-2">
+            <div class="h-full rounded-full" style="width:${(p.score / p.max) * 100}%; background:${p.accent}"></div>
+          </div>
+          <p class="text-[11px] text-slate-400">${p.note}</p>
+        </div>`).join('');
+    }
+
+    const INSTALLMENT_MONTHS = ['۲۵ مهر', '۲۵ آبان', '۲۵ آذر', '۲۵ دی', '۲۵ بهمن', '۲۵ اسفند', '۲۵ فروردین', '۲۵ اردیبهشت', '۲۵ خرداد', '۲۵ تیر'];
+    function renderFinanceTasks() {
+      const fin = state.finance || { installments: Array(10).fill(false), tuitionMehr: false, tuitionBahman: false };
+      if (!Array.isArray(fin.installments) || fin.installments.length !== 10) fin.installments = Array(10).fill(false);
+      const paid = fin.installments.filter(Boolean).length;
+      document.getElementById('installment-count-text').textContent = `${paid} از ۱۰`;
+      document.getElementById('fin-summary-badge').textContent = `${paid}/۱۰ قسط`;
+      document.getElementById('installment-bar').style.width = `${(paid / 10) * 100}%`;
+
+      const grid = document.getElementById('installment-months-grid');
+      grid.innerHTML = INSTALLMENT_MONTHS.map((m, idx) => {
+        const done = !!fin.installments[idx];
+        return `<button data-inst-idx="${idx}" class="inst-btn py-1.5 px-1 rounded-lg font-bold transition-all ${done ? 'bg-[#2ef295] text-[#03110a]' : 'bg-black/45 text-slate-300 border border-white/10 hover:border-[#2ef295]/40'}">${m}</button>`;
+      }).join('');
+      grid.querySelectorAll('.inst-btn').forEach(b => b.addEventListener('click', () => {
+        const i = parseInt(b.dataset.instIdx, 10);
+        state.finance.installments[i] = !state.finance.installments[i];
+        saveState();
+        renderFinanceTasks();
+      }));
+
+      const cbM = document.getElementById('cb-tuition-mehr');
+      const cbB = document.getElementById('cb-tuition-bahman');
+      cbM.checked = !!fin.tuitionMehr;
+      cbB.checked = !!fin.tuitionBahman;
+    }
+    document.getElementById('cb-tuition-mehr').addEventListener('change', (e) => {
+      state.finance.tuitionMehr = e.target.checked;
+      saveState();
+      showToast(e.target.checked ? 'شهریه ۱۲ میلیونی ترم مهر ۱۴۰۵ تیک خورد' : 'تیک شهریه ترم مهر برداشته شد');
+    });
+    document.getElementById('cb-tuition-bahman').addEventListener('change', (e) => {
+      state.finance.tuitionBahman = e.target.checked;
+      saveState();
+      showToast(e.target.checked ? 'شهریه ۲۴ میلیونی ترم بهمن ۱۴۰۵–۱۴۰۶ تیک خورد' : 'تیک شهریه ترم بهمن برداشته شد');
+    });
+
+    // Tunnel Timer with SVG Ring & Audio Chime
+    let timerTotal = 35 * 60, timerSeconds = 35 * 60, timerInterval = null;
+    const RING_CIRCUMFERENCE = 2 * Math.PI * 68;
+    function updateTimerUI() {
+      document.getElementById('timer-display').textContent = `${String(Math.floor(timerSeconds / 60)).padStart(2, '0')}:${String(timerSeconds % 60).padStart(2, '0')}`;
+      const ratio = timerTotal > 0 ? Math.max(0, Math.min(1, timerSeconds / timerTotal)) : 0;
+      const ring = document.getElementById('timer-ring-progress');
+      if (ring) {
+        ring.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - ratio));
+        ring.style.stroke = ratio <= 0.2 ? '#ff7a29' : '#2ef295';
+      }
+      const pctEl = document.getElementById('timer-pct-label');
+      if (pctEl) pctEl.textContent = `${Math.round(ratio * 100)}%`;
+    }
+    function startTimer(sec, label) {
+      clearInterval(timerInterval);
+      if (typeof sec === 'number') { timerTotal = sec; timerSeconds = sec; }
+      if (label) document.getElementById('timer-subtitle').textContent = label;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) { timerSeconds--; updateTimerUI(); }
+        else { clearInterval(timerInterval); timerInterval = null; playChime(); showToast('زمان بلوک به پایان رسید! خسته نباشی.'); }
+      }, 1000);
+    }
+    document.getElementById('btn-timer-start').addEventListener('click', () => startTimer(null, 'در حال اجرای بلوک عمیق • سقف ۷۰٪'));
+    document.getElementById('btn-timer-pause').addEventListener('click', () => { clearInterval(timerInterval); timerInterval = null; });
+    document.getElementById('btn-timer-reset').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerTotal = 35 * 60;
+      timerSeconds = 35 * 60;
+      document.getElementById('timer-subtitle').textContent = 'چراغ مطالعه روشن • سقف کیفیت ۷۰٪ (بدون وسواس و اینستاگرام)';
+      updateTimerUI();
+    });
+    document.getElementById('btn-timer-2min').addEventListener('click', () => startTimer(120, 'قانون ۲ دقیقه: شروع کثیف و بی‌نقص‌نبودن!'));
+    document.getElementById('btn-timer-ultradian').addEventListener('click', () => startTimer(45 * 60, 'چرخه اولترادین ۴۵ دقیقه‌ای'));
+    document.getElementById('btn-timer-rest10').addEventListener('click', () => startTimer(10 * 60, '۱۰ دقیقه استراحت بدون گوشی'));
+    document.getElementById('btn-timer-ltd5').addEventListener('click', () => startTimer(5 * 60, 'وقفه ۵ دقیقه‌ای LTD (ضد اینستاگرام + آب سرد)'));
+    document.getElementById('btn-tunnel-mode').addEventListener('click', () => {
+      document.body.classList.toggle('tunnel-active');
+      document.getElementById('btn-tunnel-mode').textContent = document.body.classList.contains('tunnel-active') ? '☀️ خروج از تونل' : '💡 حالت تونل';
+    });
+
+    // Habit Matrix & Daily Tasks & Nightly Log
+    function countZeroRegretDays() {
+      let c = 0;
+      for (let d = 0; d < 7; d++) if (state.habits[`health_${d}`] === 'done' && state.habits[`skill_${d}`] === 'done') c++;
+      return c;
+    }
+    function renderHabitMatrix() {
+      const icons = { undefined: '⬜', none: '⬜', done: '✅', fail: '❌' };
+      const tbody = document.getElementById('habit-matrix-body');
+      tbody.innerHTML = HABITS.map(h => `<tr><td class="py-2 pr-2 text-xs text-slate-200">${h.label}</td>${DAYS.map((_, i) => `<td class="py-2 text-center"><button data-habit="${h.id}_${i}" class="habit-cell w-8 h-8 rounded-lg hover:bg-white/10">${icons[state.habits[`${h.id}_${i}`] || 'none']}</button></td>`).join('')}</tr>`).join('');
+      tbody.querySelectorAll('.habit-cell').forEach(b => b.addEventListener('click', () => {
+        const k = b.dataset.habit, ord = ['none', 'done', 'fail'];
+        state.habits[k] = ord[(ord.indexOf(state.habits[k] || 'none') + 1) % 3];
+        saveState(); renderHabitMatrix(); renderKPIs();
+      }));
+    }
+    document.getElementById('btn-reset-habits').addEventListener('click', () => { state.habits = {}; saveState(); renderHabitMatrix(); renderKPIs(); showToast('هفته جدید ریست شد'); });
+
+    function renderDayTasks() {
+      const pills = document.getElementById('day-pills');
+      pills.innerHTML = DAYS.map(d => `<button data-day="${d}" class="day-pill px-3 py-1 rounded-xl text-xs font-bold ${d === state.selectedDay ? 'bg-[#2ef295] text-[#03110a]' : 'em-sub text-slate-300'}">${d}</button>`).join('');
+      pills.querySelectorAll('.day-pill').forEach(b => b.addEventListener('click', () => { state.selectedDay = b.dataset.day; saveState(); renderDayTasks(); }));
+      const list = document.getElementById('day-tasks-list');
+      const dayItems = state.tasks[state.selectedDay] || [];
+      if (dayItems.length === 0) {
+        list.innerHTML = '<div class="text-center py-4 text-xs text-slate-500">تسکی برای این روز ثبت نشده است.</div>';
+        return;
+      }
+      list.innerHTML = dayItems.map(t => `<div class="flex items-center justify-between gap-2 p-3 rounded-xl em-sub"><label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer"><input type="checkbox" data-task-id="${escapeHtml(t.id)}" ${t.done ? 'checked' : ''} class="task-cb w-4 h-4 accent-[#2ef295] shrink-0" /><span class="text-xs sm:text-sm ${t.done ? 'line-through text-slate-500' : 'text-slate-200'}">${escapeHtml(t.text)}</span></label><div class="flex items-center gap-1.5 shrink-0"><span class="text-[11px] px-2 py-0.5 rounded bg-black/50 text-[#2ef295]/80 font-mono" dir="ltr">${escapeHtml(t.tag)}</span><button data-del-task="${escapeHtml(t.id)}" class="del-task-btn px-1.5 py-0.5 rounded text-slate-500 hover:text-[#ff7a29] text-xs" title="حذف تسک">✕</button></div></div>`).join('');
+      list.querySelectorAll('.task-cb').forEach(cb => cb.addEventListener('change', () => { const t = (state.tasks[state.selectedDay] || []).find(x => x.id === cb.dataset.taskId); if (t) { t.done = cb.checked; saveState(); renderDayTasks(); } }));
+      list.querySelectorAll('.del-task-btn').forEach(b => b.addEventListener('click', () => { state.tasks[state.selectedDay] = (state.tasks[state.selectedDay] || []).filter(x => x.id !== b.dataset.delTask); saveState(); renderDayTasks(); }));
+    }
+
+    document.getElementById('add-task-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inp = document.getElementById('new-task-input');
+      const txt = inp.value.trim();
+      if (!txt) return showToast('عنوان تسک را بنویس');
+      const tag = document.getElementById('new-task-tag').value;
+      if (!state.tasks[state.selectedDay]) state.tasks[state.selectedDay] = [];
+      state.tasks[state.selectedDay].push({ id: 't_' + Date.now(), text: txt, tag, done: false });
+      inp.value = '';
+      saveState();
+      renderDayTasks();
+      showToast('تسک جدید اضافه شد');
+    });
+
+    function renderNightlyLogs() {
+      const list = document.getElementById('nightly-logs-list');
+      list.innerHTML = (state.nightlyLogs || []).slice(0, 5).map(l => `<div class="flex items-center justify-between gap-2 p-2.5 rounded-xl em-sub"><div class="flex items-center gap-2 min-w-0"><span class="px-2 py-0.5 rounded bg-[#2ef295]/15 text-[#2ef295] font-bold tabular-nums shrink-0">${escapeHtml(l.day)} • ${escapeHtml(l.score)}/10</span><span class="text-slate-200 truncate">${escapeHtml(l.text)}</span></div><button data-del-n="${escapeHtml(l.id)}" class="del-n text-slate-500 hover:text-[#ff7a29] px-1">✕</button></div>`).join('');
+      list.querySelectorAll('.del-n').forEach(b => b.addEventListener('click', () => { state.nightlyLogs = state.nightlyLogs.filter(x => x.id !== b.dataset.delN); saveState(); renderNightlyLogs(); }));
+    }
+    document.getElementById('btn-save-nightly').addEventListener('click', () => {
+      const text = document.getElementById('nightly-line-input').value.trim();
+      if (!text) return showToast('یک خط بنویس');
+      const score = Math.max(1, Math.min(10, parseInt(document.getElementById('nightly-score-input').value, 10) || 7));
+      state.nightlyLogs.unshift({ id: 'n_' + Date.now(), day: state.selectedDay, score, text });
+      document.getElementById('nightly-line-input').value = '';
+      saveState(); renderNightlyLogs(); showToast('ژورنال امشب ثبت شد');
+    });
+
+    // Archive
+    function renderArchive() {
+      document.getElementById('archive-count-badge').textContent = `${state.archive.length} مورد`;
+      document.getElementById('archive-list').innerHTML = state.archive.length === 0
+        ? '<div class="text-center py-6 text-xs text-slate-500">انبار قرنطینه فعلاً خالی است.</div>'
+        : state.archive.map(a => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl em-sub"><div class="truncate"><div class="text-sm font-medium text-white truncate">❄️ ${escapeHtml(a.title)}</div>${a.link ? `<div class="text-[11px] text-slate-400 truncate">${escapeHtml(a.link)}</div>` : ''}</div><button data-del-a="${escapeHtml(a.id)}" class="del-a px-2.5 py-1 rounded-lg bg-white/5 hover:bg-[#ff7a29]/20 text-slate-400 hover:text-[#ff9d5c] text-xs">حذف</button></div>`).join('');
+      document.querySelectorAll('.del-a').forEach(b => b.addEventListener('click', () => { state.archive = state.archive.filter(x => x.id !== b.dataset.delA); saveState(); renderArchive(); }));
+    }
+    document.getElementById('archive-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const t = document.getElementById('archive-title').value.trim();
+      if (!t) return;
+      state.archive.unshift({ id: 'a_' + Date.now(), title: t, link: document.getElementById('archive-link').value.trim() });
+      document.getElementById('archive-title').value = ''; document.getElementById('archive-link').value = '';
+      saveState(); renderArchive(); showToast('در قرنطینه سرد ثبت شد');
+    });
+
+    // Emergency Switches
+    let resetTimerInt = null;
+    document.querySelectorAll('.switch-action-btn').forEach(btn => btn.addEventListener('click', () => {
+      const type = btn.dataset.switch;
+      if (type === 'tunnel') { switchTab('mission'); document.body.classList.add('tunnel-active'); startTimer(35 * 60, 'حالت تونل فعال شد'); return; }
+      const badge = document.getElementById('reset-countdown-badge'), text = document.getElementById('reset-timer-text');
+      badge.classList.remove('hidden');
+      let sec = type === 'ltd' ? 300 : 120;
+      clearInterval(resetTimerInt);
+      const upd = () => { text.textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`; };
+      upd();
+      resetTimerInt = setInterval(() => { sec--; upd(); if (sec <= 0) { clearInterval(resetTimerInt); playChime(); showToast('مداخله تمام شد! برگرد روی تسک.'); } }, 1000);
+      showToast(type === 'ltd' ? 'وقفه ۵د LTD شروع شد: آب سرد + تنفس ۴-۸' : 'شروع ریست ۲ دقیقه‌ای!');
+    }));
+
+    // Guided 4-8 Breathing Pacer
+    let breathTimers = [], breathRunning = false;
+    function stopBreathing() {
+      breathTimers.forEach(clearTimeout);
+      breathTimers = [];
+      breathRunning = false;
+      const orb = document.getElementById('breath-orb');
+      const btn = document.getElementById('btn-breath-toggle');
+      const st = document.getElementById('breath-cycle-status');
+      if (orb) { orb.classList.remove('breath-inhale', 'breath-exhale'); orb.textContent = 'آماده'; }
+      if (btn) btn.textContent = 'شروع ۳ سیکل تنفس ۴-۸';
+      if (st) st.textContent = 'متوقف شد';
+    }
+    document.getElementById('btn-breath-toggle').addEventListener('click', () => {
+      if (breathRunning) { stopBreathing(); return; }
+      breathRunning = true;
+      const orb = document.getElementById('breath-orb');
+      const btn = document.getElementById('btn-breath-toggle');
+      const st = document.getElementById('breath-cycle-status');
+      btn.textContent = 'توقف تنفس';
+      const runCycle = (cycle) => {
+        if (!breathRunning) return;
+        if (cycle > 3) {
+          stopBreathing();
+          if (st) st.textContent = '۳ سیکل کامل شد ✅';
+          playChime();
+          showToast('۳ سیکل تنفس ۴-۸ کامل شد — عصب واگ آرام گرفت!');
+          return;
+        }
+        st.textContent = `سیکل ${cycle} از ۳ • دم آرام (۴ ثانیه)`;
+        orb.classList.remove('breath-exhale');
+        orb.classList.add('breath-inhale');
+        orb.textContent = 'دم ۴ث';
+        breathTimers.push(setTimeout(() => {
+          if (!breathRunning) return;
+          st.textContent = `سیکل ${cycle} از ۳ • بازدم طولانی (۸ ثانیه)`;
+          orb.classList.remove('breath-inhale');
+          orb.classList.add('breath-exhale');
+          orb.textContent = 'بازدم ۸ث';
+          breathTimers.push(setTimeout(() => runCycle(cycle + 1), 8000));
+        }, 4000));
+      };
+      runCycle(1);
+    });
+
+    // Psych Panel Interactive Components
+    function renderCompass() {
+      const p = state.selectedPole || 'self_attack', d = COMPASS_DATA[p];
+      document.querySelectorAll('.compass-btn').forEach(b => b.className = b.dataset.pole === p ? 'compass-btn p-2.5 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold text-right' : 'compass-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold text-right');
+      document.getElementById('compass-detail-box').innerHTML = `<div class="font-bold text-[#2ef295] text-sm">${d.title}</div><p class="text-slate-300"><strong>مکانیسم:</strong> ${d.mech}</p><p class="text-emerald-300"><strong>پادزهر:</strong> ${d.rx}</p>`;
+    }
+    document.querySelectorAll('.compass-btn').forEach(b => b.addEventListener('click', () => { state.selectedPole = b.dataset.pole; saveState(); renderCompass(); }));
+
+    function renderDyad() {
+      const k = state.selectedDyad || 'will_hannibal', d = DYAD_DATA[k];
+      document.querySelectorAll('.dyad-btn').forEach(b => b.className = b.dataset.dyad === k ? 'dyad-btn p-3 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold text-right' : 'dyad-btn p-3 rounded-xl em-sub text-slate-300 font-bold text-right');
+      document.getElementById('dyad-detail-box').innerHTML = `<div class="text-sm font-bold text-[#ff9d5c]">${d.title}</div><p class="text-[#2ef295]"><strong>شواهد تست‌ها:</strong> ${d.psych}</p><p class="text-slate-200"><strong>مکانیسم:</strong> ${d.mech}</p><p class="text-emerald-300"><strong>پادزهر:</strong> ${d.shadow}</p>`;
+    }
+    document.querySelectorAll('.dyad-btn').forEach(b => b.addEventListener('click', () => { state.selectedDyad = b.dataset.dyad; saveState(); renderDyad(); }));
+
+    function updateBinaryVerdict() {
+      let s = 0;
+      document.querySelectorAll('.val-filter-cb').forEach(cb => { if (cb.checked) s++; });
+      const t = escapeHtml(document.getElementById('decision-title-input').value.trim() || 'این گزینه');
+      const box = document.getElementById('binary-verdict-box');
+      box.innerHTML = s >= 4
+        ? `<strong class="text-[#2ef295]">حکم باینری ۱ (تایید • ${s}/5):</strong> <span class="text-slate-200">«${t}» هم‌راستاست؛ در قالب اسپرینت ۹۰ روزه اجرا شود.</span>`
+        : s === 3
+          ? `<strong class="text-amber-300">حکم باینری مشروط (${s}/5):</strong> <span class="text-slate-200">«${t}» فعلاً به Cold Archive منتقل شود.</span>`
+          : `<strong class="text-[#ff7a29]">حکم باینری ۰ (رد قاطع • ${s}/5):</strong> <span class="text-slate-200">«${t}» خودمختاری تو را می‌بلعد؛ نه بگو.</span>`;
+    }
+    document.querySelectorAll('.val-filter-cb').forEach(cb => cb.addEventListener('change', updateBinaryVerdict));
+    document.getElementById('decision-title-input').addEventListener('input', updateBinaryVerdict);
+
+    // CBT/ACT Lab & Greenberg & Calibration
+    let draftSec = 8 * 60, draftInt = null;
+    const updDraft = () => { document.getElementById('draft-timer-display').textContent = `${String(Math.floor(draftSec / 60)).padStart(2, '0')}:${String(draftSec % 60).padStart(2, '0')}`; };
+    document.getElementById('btn-draft-start').addEventListener('click', () => {
+      clearInterval(draftInt);
+      document.getElementById('draft-status-text').textContent = 'در حال نوشتن نسخه موقت ۷۰٪... بدون قضاوت و بدون گوشی';
+      draftInt = setInterval(() => {
+        if (draftSec > 0) { draftSec--; updDraft(); }
+        else { clearInterval(draftInt); draftInt = null; playChime(); showToast('پیش‌نویس ۸د تمام شد! پیروزی بر ACC!'); }
+      }, 1000);
+    });
+    document.getElementById('btn-draft-pause').addEventListener('click', () => { clearInterval(draftInt); draftInt = null; });
+    document.getElementById('btn-draft-reset').addEventListener('click', () => {
+      clearInterval(draftInt); draftInt = null; draftSec = 8 * 60; updDraft();
+      document.getElementById('draft-status-text').textContent = 'هدف: وجود داشتن پیش‌نویس با کیفیت ۷۰٪ • بدون گوشی';
+    });
+
+    let pauseInt = null;
+    document.getElementById('btn-pause-start').addEventListener('click', () => {
+      clearInterval(pauseInt);
+      let s = 10;
+      const s1 = document.getElementById('stage-1'), s2 = document.getElementById('stage-2'), s3 = document.getElementById('stage-3');
+      const highlight = (el) => {
+        [s1, s2, s3].forEach(x => x.classList.remove('border-[#ff7a29]', 'bg-[#ff7a29]/20'));
+        if (el) el.classList.add('border-[#ff7a29]', 'bg-[#ff7a29]/20');
+      };
+      document.getElementById('pause-timer-display').textContent = s;
+      highlight(s1);
+      pauseInt = setInterval(() => {
+        s--;
+        document.getElementById('pause-timer-display').textContent = s;
+        if (s >= 8) highlight(s1);
+        else if (s >= 2) highlight(s2);
+        else if (s > 0) highlight(s3);
+        else { clearInterval(pauseInt); pauseInt = null; highlight(null); playChime(); showToast('مکث ۱۰ث کامل شد! الان آگاهانه پاسخ بده.'); }
+      }, 1000);
+    });
+    document.getElementById('btn-close-rumination').addEventListener('click', () => { document.getElementById('rum-fact').value = ''; document.getElementById('rum-interp').value = ''; document.getElementById('rum-repair').value = ''; showToast('پرونده با برچسب Replay بسته شد'); });
+
+    function renderGreenberg() {
+      const k = state.selectedGreenberg || 'shame_compare', d = GREENBERG_DATA[k];
+      document.querySelectorAll('.gb-btn').forEach(b => b.className = b.dataset.greenberg === k ? 'gb-btn p-2.5 rounded-xl bg-[#2ef295]/20 border border-[#2ef295] text-[#2ef295] font-bold' : 'gb-btn p-2.5 rounded-xl em-sub text-slate-300 font-bold');
+      document.getElementById('greenberg-output').innerHTML = `<div class="text-[#ff9d5c]">${d.secondary}</div><div class="text-emerald-300">${d.primary}</div><div class="text-[#2ef295] font-bold">${d.action}</div>`;
+    }
+    document.querySelectorAll('.gb-btn').forEach(b => b.addEventListener('click', () => { state.selectedGreenberg = b.dataset.greenberg; saveState(); renderGreenberg(); }));
+
+    function renderCalibrationForm() {
+      document.getElementById('cal-q1').value = state.calibration.q1;
+      document.getElementById('cal-q2').value = state.calibration.q2;
+      document.getElementById('cal-q3').value = state.calibration.q3;
+    }
+    document.getElementById('btn-save-calibration').addEventListener('click', () => {
+      state.calibration.q1 = document.getElementById('cal-q1').value;
+      state.calibration.q2 = document.getElementById('cal-q2').value;
+      state.calibration.q3 = document.getElementById('cal-q3').value.trim() || state.calibration.q3;
+      saveState(); showToast('پاسخ کالیبراسیون ذخیره شد');
+    });
+
+    // BARS 14-Day Tracker
+    function initBarsDaySelect() {
+      const sel = document.getElementById('bars-day-select');
+      sel.innerHTML = Array.from({ length: 14 }, (_, i) => `<option value="${i + 1}" class="bg-[#07120c]">روز ${i + 1}</option>`).join('');
+      sel.value = state.selectedBarsDay;
+      sel.addEventListener('change', (e) => { state.selectedBarsDay = parseInt(e.target.value, 10); saveState(); renderBarsItems(); });
+    }
+    function renderBarsItems() {
+      const k = 'd' + state.selectedBarsDay, cur = state.barsLogs[k] || {};
+      const box = document.getElementById('bars-items-container');
+      box.innerHTML = BARS_METRICS.map(m => `<div class="em-sub rounded-xl p-3 space-y-2"><div class="text-xs font-bold text-white">${m.title}</div><div class="flex flex-wrap gap-1.5">${m.opts.map((lbl, idx) => { const c = idx < 3 ? String(idx) : 'na'; return `<button data-m="${m.id}" data-v="${c}" class="bars-opt px-2.5 py-1 rounded-lg text-[11px] font-bold ${cur[m.id] === c ? 'bg-[#2ef295] text-[#03110a]' : 'bg-black/50 text-slate-300 border border-white/10'}">${lbl}</button>`; }).join('')}</div></div>`).join('');
+      box.querySelectorAll('.bars-opt').forEach(b => b.addEventListener('click', () => { if (!state.barsLogs[k]) state.barsLogs[k] = {}; state.barsLogs[k][b.dataset.m] = b.dataset.v; saveState(); renderBarsItems(); updateBarsStatsAndChart(); }));
+    }
+    document.getElementById('btn-save-bars-day').addEventListener('click', () => { saveState(); updateBarsStatsAndChart(); showToast(`روز ${state.selectedBarsDay} ذخیره شد`); });
+    function updateBarsStatsAndChart() {
+      const scores = []; let tot = 0, cnt = 0;
+      for (let i = 1; i <= 14; i++) {
+        const obj = state.barsLogs['d' + i];
+        let s = 0, c = 0;
+        if (obj) BARS_METRICS.forEach(m => { const v = obj[m.id]; if (v === '0' || v === '1' || v === '2') { s += parseInt(v, 10); c++; } });
+        const sc = c > 0 ? Math.round((s / (c * 2)) * 100) / 10 : null;
+        scores.push(sc);
+        if (sc !== null) { tot += sc; cnt++; }
+      }
+      document.getElementById('bars-avg-score').textContent = `${cnt > 0 ? (tot / cnt).toFixed(1) : '۰'} از ۱۰ (${cnt} روز)`;
+      const ctx = document.getElementById('barsTrendChart').getContext('2d');
+      if (trendChart) trendChart.destroy();
+      trendChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: Array.from({ length: 14 }, (_, i) => `R${i + 1}`), datasets: [{ label: 'BARS', data: scores, borderColor: '#2ef295', backgroundColor: 'rgba(46,242,149,0.16)', fill: true, tension: 0.35, spanGaps: true }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 10, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }, plugins: { legend: { display: false } } }
+      });
+    }
+
+    // Lazy Charts for Psych Panels
+    function initRadarChart() {
+      new Chart(document.getElementById('profileRadarChart').getContext('2d'), {
+        type: 'radar',
+        data: { labels: ['راهبردی ۸۳.۸٪', 'پژوهش ۸۵٪', 'رهبری ۷۸٪', 'همدلی ۸۰٪', 'اجرا با داربست ۵۸٪', 'روتین خطی ۱۷٪'], datasets: [{ data: [84, 85, 78, 80, 58, 17], backgroundColor: 'rgba(46,242,149,0.2)', borderColor: '#2ef295', pointBackgroundColor: '#ff7a29', borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(46,242,149,0.1)' }, angleLines: { color: 'rgba(46,242,149,0.1)' }, pointLabels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } } }, plugins: { legend: { display: false } } }
+      });
+    }
+    function initArchetypePolarChart() {
+      new Chart(document.getElementById('archetypePolarChart').getContext('2d'), {
+        type: 'polarArea',
+        data: {
+          labels: ['داوینچی ۹۰٪', 'ویل گراهام ۸۸٪', 'ریک سانچز ۸۶٪', 'هانیبال ۸۵٪', 'بروس وین ۸۴٪', 'راستین کول ۸۲٪'],
+          datasets: [{ data: [90, 88, 86, 85, 84, 82], backgroundColor: ['rgba(46,242,149,0.6)', 'rgba(16,185,129,0.6)', 'rgba(52,211,153,0.55)', 'rgba(255,122,41,0.6)', 'rgba(20,184,166,0.55)', 'rgba(245,158,11,0.55)'], borderColor: '#07120c', borderWidth: 2 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 50, max: 100, ticks: { display: false }, grid: { color: 'rgba(255,255,255,0.08)' } } }, plugins: { legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 }, boxWidth: 10 } } } }
+      });
+    }
+    function initPsychometricCharts() {
+      new Chart(document.getElementById('neoComparisonChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: ['O گشودگی', 'N روان‌رنجوری', 'E برون‌گرایی', 'A توافق‌پذیری', 'C وظیفه‌شناسی'], datasets: [{ label: 'نئوی ۱۴۰۳', data: [80.2, 71.3, 49.3, 35.6, 45.7], backgroundColor: 'rgba(255,122,41,0.55)', borderRadius: 6 }, { label: 'کالیبره ۱۴۰۵', data: [84, 52, 64, 50, 58], backgroundColor: 'rgba(46,242,149,0.75)', borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } } }, plugins: { legend: { labels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 10 } } } } }
+      });
+      new Chart(document.getElementById('cliftonChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: ['#1 Ideation', '#2 Futuristic', '#3 Learner', '#4 Achiever', '#5 Input', '#6 Analytical', '#7 Intellection', '#8 Command', '#32 Consistency', '#34 Context'], datasets: [{ data: [80, 72.7, 71.4, 70.8, 66.7, 64.3, 64.3, 61.5, 16.7, 11.1], backgroundColor: ['#2ef295', '#2ef295', '#2ef295', '#10b981', '#2ef295', '#2ef295', '#2ef295', '#fbbf24', '#ff7a29', '#ff7a29'], borderRadius: 5 }] },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }, y: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { size: 10 } } } }, plugins: { legend: { display: false } } }
+      });
+      new Chart(document.getElementById('strongChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: ['Research', 'Entrepreneurship', 'Team Style', 'Leadership', 'Finance', 'Investigative', 'Conventional', 'Enterprising', 'Realistic'], datasets: [{ data: [85, 85, 80, 78.1, 75, 65.2, 61.7, 58.7, 36.8], backgroundColor: ['#2ef295', '#ff7a29', '#10b981', '#10b981', '#ff7a29', '#2ef295', '#14b8a6', '#fbbf24', '#475569'], borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { size: 9 } } } }, plugins: { legend: { display: false } } }
+      });
+    }
+
+    // Markdown Exports & Copy
+    function fallbackCopy(txt, msg) {
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast(msg); } catch (e) { showToast('کپی خودکار مسدود شد؛ متن را دستی کپی کن'); }
+      document.body.removeChild(ta);
+    }
+    function copyText(txt, msg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(() => showToast(msg)).catch(() => fallbackCopy(txt, msg));
+      } else {
+        fallbackCopy(txt, msg);
+      }
+    }
+    function renderSprintMarkdown() {
+      const zr = countZeroRegretDays(), p1 = Object.values(state.phase1 || {}).filter(Boolean).length;
+      const fin = state.finance || { installments: [], tuitionMehr: false, tuitionBahman: false };
+      const paid = (fin.installments || []).filter(Boolean).length;
+      document.getElementById('markdown-preview').textContent = `---\ntitle: "Winter Arc — هفته ${String(state.week).padStart(2, '0')}"\narc: "Winter Arc (December, January, February | 28 Aban - 28 Esfand)"\nweek_number: ${state.week}\nkhakestar_videos_done: ${state.kpis.videos}\nkhakestar_pages_read: ${state.kpis.chapters}\nbacktests_logged: ${state.kpis.backtests}\nzero_regret_days: ${zr}\namcc_phase1_score: "${p1}/4"\ninstallments_6m_paid: "${paid}/10"\ntuition_mehr_12m: ${!!fin.tuitionMehr}\ntuition_bahman_24m: ${!!fin.tuitionBahman}\n---\n\n## تعهدات مالی\n- [${paid === 10 ? 'x' : ' '}] قسط ماهانه ۶ میلیون تومان (۲۵ مهر تا ۲۵ تیر): ${paid} از ۱۰ قسط پرداخت‌شده\n- [${fin.tuitionMehr ? 'x' : ' '}] شهریه ترم مهر ۱۴۰۵: ۱۲ میلیون تومان\n- [${fin.tuitionBahman ? 'x' : ' '}] شهریه ترم بهمن ۱۴۰۵-۱۴۰۶: ۲۴ میلیون تومان\n\n## قرارداد ۷۰٪\n- **تسک:** ${state.contract70.task}\n- **شرط LTD:** ${state.contract70.ifthen}\n\n## قرنطینه سرد (قفل Winter Arc تا ۲۸ اسفند)\n${state.archive.map(a => `- [ ] ${a.title}`).join('\n')}`;
+    }
+    function renderProfileMarkdown() {
+      const days = Object.keys(state.barsLogs).length;
+      document.getElementById('profile-md-preview').textContent = `---\ntitle: "پروفایل شناختی و مانیفست هویت ۱۴۰۵"\nstrong_code: "I-C-E"\nstrategic_thinking: "83.8%"\n---\n\n# مانیفست هویت 2E و ۶ آرکی‌تایپ\n- **تقاطع الگوها:** ویل گراهام × هانیبال لکتر | راستین کول × ریک سانچز | داوینچی × بروس وین\n- **کالیبراسیون BARS (${days}/14 روز):** نشانه بحث: ${state.calibration.q1} | تسک ۷۰٪: ${state.calibration.q2} | نفر امن: ${state.calibration.q3}`;
+    }
+    document.getElementById('btn-copy-md').addEventListener('click', () => copyText(document.getElementById('markdown-preview').textContent, 'خروجی اسپرینت کپی شد'));
+    document.getElementById('btn-copy-profile-md').addEventListener('click', () => copyText(document.getElementById('profile-md-preview').textContent, 'خروجی مانیفست کپی شد'));
+    document.getElementById('btn-download-json').addEventListener('click', () => {
+      const b = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const u = URL.createObjectURL(b), a = document.createElement('a'); a.href = u; a.download = `shokoofayi_w${state.week}.json`; a.click(); URL.revokeObjectURL(u);
+      showToast('فایل بکاپ JSON دانلود شد');
+    });
+    document.getElementById('btn-import-json').addEventListener('click', () => document.getElementById('input-import-json').click());
+    document.getElementById('input-import-json').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (!parsed || typeof parsed !== 'object' || !parsed.kpis) throw new Error('invalid');
+          state = { ...state, ...parsed };
+          saveState();
+          renderSoundBtn(); renderKPIs(); renderFinanceTasks(); renderPhase1(); renderContract70(); renderHabitMatrix(); renderDayTasks(); renderNightlyLogs(); renderArchive();
+          renderCompass(); renderDyad(); renderGreenberg(); renderCalibrationForm(); renderBarsItems(); updateBarsStatsAndChart();
+          showToast('بکاپ JSON با موفقیت بازیابی شد!');
+        } catch (err) {
+          showToast('فایل JSON معتبر نیست');
+        }
+        e.target.value = '';
+      };
+      reader.readAsText(file);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSoundBtn();
+      updateTimerUI();
+      renderKPIs(); renderPhase1(); renderContract70(); renderPillars(); renderHabitMatrix(); renderDayTasks(); renderNightlyLogs(); renderArchive();
+      renderCompass(); renderDyad(); updateBinaryVerdict(); renderGreenberg(); renderCalibrationForm();
+      initBarsDaySelect(); renderBarsItems();
+      renderFinanceTasks();
+      renderSprintMarkdown(); renderProfileMarkdown();
+      switchTab(state.activeTab || 'mission');
+    });
+  </script>
+</body>
+</html>
